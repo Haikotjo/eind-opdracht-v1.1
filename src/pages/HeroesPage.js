@@ -9,9 +9,9 @@ function HeroesPage() {
     useEffect(() => {
         getHeroes()
             .then(response => {
-                console.log(response.data); // Log de data
+                console.log(response.data);
                 setHeroes(response.data.data.results);
-                setIsLoading(false); // Zet laden op false als we klaar zijn
+                setIsLoading(false);
             })
             .catch(error => {
                 console.error("Er was een fout bij het ophalen van de helden: ", error);
@@ -20,7 +20,7 @@ function HeroesPage() {
     }, []);
 
     if (isLoading) {
-        return <div>Loading...</div>; // Of een ander loading indicatie
+        return <div>Loading...</div>;
     }
 
     return (

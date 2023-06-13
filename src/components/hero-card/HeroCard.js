@@ -1,12 +1,21 @@
 import React from 'react';
 
-function HeroCard({ hero }) {
+const HeroCard = ({ hero }) => {
     return (
         <div className="hero-card">
-            <img src={`${hero.thumbnail.path}.${hero.thumbnail.extension}`} alt={hero.name} className="hero-image" />
-            <div className="hero-details">
-                <h2 className="hero-name">{hero.name}</h2>
-                <p className="hero-description">{hero.description}</p>
+            <img
+                className="hero-card-image"
+                src={`${hero.thumbnail.path}/portrait_incredible.${hero.thumbnail.extension}`}
+                alt={hero.name}
+            />
+            <div className="hero-info">
+                <h2 className="hero-info-name">{hero.name}</h2>
+                <p className="hero-info-description">{hero.description}</p>
+                <ul className="hero-info-comic-list">
+                    {hero.comics.items.map((comic, index) => (
+                        <li className="hero-info-comic-list-item" key={index}>{comic.name}</li>
+                    ))}
+                </ul>
             </div>
         </div>
     );
