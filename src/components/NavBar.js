@@ -19,6 +19,9 @@ function NavBar() {
                 <li className="navbar-item">
                     <NavLink to="/profile" className="navbar-link">Profile</NavLink>
                 </li>
+                <li className="navbar-item">
+                    <NavLink to="/login-page" className="navbar-link">Login</NavLink>
+                </li>
             </ul>
         </nav>
     );
