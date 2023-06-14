@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 const ComicCard = ({ comic }) => {
     return (
@@ -13,7 +14,11 @@ const ComicCard = ({ comic }) => {
                 <p className="comic-info-description">{comic.description}</p>
                 <ul className="comic-info-hero-list">
                     {comic.characters.items.map((character, index) => (
-                        <li className="comic-info-hero-list-item" key={index}>{character.name}</li>
+                        <li key={index}>
+                            <Link to={`/heroes/${character.resourceURI.split('/').pop()}`}>
+                                {character.name}
+                            </Link>
+                        </li>
                     ))}
                 </ul>
             </div>

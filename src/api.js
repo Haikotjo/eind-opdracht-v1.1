@@ -10,14 +10,16 @@ function createHash(timeStamp) {
     return md5(timeStamp + privateKey + publicKey);
 }
 
-export function getHeroes() {
+export function getHeroes(limit = 20, offset = 0) {
     const timeStamp = Date.now();
     const hash = createHash(timeStamp);
 
     let params = {
         ts: timeStamp,
         apikey: publicKey,
-        hash: hash
+        hash: hash,
+        limit,
+        offset
     }
 
     console.log("Timestamp: ", timeStamp);
@@ -28,27 +30,31 @@ export function getHeroes() {
     return axios.get(`${BASE_URL}/characters`, { params });
 }
 
-export function getComics() {
+export function getComics(limit = 20, offset = 0) {
     const timeStamp = Date.now();
     const hash = createHash(timeStamp);
 
     let params = {
         ts: timeStamp,
         apikey: publicKey,
-        hash: hash
+        hash: hash,
+        limit,
+        offset
     }
 
     return axios.get(`${BASE_URL}/comics`, { params });
 }
 
-export function getEvents() {
+export function getEvents(limit = 20, offset = 0) {
     const timeStamp = Date.now();
     const hash = createHash(timeStamp);
 
     let params = {
         ts: timeStamp,
         apikey: publicKey,
-        hash: hash
+        hash: hash,
+        limit,
+        offset
     }
 
     return axios.get(`${BASE_URL}/events`, { params });
