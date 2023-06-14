@@ -10,7 +10,7 @@ function createHash(timeStamp) {
     return md5(timeStamp + privateKey + publicKey);
 }
 
-export function getHeroes(limit = 20, offset = 0) {
+export function fetchMarvelAPI(endpoint, limit = 20, offset = 0, id = null) {
     const timeStamp = Date.now();
     const hash = createHash(timeStamp);
 
@@ -22,40 +22,33 @@ export function getHeroes(limit = 20, offset = 0) {
         offset
     }
 
-    console.log("Timestamp: ", timeStamp);
-    console.log("Public Key: ", publicKey);
-    console.log("Private Key: ", privateKey);
-    console.log("Hash: ", hash);
+    let url = `${BASE_URL}/${endpoint}`;
+    if (id) {
+        url = `${url}/${id}`;
+    }
 
-    return axios.get(`${BASE_URL}/characters`, { params });
+    return axios.get(url, { params })
+        .then(response => response.data.data.results)
+        .catch(error => {
+            console.error("Er was een fout bij het ophalen van de data: ", error);
+        });
 }
 
-export function getComics(limit = 20, offset = 0) {
+export function fetchSingleMarvelObject(endpoint, id) {
     const timeStamp = Date.now();
     const hash = createHash(timeStamp);
 
     let params = {
         ts: timeStamp,
         apikey: publicKey,
-        hash: hash,
-        limit,
-        offset
+        hash: hash
     }
 
-    return axios.get(`${BASE_URL}/comics`, { params });
-}
+    let url = `${BASE_URL}/${endpoint}/${id}`;
 
-export function getEvents(limit = 20, offset = 0) {
-    const timeStamp = Date.now();
-    const hash = createHash(timeStamp);
-
-    let params = {
-        ts: timeStamp,
-        apikey: publicKey,
-        hash: hash,
-        limit,
-        offset
-    }
-
-    return axios.get(`${BASE_URL}/events`, { params });
+    return axios.get(url, { params })
+        .then(response => response.data.data.results)
+        .catch(error => {
+            console.error("Er was een fout bij het ophalen van de data: ", error);
+        });
 }

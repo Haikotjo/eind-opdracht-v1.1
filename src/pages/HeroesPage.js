@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getHeroes } from '../api';
+import { fetchMarvelAPI } from '../api';
 import HeroCard from '../components/hero-card/HeroCard';
 
 function HeroesPage() {
@@ -8,10 +8,10 @@ function HeroesPage() {
     const [offset, setOffset] = useState(0);
 
     useEffect(() => {
-        getHeroes(20, offset)
+        fetchMarvelAPI('characters', 20, offset)
             .then(response => {
                 console.log(response.data);
-                setHeroes(response.data.data.results);
+                setHeroes(response);
                 setIsLoading(false);
             })
             .catch(error => {

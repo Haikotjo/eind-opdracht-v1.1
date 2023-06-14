@@ -1,7 +1,28 @@
-import React from 'react';
-import {Link} from "react-router-dom";
+import React, { useState } from 'react';
+import Modal from 'react-modal';
+import HeroCard from '../hero-card/HeroCard';
+import { fetchSingleMarvelObject } from '../../api';
 
 const ComicCard = ({ comic }) => {
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const [currentHero, setCurrentHero] = useState(null);
+
+    function openModal(comic) {
+        const characterId = comic.resourceURI.split('/').pop();
+
+        fetchSingleMarvelObject('characters', characterId)
+            .then(response => {
+                setCurrentHero(response[0]);
+                setIsOpen(true);
+            })
+            .catch(error => {
+                console.error("Er was een fout bij het ophalen van de comic: ", error);
+            });
+    }
+    function closeModal() {
+        setIsOpen(false);
+    }
+
     return (
         <div className="comic-card">
             <img
@@ -15,13 +36,21 @@ const ComicCard = ({ comic }) => {
                 <ul className="comic-info-hero-list">
                     {comic.characters.items.map((character, index) => (
                         <li key={index}>
-                            <Link to={`/heroes/${character.resourceURI.split('/').pop()}`}>
+                            <button onClick={() => openModal(character)}>
                                 {character.name}
-                            </Link>
+                            </button>
                         </li>
                     ))}
                 </ul>
             </div>
+
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel="Hero Modal"
+            >
+                {currentHero && <HeroCard hero={currentHero} />}
+            </Modal>
         </div>
     );
 }

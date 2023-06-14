@@ -9,6 +9,7 @@ import EventsPage from './pages/EventsPage';
 
 const AppRoutes = () => {
     return (
+        <>
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/heroes" element={<HeroesPage />} />
@@ -17,6 +18,7 @@ const AppRoutes = () => {
                 {/*<Route path="/login" element={<LoginPage />} />*/}
                 {/*<Route path="/profile" element={<ProfilePage />} />*/}
             </Routes>
+        </>
     );
 }
 

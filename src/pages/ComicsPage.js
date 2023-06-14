@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getComics } from '../api';
+import { fetchMarvelAPI } from '../api';
 import ComicCard from '../components/comic-card/ComicCard';
 
 const ComicsPage = () => {
@@ -8,9 +8,9 @@ const ComicsPage = () => {
     const [offset, setOffset] = useState(0);
 
     useEffect(() => {
-        getComics(20, offset)
+        fetchMarvelAPI('comics', 20, offset)
             .then(response => {
-                setComics(response.data.data.results);
+                 setComics(response);
                 setIsLoading(false);
             })
             .catch(error => {
