@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import ComicCard from '../comic-card/ComicCard';
 import { fetchSingleMarvelObject } from '../../api';
 
-const HeroCard = ({ hero }) => {
+const HeroCard = ({ hero, isModal, onCardClick }) => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [currentComic, setCurrentComic] = useState(null);
 
@@ -25,7 +25,7 @@ const HeroCard = ({ hero }) => {
     }
 
     return (
-        <div className="hero-card">
+        <div className="hero-card" onClick={() => !isModal && onCardClick(hero)}>
             <img
                 className="hero-card-image"
                 src={`${hero.thumbnail.path}/portrait_incredible.${hero.thumbnail.extension}`}
@@ -34,15 +34,20 @@ const HeroCard = ({ hero }) => {
             <div className="hero-info">
                 <h2 className="hero-info-name">{hero.name}</h2>
                 <p className="hero-info-description">{hero.description}</p>
-                <ul className="hero-info-comic-list">
-                    {hero.comics.items.map((comic, index) => (
-                        <li key={index}>
-                            <button onClick={() => openModal(comic)}>
-                                {comic.name}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
+                {isModal && (
+                    <ul className="hero-info-comic-list">
+                        {hero.comics.items.map((comic, index) => (
+                            <li key={index}>
+                                <button onClick={(event) => {
+                                    event.stopPropagation();
+                                    openModal(comic);
+                                }}>
+                                    {comic.name}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
 
             <Modal
@@ -50,7 +55,7 @@ const HeroCard = ({ hero }) => {
                 onRequestClose={closeModal}
                 contentLabel="Comic Modal"
             >
-                {currentComic && <ComicCard comic={currentComic} />}
+                {currentComic && <ComicCard comic={currentComic} isModal={isModal} />}
             </Modal>
         </div>
     );
