@@ -10,7 +10,7 @@ function createHash(timeStamp) {
     return md5(timeStamp + privateKey + publicKey);
 }
 
-export function fetchMarvelAPI(endpoint, limit = 20, offset = 0, id = null) {
+export function fetchMarvelAPI(endpoint, limit = 20, offset = 0, id = null, searchTerm, nameStartsWith) {
     const timeStamp = Date.now();
     const hash = createHash(timeStamp);
 
@@ -20,6 +20,14 @@ export function fetchMarvelAPI(endpoint, limit = 20, offset = 0, id = null) {
         hash: hash,
         limit,
         offset
+    }
+
+    if (searchTerm) {
+        params.nameStartsWith = searchTerm;
+    }
+
+    if (nameStartsWith) {
+        params.titleStartsWith = nameStartsWith;
     }
 
     let url = `${BASE_URL}/${endpoint}`;

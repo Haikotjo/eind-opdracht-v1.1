@@ -9,19 +9,24 @@ function HeroesPage() {
     const [offset, setOffset] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentHero, setCurrentHero] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [totalSearch, setTotalSearch] = useState(null);
+    // const [total, setTotal] = useState(null);
 
     useEffect(() => {
-        fetchMarvelAPI('characters', 20, offset)
+        fetchMarvelAPI('characters', 20, offset, null, searchTerm)
             .then(response => {
-                console.log(response.data);
+                console.log(response)
+                console.log(response.length)
                 setHeroes(response);
                 setIsLoading(false);
+                setTotalSearch(response.length)
             })
             .catch(error => {
                 console.error("Er was een fout bij het ophalen van de helden: ", error);
                 setIsLoading(false);
             });
-    }, [offset]);
+    }, [offset, searchTerm]);
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -44,17 +49,48 @@ function HeroesPage() {
         setIsModalOpen(false);
     }
 
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+        fetchMarvelAPI('characters', 20, 0, null, event.target.value)
+            .then(response => {
+                console.log(response.data);
+                setHeroes(response);
+                setIsLoading(false);
+            })
+            .catch(error => {
+                console.error("Er was een fout bij het ophalen van de helden: ", error);
+                setIsLoading(false);
+            });
+    };
+
+
+    const filteredHeroes = heroes.filter(hero =>
+        hero.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <div className="heroes-page">
             <h1 className="heroes-title">Heroes</h1>
             <button onClick={goToPreviousPage} disabled={offset === 0}>Vorige</button>
-            <button onClick={goToNextPage}>Volgende</button>
-            <input className="heroes-search" type="text" placeholder="Search for a hero..." />
+            <button onClick={goToNextPage} disabled={totalSearch <= 19}>Volgende</button>
+            <input
+                className="heroes-search"
+                type="text"
+                placeholder="Search for a hero..."
+                value={searchTerm}
+                onChange={handleSearchChange} // Use the handleSearchChange function when the input changes
+            />
+            {totalSearch < 20 && (
+                <p>{totalSearch} resultaten</p>
+            )}
             <div className="heroes-list" >
-                {heroes.map(hero => <HeroCard key={hero.id} hero={hero} onCardClick={handleHeroClick}/>)}
+                {filteredHeroes.map(hero => <HeroCard key={hero.id} hero={hero} onCardClick={handleHeroClick}/>)}
             </div>
+            {/*<div className="heroes-list" >*/}
+            {/*    {heroes.map(hero => <HeroCard key={hero.id} hero={hero} onCardClick={handleHeroClick}/>)}*/}
+            {/*</div>*/}
             <button onClick={goToPreviousPage} disabled={offset === 0}>Vorige</button>
-            <button onClick={goToNextPage}>Volgende</button>
+            <button onClick={goToNextPage} disabled={totalSearch <= 19}>Volgende</button>
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={handleCloseModal}

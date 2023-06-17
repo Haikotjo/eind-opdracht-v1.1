@@ -51,17 +51,20 @@ const EventCard = ({ event, isModal, onCardClick}) => {
             />
             <div className="comic-info">
                 <h2 className="comic-info-title">{event ? event.title : ''}</h2>
-                <p className="comic-info-description">{event.description}</p>
+
                 {isModal && (
-                    <ul className="comic-info-hero-list"> Heroes:
-                        {event.characters.items.map((character, index) => (
-                            <li key={index}>
-                                <button onClick={() => openHeroModal(character)}>
-                                    {character.name}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
+                    <>
+                        <p className="comic-info-description">{event.description}</p>
+                        <ul className="comic-info-hero-list"> Heroes:
+                            {event.characters.items.map((character, index) => (
+                                <li key={index}>
+                                    <button onClick={() => openHeroModal(character)}>
+                                        {character.name}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
                 )}
                 {isModal && (
                     <ul className="hero-info-comic-list"> Comics:

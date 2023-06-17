@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchMarvelAPI } from '../api';
 import ComicCard from '../components/comic-card/ComicCard';
-import HeroCard from "../components/hero-card/HeroCard";
 import Modal from "react-modal";
 
 const ComicsPage = () => {
@@ -10,21 +9,28 @@ const ComicsPage = () => {
     const [offset, setOffset] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentComic, setCurrentComic] = useState(null);
+    const [titleStartsWith, setTitleStartsWith] = useState("");
+    const [total, setTotal] = useState(null);
 
     useEffect(() => {
-        fetchMarvelAPI('comics', 20, offset)
+        fetchMarvelAPI('comics', 20, offset, null, null, titleStartsWith)
             .then(response => {
-                 setComics(response);
+                console.log(response.length)
+                console.log(response.data.total)
+                setComics(response);
                 setIsLoading(false);
+                setTotal(response.length)
+
             })
             .catch(error => {
                 console.error('Er was een fout bij het ophalen van de comics:', error);
             });
-    }, [offset]);
+    }, [offset, titleStartsWith]);
 
     if (isLoading) {
         return <div>Loading...</div>;
     }
+
     function goToNextPage() {
         setOffset(offset + 20);
     }
@@ -42,14 +48,45 @@ const ComicsPage = () => {
         setIsModalOpen(false);
     }
 
+    const handleSearchChange = (event) => {
+        setTitleStartsWith(event.target.value);
+        fetchMarvelAPI('comics', 20, 0, null, null, event.target.value)
+            .then(response => {
+                setComics(response);
+                setIsLoading(false);
+            })
+            .catch(error => {
+                console.error("Er was een fout bij het ophalen van de comics: ", error);
+                setIsLoading(false);
+            });
+    };
+
+
+    const filteredComics = comics.filter(comic =>
+        comic.title.toLowerCase().includes(titleStartsWith.toLowerCase())
+    );
+
     return (
         <div className="comics-page">
             <h1 className="comic-title">Comics</h1>
             <button onClick={goToPreviousPage} disabled={offset === 0}>Vorige</button>
-            <button onClick={goToNextPage}>Volgende</button>
-            {comics.map(comic => <ComicCard key={comic.id} comic={comic} onCardClick={handleComicClick} />)}
+            <button onClick={goToNextPage} disabled={total <= 19}>Volgende</button>
+            <input
+                className="comics-search"
+                type="text"
+                placeholder="Search for a comic..."
+                value={titleStartsWith}
+                onChange={handleSearchChange} // Use the handleSearchChange function when the input changes
+            />
+            {total < 20 && (
+                <p>{total} resultaten</p>
+            )}
+            <div className="heroes-list" >
+                {filteredComics.map(comic => <ComicCard key={comic.id} comic={comic} onCardClick={handleComicClick}/>)}
+            </div>
+            {/*{comics.map(comic => <ComicCard key={comic.id} comic={comic} onCardClick={handleComicClick} />)}*/}
             <button onClick={goToPreviousPage} disabled={offset === 0}>Vorige</button>
-            <button onClick={goToNextPage}>Volgende</button>
+            <button onClick={goToNextPage} disabled={total <= 19}>Volgende</button>
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={handleCloseModal}
