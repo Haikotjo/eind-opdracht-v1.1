@@ -22,6 +22,9 @@ function NavBar() {
                 <li className="navbar-item">
                     <NavLink to="/login-page" className="navbar-link">Login</NavLink>
                 </li>
+                <li className="navbar-item">
+                    <NavLink to="/page" className="navbar-link">Page</NavLink>
+                </li>
             </ul>
         </nav>
     );

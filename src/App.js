@@ -7,7 +7,6 @@ Modal.setAppElement('#root');
 function App() {
     return (
         <Router>
-            <NavBar />
             <Routes />
         </Router>
     );
