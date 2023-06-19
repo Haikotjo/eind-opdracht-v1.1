@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchMarvelAPI } from '../api';
 import ComicCard from '../components/comic-card/ComicCard';
 import Modal from "react-modal";
+import PrevNextButton from "../components/buttons/prevNextButton/PrevNextButton";
 
 const ComicsPage = () => {
     const [comics, setComics] = useState(null);
@@ -16,7 +17,6 @@ const ComicsPage = () => {
         fetchMarvelAPI('comics', 20, offset, null, null, titleStartsWith)
             .then(response => {
                 console.log(response.length)
-                console.log(response.data.total)
                 setComics(response);
                 setIsLoading(false);
                 setTotal(response.length)
@@ -48,6 +48,7 @@ const ComicsPage = () => {
         setIsModalOpen(false);
     }
 
+
     const handleSearchChange = (event) => {
         setTitleStartsWith(event.target.value);
         fetchMarvelAPI('comics', 20, 0, null, null, event.target.value)
@@ -69,8 +70,7 @@ const ComicsPage = () => {
     return (
         <div className="comics-page">
             <h1 className="comic-title">Comics</h1>
-            <button onClick={goToPreviousPage} disabled={offset === 0}>Vorige</button>
-            <button onClick={goToNextPage} disabled={total <= 19}>Volgende</button>
+            <PrevNextButton offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
             <input
                 className="comics-search"
                 type="text"
@@ -85,8 +85,7 @@ const ComicsPage = () => {
                 {filteredComics.map(comic => <ComicCard key={comic.id} comic={comic} onCardClick={handleComicClick}/>)}
             </div>
             {/*{comics.map(comic => <ComicCard key={comic.id} comic={comic} onCardClick={handleComicClick} />)}*/}
-            <button onClick={goToPreviousPage} disabled={offset === 0}>Vorige</button>
-            <button onClick={goToNextPage} disabled={total <= 19}>Volgende</button>
+            <PrevNextButton offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={handleCloseModal}

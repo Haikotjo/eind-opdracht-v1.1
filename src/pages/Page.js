@@ -3,29 +3,32 @@ import {DataContext} from "../context/DataContext";
 
 function Page(props) {
 
-    const {response, setResponse} = useContext(DataContext)
+    const {isItem, setItem, fetchMarvelData} = useContext(DataContext)
 
-    const getItem = (event) => {
-        setResponse(event.target.value)
+    const getItem = async (event) => {
+        const data = await fetchMarvelData(event.target.value,20, 0, null, null, null,true);
+        console.log(data);
     }
-
-    // const charcters = response
+const getMoreItems = async (event) => {
+    const data = await fetchMarvelData(event.target.value,20, 0, null, null, null,false);
+    console.log(data);
+}
 
     return (
         <div className="allCards">
             <button type="button" value="characters" onClick={getItem}>Characters</button>
-            {response === "characters" && (
-                <p>{ response }</p>
+            {isItem === "characters" && (
+                <p>{ isItem }</p>
             )}
 
-            <button type="button" value="comics" onClick={getItem}>Comics</button>
-            {response === "comics" && (
-                <p>{ response }</p>
+            <button type="button" value="comics" onClick={getMoreItems}>Comics</button>
+            {isItem === "comics" && (
+                <p>{ isItem }</p>
             )}
 
             <button type="button" value="events" onClick={getItem}>Events</button>
-            {response === "events" && (
-                <p>{ response }</p>
+            {isItem === "events" && (
+                <p>{ isItem }</p>
             )}
 
         </div>

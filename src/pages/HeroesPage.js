@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchMarvelAPI } from '../api';
 import HeroCard from '../components/hero-card/HeroCard';
 import Modal from "react-modal";
+import {DataContext} from "../context/DataContext";
 
 function HeroesPage() {
     const [heroes, setHeroes] = useState([]);
@@ -11,6 +12,7 @@ function HeroesPage() {
     const [currentHero, setCurrentHero] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [totalSearch, setTotalSearch] = useState(null);
+
     // const [total, setTotal] = useState(null);
 
     useEffect(() => {

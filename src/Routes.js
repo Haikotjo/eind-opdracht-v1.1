@@ -7,26 +7,29 @@ import EventsPage from './pages/EventsPage';
 import NavBar from "./NavBar/NavBar";
 import DataContextProvider from "./context/DataContext";
 import Page from "./pages/Page";
-// import LoginPage from './pages/LoginPage';
+import AuthContextProvider from "./context/AuthContext";
+import LoginPage from './pages/LoginPage';
 // import ProfilePage from './pages/ProfilePage ';
 
 const AppRoutes = () => {
     return (
         <>
-        <DataContextProvider>
-        <NavBar />
-        <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/heroes" element={<HeroesPage />} />
-            <Route path="/comics" element={<ComicsPage />} />
-            <Route path="/events" element={<EventsPage />} />
-            <Route path="/page" element={<Page />} />
-            {/*<Route path="/login" element={<LoginPage />} />*/}
-            {/*<Route path="/profile" element={<ProfilePage />} />*/}
-        </Routes>
-        </DataContextProvider>
-</>
-);
+            <AuthContextProvider>
+                <DataContextProvider>
+                    <NavBar />
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/heroes" element={<HeroesPage />} />
+                        <Route path="/comics" element={<ComicsPage />} />
+                        <Route path="/events" element={<EventsPage />} />
+                        <Route path="/page" element={<Page />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        {/*<Route path="/profile" element={<ProfilePage />} />*/}
+                    </Routes>
+                </DataContextProvider>
+            </AuthContextProvider>
+        </>
+    );
 }
 
 export default AppRoutes;
