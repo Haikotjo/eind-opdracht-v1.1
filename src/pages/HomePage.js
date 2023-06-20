@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import EventCard from '../components/event-card/EventCard';
-import { fetchMarvelAPI } from '../api';
+import { Link } from 'react-router-dom';
 import Modal from "react-modal";
 import HeroCard from "../components/hero-card/HeroCard";
 import ComicCard from "../components/comic-card/ComicCard";
+import {DataContext} from "../context/DataContext";
 
 const HomePage = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentRandomEvent, setCurrentRandomEvent] = useState(null);
     const [currentRandomHero, setCurrentRandomHero] = useState(null);
     const [currentRandomComic, setCurrentRandomComic] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const { fetchMarvelData } = useContext(DataContext);
+    const [error, setError] = useState(null);
 
     const [events, setEvents] = useState([]);
     const [heroes, setHeroes] = useState([]);
@@ -21,47 +23,42 @@ const HomePage = () => {
     const [isComicModalOpen, setIsComicModalOpen] = useState(false);
 
     useEffect(() => {
-        fetchMarvelAPI('events')
-            .then(allEvents => {
-                const shuffled = allEvents.sort(() => 0.5 - Math.random());
-                const selected = shuffled.slice(0, 5);
-                setEvents(selected);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.error("Er was een fout bij het ophalen van de evnts: ", error);
-                setIsLoading(false);
-            });
+        const fetchRandomData = async (category) => {
 
-        fetchMarvelAPI('characters')
-            .then(allHeroes => {
-                const shuffled = allHeroes.sort(() => 0.5 - Math.random());
-                const selected = shuffled.slice(0, 5);
-                setHeroes(selected);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.error("Er was een fout bij het ophalen van de helden: ", error);
-                setIsLoading(false);
-            });
+            const data = await fetchMarvelData(category, 1, 0);
+            const totalItems = data.total;
 
-        fetchMarvelAPI('comics')
-            .then(allComics => {
-                const shuffled = allComics.sort(() => 0.5 - Math.random());
-                const selected = shuffled.slice(0, 5);
-                setComics(selected);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.error("Er was een fout bij het ophalen van de comics: ", error);
-                setIsLoading(false);
-            });
+            const itemsPerPage = 5;
+            const maxOffset = totalItems - itemsPerPage;
+            const randomOffset = Math.floor(Math.random() * maxOffset);
 
-    }, []);
+            const randomData = await fetchMarvelData(category, itemsPerPage, randomOffset);
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+            return randomData.results;
+        };
+
+        setError(null);
+        setIsLoading(true);
+
+        // Fetch random data voor elk categorie
+        Promise.all([
+            fetchRandomData('characters'),
+            fetchRandomData('comics'),
+            fetchRandomData('events')
+        ]).then(([heroesData, comicsData, eventsData]) => {
+
+            setHeroes(heroesData);
+            setComics(comicsData);
+            setEvents(eventsData);
+            setIsLoading(false);
+        }).catch(error => {
+
+            setError('Er was een fout bij het ophalen van de data.');
+            console.error("Er was een fout bij het ophalen van de data: ", error);
+            setIsLoading(false);
+        });
+
+    }, [fetchMarvelData]);
 
     const handleEventClick = (event) => {
         setCurrentRandomEvent(event);
@@ -83,6 +80,15 @@ const HomePage = () => {
     }
 
     return (
+        isLoading ? (
+            <div>Loading...</div>
+        ) : error ? (
+            <div className="error">
+                <h2>Er is iets misgegaan...</h2>
+                <p>We konden de data die je vroeg niet laden. Probeer het later opnieuw.</p>
+                <p>Error details: {error}</p>
+            </div>
+        ) :
         <main className="home">
             <section className="home__section">
                 <h2 className="home__title">Latest Marvel News</h2>
@@ -90,7 +96,7 @@ const HomePage = () => {
             </section>
             <section>
                 <section className="home__section">
-                    <h2 className="home__title">Discover Events</h2>
+                    <h2 className="home__title">Discover Events or <Link to="/events">search for your favorite event!</Link></h2>
                     {events.map(event => <EventCard key={event.id} event={event} onCardClick={handleEventClick}/>)}
                     <Modal
                         isOpen={isEventModalOpen}
@@ -101,7 +107,7 @@ const HomePage = () => {
                     </Modal>
                 </section>
                 <section className="home__section">
-                    <h2 className="home__title">Discover Heroes</h2>
+                    <h2 className="home__title">Discover Heroes or <Link to="/heroes">search for your favorite hero!</Link></h2>
                     {heroes.map(hero => <HeroCard key={hero.id} hero={hero} onCardClick={handleHeroClick}/>)}
                     <Modal
                         isOpen={isHeroModalOpen}
@@ -112,7 +118,7 @@ const HomePage = () => {
                     </Modal>
                 </section>
                 <section className="home__section">
-                    <h2 className="home__title">Discover comics</h2>
+                    <h2 className="home__title">Discover comics or <Link to="/comics">search for your favorite comic!</Link></h2>
                     {comics.map(comic => <ComicCard key={comic.id} comic={comic} onCardClick={handleComicClick}/>)}
                     <Modal
                         isOpen={isComicModalOpen}

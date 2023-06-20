@@ -13,26 +13,29 @@ function HeroesPage() {
     const [currentHero, setCurrentHero] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [total, setTotal] = useState(null);
+    const [error, setError] = useState(null);
+    const currentPage = offset / 20 + 1;
 
     useEffect(() => {
-        fetchMarvelData('characters', 20, offset, null, null, searchTerm, true)
-            .then(response => {
-                console.log(response)
-                if(Array.isArray(response)){
-                    setHeroes(response);
-                    setTotal(response.length)
+        fetchMarvelData('characters', 20, offset, null, null, searchTerm, false)
+            .then(data => {
+                console.log(data.results)
+                setTotal(data.total)
+                if(Array.isArray(data.results)){
+                    setHeroes(data.results);
                     }else {
-                    console.error('Unexpected response:', response)
+                    console.error('Unexpected response:', data.results)
                     setHeroes([]);
-                    setTotal(0);
+                    console.log('Total after setTotal:', total);
                 }
                 setIsLoading(false);
             })
             .catch(error => {
+                setError('Er was een fout bij het ophalen van de heroes.');
                 console.error("Er was een fout bij het ophalen van de helden: ", error);
                 setIsLoading(false);
             });
-    }, [offset, searchTerm, fetchMarvelData]);
+    }, [offset, searchTerm, fetchMarvelData, total]);
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -57,12 +60,13 @@ function HeroesPage() {
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
-        fetchMarvelData('characters', 20, 0, null, event.target.value, null, true)
-            .then(response => {
-                console.log(response);
-                setHeroes(response);
-                setTotal(response.length);
+        fetchMarvelData('characters', 20, 0, null, event.target.value, null, false)
+            .then(data => {
+                console.log(data.total);
+                setHeroes(data.results);
+                setTotal(data.total);
                 setIsLoading(false);
+                console.log('Total after setTotal:', total);
             })
             .catch(error => {
                 console.error("Er was een fout bij het ophalen van de helden: ", error);
@@ -78,26 +82,27 @@ function HeroesPage() {
     );
 
     return (
+        isLoading ? (
+                <div>Loading...</div>
+            ) :
         <div className="heroes-page">
             <h1 className="heroes-title">Heroes</h1>
-            <PrevNextButton offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+            <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / 20)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
             <input
                 className="heroes-search"
                 type="text"
                 placeholder="Search for a hero..."
                 value={searchTerm}
-                onChange={handleSearchChange} // Use the handleSearchChange function when the input changes
+                onChange={handleSearchChange}
             />
-            {total < 20 && (
-                <p>{total} resultaten</p>
-            )}
+            <div>Page {currentPage} of {Math.ceil(total / 20)} met een totaal van {total} resultaten</div>
             <div className="heroes-list" >
                 {filteredHeroes.map(hero => <HeroCard key={hero.id} hero={hero} onCardClick={handleHeroClick}/>)}
             </div>
             {/*<div className="heroes-list" >*/}
             {/*    {heroes.map(hero => <HeroCard key={hero.id} hero={hero} onCardClick={handleHeroClick}/>)}*/}
             {/*</div>*/}
-            <PrevNextButton offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+            <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / 20)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={handleCloseModal}
@@ -105,6 +110,11 @@ function HeroesPage() {
             >
                 {currentHero && <HeroCard hero={currentHero} isModal={true} />}
             </Modal>
+            {
+                error && (
+                    <div>Error: {error}</div>
+                )
+            }
         </div>
     );
 }

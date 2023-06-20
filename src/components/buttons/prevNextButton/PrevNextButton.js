@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 
-function PrevNextButton({ offset, total, onPrevPage, onNextPage }) {
-
+function PrevNextButton({ currentPage, totalPages, onPrevPage, onNextPage }) {
     return (
         <>
-            <button onClick={onPrevPage} disabled={offset === 0}>Vorige</button>
-            <button onClick={onNextPage} disabled={total <= 19}>Volgende</button>
+            <button onClick={onPrevPage} disabled={currentPage === 1}>Vorige</button>
+            <button onClick={onNextPage} disabled={currentPage >= totalPages}>Volgende</button>
         </>
     );
 }
 
-export default PrevNextButton;
+
+export default PrevNextButton; 

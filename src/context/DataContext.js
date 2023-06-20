@@ -11,13 +11,10 @@ const BASE_URL = 'http://gateway.marvel.com/v1/public';
 const DataContextProvider = ({children}) => {
 
     const [isItem, setItem] = useState("")
-    // const [result, setResult] =useState(".result/")
 
     const data = {
         isItem : isItem,
         setItem : setItem,
-        // result : result,
-        // setResult: setResult,
         fetchMarvelData: fetchMarvelData,
     }
     function createHash(timeStamp) {

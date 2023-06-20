@@ -14,22 +14,24 @@ const EventsPage = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [total, setTotal] = useState(null);
     const { fetchMarvelData } = useContext(DataContext);
+    const [error, setError] = useState(null);
+    const currentPage = offset / 20 + 1;
 
     useEffect(() => {
-        fetchMarvelData('events', 20, offset, null, searchTerm, null, true)
-            .then(response => {
-                console.log(response)
-                if(Array.isArray(response)) {
-                    setEvents(response);
-                    setTotal(response.length)
+        fetchMarvelData('events', 20, offset, null, searchTerm, null, false)
+            .then(data => {
+                console.log(data.results)
+                setTotal(data.total)
+                if(Array.isArray(data.results)) {
+                    setEvents(data.results);
                 }else{
-                    console.error('Unexpected response:', response)
+                    console.error('Unexpected response:', data.results)
                     setEvents([]);
-                    setTotal(0);
                 }
                 setIsLoading(false);
             })
             .catch(error => {
+                setError('Er was een fout bij het ophalen van de events.');
                 console.error('Er was een fout bij het ophalen van de events:', error);
                 setIsLoading(false);
             });
@@ -56,10 +58,11 @@ const EventsPage = () => {
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
-        fetchMarvelData('events', 20, 0, null, event.target.value,null , true)
-            .then(response => {
-                setEvents(response);
-                setTotal(response.length);
+        fetchMarvelData('events', 20, 0, null, event.target.value,null , false)
+            .then(data => {
+                console.log(data.total)
+                setEvents(data.results);
+                setTotal(data.total);
                 setIsLoading(false);
             })
             .catch(error => {
@@ -74,6 +77,9 @@ const EventsPage = () => {
     );
 
     return (
+        isLoading ? (
+            <div>Loading...</div>
+        ) :
         <div className="event-page">
             <h1 className="event-title">Events</h1>
             <PrevNextButton offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
@@ -84,12 +90,11 @@ const EventsPage = () => {
                 value={searchTerm}
                 onChange={handleSearchChange}
             />
-            {total < 20 && (
-                <p>{total} resultaten</p>
-            )}
+            <div>Page {currentPage} of {Math.ceil(total / 20)} met een totaal van {total} resultaten</div>
             <div className="event-list" >
                 {filteredEvents.map(event => <EventCard key={event.id} event={event} onCardClick={handleEventClick}/>)}
             </div>
+            <div>Page {currentPage} of {Math.ceil(total / 20)}</div>
             {/*{events.map(event => <EventCard key={event.id} event={event} onCardClick={handleEventClick}/>)}*/}
             <PrevNextButton offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
             <Modal
@@ -99,6 +104,11 @@ const EventsPage = () => {
             >
                 {currentEvent && <EventCard event={currentEvent} isModal={true} />}
             </Modal>
+            {
+                error && (
+                    <div>Error: {error}</div>
+                )
+            }
         </div>
     );
 }

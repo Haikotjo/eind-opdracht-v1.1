@@ -13,22 +13,26 @@ const ComicsPage = () => {
     const [currentComic, setCurrentComic] = useState(null);
     const [titleStartsWith, setTitleStartsWith] = useState("");
     const [total, setTotal] = useState(null);
+    const [error, setError] = useState(null);
+    const currentPage = offset / 20 + 1;
 
     useEffect(() => {
-        fetchMarvelData('comics', 20, offset, null, null, titleStartsWith, true)
-            .then(response => {
-                console.log(response)
-                if(Array.isArray(response)){
-                    setComics(response);
-                    setTotal(response.length)
+        fetchMarvelData('comics', 20, offset, null, null, titleStartsWith, false)
+            .then(data => {
+                console.log(data)
+                setTotal(data.total)
+                if(Array.isArray(data.results)){
+                    setComics(data.results);
+                    // setTotal(response.length)
                 }else{
-                    console.error('Unexpected response:', response)
+                    console.error('Unexpected response:', data.results)
                     setComics([]);
-                    setTotal(0);
+                    // setTotal(0);
                 }
                 setIsLoading(false);
             })
             .catch(error => {
+                setError('Er was een fout bij het ophalen van de comics.');
                 console.error('Er was een fout bij het ophalen van de comics:', error);
             });
     }, [offset, titleStartsWith, fetchMarvelData]);
@@ -55,12 +59,15 @@ const ComicsPage = () => {
 
 
     const handleSearchChange = (event) => {
+
         setTitleStartsWith(event.target.value);
-        fetchMarvelData('comics', 20, 0, null, null, event.target.value, true)
-            .then(response => {
-                setComics(response);
-                setTotal(response.length);
+        fetchMarvelData('comics', 20, 0, null, null, event.target.value, false)
+            .then(data => {
+                console.log(data.total)
+                setComics(data.results);
+                setTotal(data.total);
                 setIsLoading(false);
+                console.log('Total after setTotal:', total);
             })
             .catch(error => {
                 console.error("Er was een fout bij het ophalen van de comics: ", error);
@@ -74,9 +81,12 @@ const ComicsPage = () => {
     );
 
     return (
+        isLoading ? (
+                <div>Loading...</div>
+            ) :
         <div className="comics-page">
             <h1 className="comic-title">Comics</h1>
-            <PrevNextButton offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+            <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / 20)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
             <input
                 className="comics-search"
                 type="text"
@@ -84,14 +94,12 @@ const ComicsPage = () => {
                 value={titleStartsWith}
                 onChange={handleSearchChange}
             />
-            {total < 20 && (
-                <p>{total} resultaten</p>
-            )}
+            <div>Page {currentPage} of {Math.ceil(total / 20)} met een totaal van {total} resultaten</div>
             <div className="heroes-list" >
                 {filteredComics.map(comic => <ComicCard key={comic.id} comic={comic} onCardClick={handleComicClick}/>)}
             </div>
             {/*{comics.map(comic => <ComicCard key={comic.id} comic={comic} onCardClick={handleComicClick} />)}*/}
-            <PrevNextButton offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+            <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / 20)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={handleCloseModal}
@@ -99,6 +107,11 @@ const ComicsPage = () => {
             >
                 {currentComic && <ComicCard comic={currentComic} isModal={true} />}
             </Modal>
+            {
+                error && (
+                    <div>Error: {error}</div>
+                )
+            }
         </div>
     );
 }
