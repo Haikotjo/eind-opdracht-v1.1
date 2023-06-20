@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Modal from 'react-modal';
 import HeroCard from '../hero-card/HeroCard';
-import { fetchSingleMarvelObject } from '../../api';
 import ComicCard from "../comic-card/ComicCard";
+import { DataContext } from '../../context/DataContext';
 
-const EventCard = ({ event, isModal, onCardClick}) => {
+const EventCard = ({ event, isModal, onCardClick }) => {
+    const { fetchMarvelData } = useContext(DataContext);
     const [heroModalIsOpen, setHeroModalIsOpen] = useState(false);
     const [comicModalIsOpen, setComicModalIsOpen] = useState(false);
     const [currentHero, setCurrentHero] = useState(null);
@@ -13,13 +14,13 @@ const EventCard = ({ event, isModal, onCardClick}) => {
     function openHeroModal(character) {
         const characterId = character.resourceURI.split('/').pop();
 
-        fetchSingleMarvelObject('characters', characterId)
+        fetchMarvelData('characters', null, null, characterId, null, null, true)
             .then(response => {
                 setCurrentHero(response[0]);
                 setHeroModalIsOpen(true);
             })
             .catch(error => {
-                console.error("Er was een fout bij het ophalen van de comic: ", error);
+                console.error("Er was een fout bij het ophalen van de character: ", error);
             });
     }
     function closeHeroModal() {
@@ -29,7 +30,7 @@ const EventCard = ({ event, isModal, onCardClick}) => {
     function openComicModal(comic) {
         const comicId = comic.resourceURI.split('/').pop();
 
-        fetchSingleMarvelObject('comics', comicId)
+        fetchMarvelData('comics', null, null, comicId, null, null, true)
             .then(response => {
                 setCurrentComic(response[0]);
                 setComicModalIsOpen(true);
@@ -42,8 +43,9 @@ const EventCard = ({ event, isModal, onCardClick}) => {
         setComicModalIsOpen(false);
     }
 
+
     return (
-        <div className="event-card" onClick={() => !isModal && onCardClick(event)}>>
+        <div className="event-card" onClick={() => !isModal && onCardClick(event)}>
             <img
                 className="event-card-image"
                 src={event && event.thumbnail ? `${event.thumbnail.path}/portrait_incredible.${event.thumbnail.extension}` : 'fallbackAfbeeldingURL'}
@@ -84,7 +86,7 @@ const EventCard = ({ event, isModal, onCardClick}) => {
                     onRequestClose={closeHeroModal}
                     contentLabel="Hero Modal"
                 >
-                    {currentHero && <HeroCard hero={currentHero} isModal={setComicModalIsOpen} />}
+                    {currentHero && <HeroCard hero={currentHero} isModal />}
                 </Modal>
             </div>
             <div>
@@ -93,7 +95,7 @@ const EventCard = ({ event, isModal, onCardClick}) => {
                     onRequestClose={closeComicModal}
                     contentLabel="Comic Modal"
                 >
-                    {currentComic && <ComicCard comic={currentComic} isModal={setComicModalIsOpen} />}
+                    {currentComic && <ComicCard comic={currentComic} isModal />}
                 </Modal>
             </div>
         </div>

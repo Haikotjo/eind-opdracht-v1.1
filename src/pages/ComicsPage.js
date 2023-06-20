@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { fetchMarvelAPI } from '../api';
+import React, { useEffect, useState, useContext  } from 'react';
 import ComicCard from '../components/comic-card/ComicCard';
 import Modal from "react-modal";
 import PrevNextButton from "../components/buttons/prevNextButton/PrevNextButton";
+import { DataContext } from '../context/DataContext'
 
 const ComicsPage = () => {
+    const { fetchMarvelData } = useContext(DataContext);
     const [comics, setComics] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [offset, setOffset] = useState(0);
@@ -14,18 +15,23 @@ const ComicsPage = () => {
     const [total, setTotal] = useState(null);
 
     useEffect(() => {
-        fetchMarvelAPI('comics', 20, offset, null, null, titleStartsWith)
+        fetchMarvelData('comics', 20, offset, null, null, titleStartsWith, true)
             .then(response => {
-                console.log(response.length)
-                setComics(response);
+                console.log(response)
+                if(Array.isArray(response)){
+                    setComics(response);
+                    setTotal(response.length)
+                }else{
+                    console.error('Unexpected response:', response)
+                    setComics([]);
+                    setTotal(0);
+                }
                 setIsLoading(false);
-                setTotal(response.length)
-
             })
             .catch(error => {
                 console.error('Er was een fout bij het ophalen van de comics:', error);
             });
-    }, [offset, titleStartsWith]);
+    }, [offset, titleStartsWith, fetchMarvelData]);
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -34,7 +40,6 @@ const ComicsPage = () => {
     function goToNextPage() {
         setOffset(offset + 20);
     }
-
     function goToPreviousPage() {
         setOffset(Math.max(0, offset - 20));
     }
@@ -51,9 +56,10 @@ const ComicsPage = () => {
 
     const handleSearchChange = (event) => {
         setTitleStartsWith(event.target.value);
-        fetchMarvelAPI('comics', 20, 0, null, null, event.target.value)
+        fetchMarvelData('comics', 20, 0, null, null, event.target.value, true)
             .then(response => {
                 setComics(response);
+                setTotal(response.length);
                 setIsLoading(false);
             })
             .catch(error => {
@@ -76,7 +82,7 @@ const ComicsPage = () => {
                 type="text"
                 placeholder="Search for a comic..."
                 value={titleStartsWith}
-                onChange={handleSearchChange} // Use the handleSearchChange function when the input changes
+                onChange={handleSearchChange}
             />
             {total < 20 && (
                 <p>{total} resultaten</p>

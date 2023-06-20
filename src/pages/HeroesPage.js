@@ -1,34 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { fetchMarvelAPI } from '../api';
+import React, { useState, useEffect, useContext } from 'react';
 import HeroCard from '../components/hero-card/HeroCard';
 import Modal from "react-modal";
 import {DataContext} from "../context/DataContext";
+import PrevNextButton from "../components/buttons/prevNextButton/PrevNextButton";
 
 function HeroesPage() {
-    const [heroes, setHeroes] = useState([]);
+    const { fetchMarvelData } = useContext(DataContext);
+    const [heroes, setHeroes] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [offset, setOffset] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentHero, setCurrentHero] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
-    const [totalSearch, setTotalSearch] = useState(null);
-
-    // const [total, setTotal] = useState(null);
+    const [total, setTotal] = useState(null);
 
     useEffect(() => {
-        fetchMarvelAPI('characters', 20, offset, null, searchTerm)
+        fetchMarvelData('characters', 20, offset, null, null, searchTerm, true)
             .then(response => {
                 console.log(response)
-                console.log(response.length)
-                setHeroes(response);
+                if(Array.isArray(response)){
+                    setHeroes(response);
+                    setTotal(response.length)
+                    }else {
+                    console.error('Unexpected response:', response)
+                    setHeroes([]);
+                    setTotal(0);
+                }
                 setIsLoading(false);
-                setTotalSearch(response.length)
             })
             .catch(error => {
                 console.error("Er was een fout bij het ophalen van de helden: ", error);
                 setIsLoading(false);
             });
-    }, [offset, searchTerm]);
+    }, [offset, searchTerm, fetchMarvelData]);
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -53,10 +57,11 @@ function HeroesPage() {
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
-        fetchMarvelAPI('characters', 20, 0, null, event.target.value)
+        fetchMarvelData('characters', 20, 0, null, event.target.value, null, true)
             .then(response => {
-                console.log(response.data);
+                console.log(response);
                 setHeroes(response);
+                setTotal(response.length);
                 setIsLoading(false);
             })
             .catch(error => {
@@ -66,6 +71,8 @@ function HeroesPage() {
     };
 
 
+
+
     const filteredHeroes = heroes.filter(hero =>
         hero.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -73,8 +80,7 @@ function HeroesPage() {
     return (
         <div className="heroes-page">
             <h1 className="heroes-title">Heroes</h1>
-            <button onClick={goToPreviousPage} disabled={offset === 0}>Vorige</button>
-            <button onClick={goToNextPage} disabled={totalSearch <= 19}>Volgende</button>
+            <PrevNextButton offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
             <input
                 className="heroes-search"
                 type="text"
@@ -82,8 +88,8 @@ function HeroesPage() {
                 value={searchTerm}
                 onChange={handleSearchChange} // Use the handleSearchChange function when the input changes
             />
-            {totalSearch < 20 && (
-                <p>{totalSearch} resultaten</p>
+            {total < 20 && (
+                <p>{total} resultaten</p>
             )}
             <div className="heroes-list" >
                 {filteredHeroes.map(hero => <HeroCard key={hero.id} hero={hero} onCardClick={handleHeroClick}/>)}
@@ -91,8 +97,7 @@ function HeroesPage() {
             {/*<div className="heroes-list" >*/}
             {/*    {heroes.map(hero => <HeroCard key={hero.id} hero={hero} onCardClick={handleHeroClick}/>)}*/}
             {/*</div>*/}
-            <button onClick={goToPreviousPage} disabled={offset === 0}>Vorige</button>
-            <button onClick={goToNextPage} disabled={totalSearch <= 19}>Volgende</button>
+            <PrevNextButton offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={handleCloseModal}

@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Modal from 'react-modal';
 import HeroCard from '../hero-card/HeroCard';
-import { fetchSingleMarvelObject } from '../../api';
+import { DataContext } from '../../context/DataContext';
 
 const ComicCard = ({ comic, isModal, onCardClick }) => {
+    const { fetchMarvelData } = useContext(DataContext);
     const [modalIsOpen, setIsOpen] = useState(false);
     const [currentHero, setCurrentHero] = useState(null);
 
     function openModal(character) {
         const characterId = character.resourceURI.split('/').pop();
 
-        fetchSingleMarvelObject('characters', characterId)
+        fetchMarvelData('characters', null, null, characterId, null, null, true)
             .then(response => {
                 setCurrentHero(response[0]);
                 setIsOpen(true);

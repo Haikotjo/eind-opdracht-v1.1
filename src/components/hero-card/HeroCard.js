@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Modal from 'react-modal';
 import ComicCard from '../comic-card/ComicCard';
-import { fetchSingleMarvelObject } from '../../api';
-import { useModal } from '../../hooks/UseModal';
+import {DataContext} from "../../context/DataContext";
 
 const HeroCard = ({ hero, isModal, onCardClick }) => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [currentComic, setCurrentComic] = useState(null);
-    const [isModalOpen, toggleModal, closeAllModals] = useModal();
+    const { fetchMarvelData } = useContext(DataContext);
 
     function openModal(comic) {
         const comicId = comic.resourceURI.split('/').pop();
 
-        fetchSingleMarvelObject('comics', comicId)
+        fetchMarvelData('comics', null, null, comicId, null, null, true)
             .then(response => {
                 setCurrentComic(response[0]);
                 setIsOpen(true);
@@ -50,7 +49,6 @@ const HeroCard = ({ hero, isModal, onCardClick }) => {
                         ))}
                     </ul>
                 )}
-                <button onClick={closeAllModals}>Sluit alle modals</button>
             </div>
 
             <Modal
