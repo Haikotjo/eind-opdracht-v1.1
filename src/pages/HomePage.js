@@ -57,8 +57,15 @@ const HomePage = () => {
             console.error("Er was een fout bij het ophalen van de data: ", error);
             setIsLoading(false);
         });
-
     }, [fetchMarvelData]);
+
+    // Moet ik nog even naar kijken of ik er nog wat mee wil
+    function makeCombinedlist () {
+        const combinedCards = [...heroes, ...comics, ...events];
+        console.log(combinedCards)
+    }
+    makeCombinedlist()
+    // Moet ik nog even naar kijken of ik er nog wat mee wil
 
     const handleEventClick = (event) => {
         setCurrentRandomEvent(event);

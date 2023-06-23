@@ -81,9 +81,7 @@ const ComicsPage = () => {
     );
 
     return (
-        isLoading ? (
-                <div>Loading...</div>
-            ) :
+        isLoading ? (<div>Loading...</div>) :
         <div className="comics-page">
             <h1 className="comic-title">Comics</h1>
             <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / 20)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
@@ -107,10 +105,7 @@ const ComicsPage = () => {
             >
                 {currentComic && <ComicCard comic={currentComic} isModal={true} />}
             </Modal>
-            {
-                error && (
-                    <div>Error: {error}</div>
-                )
+            {error && (<div>Error: {error}</div>)
             }
         </div>
     );
