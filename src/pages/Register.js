@@ -4,7 +4,7 @@ import axios from "axios";
 function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [username, setUsername] = useState('');
+    const [name, setName] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -13,7 +13,7 @@ function Register() {
             const res = await axios.post('http://localhost:3000/register', {
                 email,
                 password,
-                username,
+                name
             });
             // Stap 4: Geef de JWT mee aan de login functie
         } catch (e) {
@@ -28,7 +28,7 @@ function Register() {
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="username">Gebruikersnaam</label>
-                    <input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)}
+                    <input id="username" type="text" value={name} onChange={(e) => setName(e.target.value)}
                            autoComplete="off"/>
                 </div>
                 <div>

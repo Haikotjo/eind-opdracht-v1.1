@@ -17,7 +17,7 @@ function LoginPage() {
                 email,
                 password
             });
-            login(res.data.accessToken);
+            login(res.data.accessToken, '/profile');
         }catch (e) {
             console.log("Onuist email en wachtwoord combinatie". e)
             setError(true)

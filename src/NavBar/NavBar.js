@@ -15,8 +15,7 @@ function NavBar() {
                 <li className="navbar-item"><NavLink to="/comics" className="navbar-link">Comics</NavLink></li>
                 <li className="navbar-item"><NavLink to="/events" className="navbar-link">Events</NavLink></li>
                 <li className="navbar-item">{ isAuth && <NavLink to="/profile" className="navbar-link">Profile</NavLink> }</li>
-                <li className="navbar-item"><NavLink to="/login" className="navbar-link">Login</NavLink></li>
-                <li className="navbar-item"><NavLink to="/page" className="navbar-link">Page</NavLink></li>
+                {/*<li className="navbar-item"><NavLink to="/page" className="navbar-link">Page</NavLink></li>*/}
                 {isAuth &&
                 <>
                 <li><button type="button" onClick={logout}>Logout</button></li>
