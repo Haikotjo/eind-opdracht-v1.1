@@ -1,6 +1,5 @@
 import {createContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import jwt_decode from "jwt-decode";
 import {checkTokenValidity} from "../helpers/checkTokenValidity";
 import axios from "axios";
 
@@ -18,7 +17,7 @@ function AuthContextProvider({children}) {
         const storedToken = localStorage.getItem('token')
 
         if (storedToken && checkTokenValidity(storedToken)) {
-            void login( storedToken )
+            login( storedToken )
         }else {
             setAuth({
                 ...auth,
@@ -30,23 +29,22 @@ function AuthContextProvider({children}) {
 
     },[])
     async function login(jwt_token, redirect) {
-        const decodedToken = jwt_decode(jwt_token);
         localStorage.setItem('token', jwt_token);
         try {
-            const { data: { email, name, id}} = await axios.get(`http://localhost:3000/600/users/${ decodedToken.sub}`,{
+            const { data: { email, username, id}} = await axios.get(`https://frontend-educational-backend.herokuapp.com/api/user/`,{
                 headers: {
                     'Content-Type' : 'application/json',
                     Authorization: `Bearer ${jwt_token}`
                 }
             })
-            console.log(name)
+            console.log(username)
             setAuth({
                 ...auth,
                 isAuth: true,
                 user: {
                     email: email,
                     id: id,
-                    username: name
+                    username: username
                 },
                 status: "done"
             })

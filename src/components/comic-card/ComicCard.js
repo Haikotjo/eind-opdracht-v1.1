@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import Modal from 'react-modal';
 import HeroCard from '../hero-card/HeroCard';
 import { DataContext } from '../../context/DataContext';
+import SaveButton from "../buttons/addToFavorite/AddToFavorite";
 
 const ComicCard = ({ comic, isModal, onCardClick }) => {
     const { fetchMarvelData } = useContext(DataContext);
@@ -31,6 +32,7 @@ const ComicCard = ({ comic, isModal, onCardClick }) => {
                 src={`${comic.thumbnail.path}/portrait_incredible.${comic.thumbnail.extension}`}
                 alt={comic.title}
             />
+            <SaveButton item={comic} />
             <div className="comic-info">
                 <h2 className="comic-info-title">{comic.title}</h2>
                 <p className="comic-info-description">{comic.description}</p>
