@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import Modal from 'react-modal';
 import ComicCard from '../comic-card/ComicCard';
 import {DataContext} from "../../context/DataContext";
+import SaveButton from "../buttons/addToFavorite/AddToFavorite";
 
 const HeroCard = ({ hero, isModal, onCardClick }) => {
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -32,6 +33,7 @@ const HeroCard = ({ hero, isModal, onCardClick }) => {
                 src={`${hero.thumbnail.path}/portrait_incredible.${hero.thumbnail.extension}`}
                 alt={hero.name}
             />
+            {isModal && (<SaveButton itemKey="savedHero" item={hero} />)}
             <div className="hero-info">
                 <h2 className="hero-info-name">{hero.name}</h2>
                 <p className="hero-info-description">{hero.description}</p>

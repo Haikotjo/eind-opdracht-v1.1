@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import HeroCard from '../hero-card/HeroCard';
 import ComicCard from "../comic-card/ComicCard";
 import { DataContext } from '../../context/DataContext';
+import SaveButton from "../buttons/addToFavorite/AddToFavorite";
 
 const EventCard = ({ event, isModal, onCardClick }) => {
     const { fetchMarvelData } = useContext(DataContext);
@@ -51,6 +52,7 @@ const EventCard = ({ event, isModal, onCardClick }) => {
                 src={event && event.thumbnail ? `${event.thumbnail.path}/portrait_incredible.${event.thumbnail.extension}` : 'fallbackAfbeeldingURL'}
                 alt={event.title}
             />
+            {isModal && (<SaveButton itemKey="savedEvent" item={event} />)}
             <div className="comic-info">
                 <h2 className="comic-info-title">{event ? event.title : ''}</h2>
 

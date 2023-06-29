@@ -32,7 +32,8 @@ const ComicCard = ({ comic, isModal, onCardClick }) => {
                 src={`${comic.thumbnail.path}/portrait_incredible.${comic.thumbnail.extension}`}
                 alt={comic.title}
             />
-            <SaveButton item={comic} />
+            {isModal && (<SaveButton itemKey="savedComic" item={comic} />)}
+
             <div className="comic-info">
                 <h2 className="comic-info-title">{comic.title}</h2>
                 <p className="comic-info-description">{comic.description}</p>
