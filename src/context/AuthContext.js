@@ -2,6 +2,8 @@ import {createContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {checkTokenValidity} from "../helpers/checkTokenValidity";
 import axios from "axios";
+import useIdleTimer from "../hooks/UseIdleTimer";
+import {clearLocalStorage} from "../helpers/ClearLocalStorage";
 
 export const AuthContext = createContext(null)
 function AuthContextProvider({children}) {
@@ -26,8 +28,9 @@ function AuthContextProvider({children}) {
                 status: "done"
             })
         }
-
     },[])
+
+    useIdleTimer(logout, 3600000);
     async function login(jwt_token, redirect) {
         localStorage.setItem('token', jwt_token);
         try {
@@ -57,7 +60,7 @@ function AuthContextProvider({children}) {
     }
 
     function logout() {
-        localStorage.removeItem('token');
+        clearLocalStorage();
         setAuth({
             ...auth,
             isAuth: false,

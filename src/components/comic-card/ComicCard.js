@@ -36,20 +36,23 @@ const ComicCard = ({ comic, isModal, onCardClick }) => {
 
             <div className="comic-info">
                 <h2 className="comic-info-title">{comic.title}</h2>
-                <p className="comic-info-description">{comic.description}</p>
+
                 {isModal && (
-                    <ul className="comic-info-hero-list">
-                        {comic.characters.items.map((character, index) => (
-                            <li key={index}>
-                                <button onClick={(event) => {
-                                    event.stopPropagation();
-                                    openModal(character);
-                                }}>
-                                    {character.name}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
+                    <>
+                        <p className="comic-info-description">{comic.description}</p>
+                        <ul className="comic-info-hero-list">
+                            {comic.characters.items.map((character, index) => (
+                                <li key={index}>
+                                    <button onClick={(event) => {
+                                        event.stopPropagation();
+                                        openModal(character);
+                                    }}>
+                                        {character.name}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
                 )}
             </div>
 

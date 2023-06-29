@@ -36,20 +36,22 @@ const HeroCard = ({ hero, isModal, onCardClick }) => {
             {isModal && (<SaveButton itemKey="savedHero" item={hero} />)}
             <div className="hero-info">
                 <h2 className="hero-info-name">{hero.name}</h2>
-                <p className="hero-info-description">{hero.description}</p>
                 {isModal && (
-                    <ul className="hero-info-comic-list">
-                        {hero.comics.items.map((comic, index) => (
-                            <li key={index}>
-                                <button onClick={(event) => {
-                                    event.stopPropagation();
-                                    openModal(comic);
-                                }}>
-                                    {comic.name}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
+                    <>
+                        <p className="hero-info-description">{hero.description}</p>
+                        <ul className="hero-info-comic-list">
+                            {hero.comics.items.map((comic, index) => (
+                                <li key={index}>
+                                    <button onClick={(event) => {
+                                        event.stopPropagation();
+                                        openModal(comic);
+                                    }}>
+                                        {comic.name}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
                 )}
             </div>
 
