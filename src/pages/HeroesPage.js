@@ -3,37 +3,47 @@ import HeroCard from '../components/hero-card/HeroCard';
 import Modal from "react-modal";
 import {DataContext} from "../context/DataContext";
 import PrevNextButton from "../components/buttons/prevNextButton/PrevNextButton";
+import {handleError} from "../helpers/handleError";
+import {filterData} from "../helpers/filterData";
 
 function HeroesPage() {
     const { fetchMarvelData } = useContext(DataContext);
-    const [heroes, setHeroes] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [offset, setOffset] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentHero, setCurrentHero] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
+
+    const [heroes, setHeroes] = useState(null);
+    const [currentHero, setCurrentHero] = useState(null);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [isLoading, setIsLoading] = useState(true);
     const [total, setTotal] = useState(null);
     const [error, setError] = useState(null);
+
+    const [offset, setOffset] = useState(0);
+
+    const pageSize = 20
     const currentPage = offset / 20 + 1;
 
     useEffect(() => {
-        fetchMarvelData('characters', 20, offset, null, null, searchTerm, false)
+        fetchMarvelData('characters', pageSize, offset, null, null, searchTerm, false)
             .then(data => {
                 console.log(data.results)
                 setTotal(data.total)
                 if(Array.isArray(data.results)){
                     setHeroes(data.results);
-                    }else {
+                    const validHeroes = data.results.filter(heroes => {
+                        return !heroes.thumbnail.path.endsWith('image_not_available');
+                    });
+                    setHeroes(validHeroes);
+                }else {
                     console.error('Unexpected response:', data.results)
                     setHeroes([]);
                     console.log('Total after setTotal:', total);
                 }
                 setIsLoading(false);
             })
-            .catch(error => {
-                setError('Er was een fout bij het ophalen van de heroes.');
-                console.error("Er was een fout bij het ophalen van de helden: ", error);
-                setIsLoading(false);
+            .catch((error) => {
+                handleError(error, setError);
             });
     }, [offset, searchTerm, fetchMarvelData, total]);
 
@@ -42,11 +52,11 @@ function HeroesPage() {
     }
 
     function goToNextPage() {
-        setOffset(offset + 20);
+        setOffset(offset + pageSize);
     }
 
     function goToPreviousPage() {
-        setOffset(Math.max(0, offset - 20));
+        setOffset(Math.max(0, offset - pageSize));
     }
 
     const handleHeroClick = (hero) => {
@@ -60,7 +70,7 @@ function HeroesPage() {
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
-        fetchMarvelData('characters', 20, 0, null, event.target.value, null, false)
+        fetchMarvelData('characters', pageSize, 0, null, event.target.value, null, false)
             .then(data => {
                 console.log(data.total);
                 setHeroes(data.results);
@@ -68,18 +78,14 @@ function HeroesPage() {
                 setIsLoading(false);
                 console.log('Total after setTotal:', total);
             })
-            .catch(error => {
-                console.error("Er was een fout bij het ophalen van de helden: ", error);
+            .catch((error) => {
+                console.error("Er was een fout bij het ophalen van de held(en): ", error);
+                handleError(error, setError);
                 setIsLoading(false);
             });
     };
 
-
-
-
-    const filteredHeroes = heroes.filter(hero =>
-        hero.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredHeroes = filterData(heroes, searchTerm, 'name');
 
     return (
         isLoading ? (
@@ -87,7 +93,7 @@ function HeroesPage() {
             ) :
         <div className="heroes-page">
             <h1 className="heroes-title">Heroes</h1>
-            <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / 20)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+            <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
             <input
                 className="heroes-search"
                 type="text"
@@ -99,10 +105,7 @@ function HeroesPage() {
             <div className="heroes-list" >
                 {filteredHeroes.map(hero => <HeroCard key={hero.id} hero={hero} onCardClick={handleHeroClick}/>)}
             </div>
-            {/*<div className="heroes-list" >*/}
-            {/*    {heroes.map(hero => <HeroCard key={hero.id} hero={hero} onCardClick={handleHeroClick}/>)}*/}
-            {/*</div>*/}
-            <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / 20)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+            <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={handleCloseModal}

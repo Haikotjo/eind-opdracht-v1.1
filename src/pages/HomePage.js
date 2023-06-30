@@ -97,10 +97,6 @@ const HomePage = () => {
             </div>
         ) :
         <main className="home">
-            <section className="home__section">
-                <h2 className="home__title">Latest Marvel News</h2>
-                <p className="home__content">Placeholder for latest Marvel news.</p>
-            </section>
             <section>
                 <section className="home__section">
                     <h2 className="home__title">Discover Events or <Link to="/events">search for your favorite event!</Link></h2>

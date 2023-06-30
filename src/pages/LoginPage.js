@@ -34,13 +34,16 @@ function LoginPage() {
                 <div>
                     <label htmlFor="username-field">Gebruikersnaam:</label>
                     <input id="username-field" type="text" value={username} onChange={(e) => setUsername(e.target.value)}
+                           placeholder="minimaal 6 tekens"
                            autoComplete="off"/>
                 </div>
                 <div>
                     <label htmlFor="password-field">Wachtwoord</label>
-                    <input id="password-field" name="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                    <input id="password-field" name="password" value={password} onChange={(e) => setPassword(e.target.value)}
+                           placeholder="minimaal 6 tekens"
+                           autoComplete="off"/>
                 </div>
-                {error && <p> Error Onuist email en wachtwoord combinatie</p> }
+                {error && <p>Error Onuiste aanmeldgegevens.</p> }
                 <button type="submit">Login</button>
             </form>
             <p>Heb je nog geen account? <Link to="/register">Registreer</Link> je dan eerst.</p>

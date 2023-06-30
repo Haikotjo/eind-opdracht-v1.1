@@ -4,11 +4,11 @@ import HomePage from './pages/HomePage';
 import HeroesPage from './pages/HeroesPage';
 import ComicsPage from './pages/ComicsPage';
 import EventsPage from './pages/EventsPage';
-import NavBar from "./NavBar/NavBar";
+import NavBar from "./navbar/NavBar";
 import DataContextProvider from "./context/DataContext";
 import Page from "./pages/Page";
 import LoginPage from './pages/LoginPage';
-import ProfilePage from "./pages/ProfilePage ";
+import ProfilePage from "./pages/ProfilePage";
 import {AuthContext} from "./context/AuthContext";
 import Register from "./pages/Register";
 

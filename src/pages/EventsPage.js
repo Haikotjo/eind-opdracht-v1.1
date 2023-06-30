@@ -4,21 +4,31 @@ import Modal from "react-modal";
 import HeroCard from "../components/hero-card/HeroCard";
 import {DataContext} from "../context/DataContext";
 import PrevNextButton from "../components/buttons/prevNextButton/PrevNextButton";
+import {handleError} from "../helpers/handleError";
+import {filterData} from "../helpers/filterData";
 
 const EventsPage = () => {
-    const [events, setEvents] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [offset, setOffset] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentEvent, setCurrentEvent] = useState(null);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [total, setTotal] = useState(null);
     const { fetchMarvelData } = useContext(DataContext);
-    const [error, setError] = useState(null);
-    const currentPage = offset / 20 + 1;
+    const [searchTerm, setSearchTerm] = useState("");
 
+    const [currentEvent, setCurrentEvent] = useState(null);
+    const [events, setEvents] = useState(null);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [total, setTotal] = useState(null);
+    const [error, setError] = useState(null);
+
+    const [offset, setOffset] = useState(0);
+
+    const pageSize = 20
+    const currentPage = offset / pageSize + 1;
+
+
+    // Fetch data from the Marvel API when component mounts and when offset or titleStartsWith changes
     useEffect(() => {
-        fetchMarvelData('events', 20, offset, null, searchTerm, null, false)
+        fetchMarvelData('events', pageSize, offset, null, searchTerm, null, false)
             .then(data => {
                 console.log(data.results)
                 setTotal(data.total)
@@ -30,10 +40,8 @@ const EventsPage = () => {
                 }
                 setIsLoading(false);
             })
-            .catch(error => {
-                setError('Er was een fout bij het ophalen van de events.');
-                console.error('Er was een fout bij het ophalen van de events:', error);
-                setIsLoading(false);
+            .catch((error) => {
+                handleError(error, setError);
             });
     }, [offset, searchTerm, fetchMarvelData]);
 
@@ -41,10 +49,10 @@ const EventsPage = () => {
         return <div>Loading...</div>;
     }
     function goToNextPage() {
-        setOffset(offset + 20);
+        setOffset(offset + pageSize);
     }
     function goToPreviousPage() {
-        setOffset(Math.max(0, offset - 20));
+        setOffset(Math.max(0, offset - pageSize));
     }
 
     const handleEventClick = (event) => {
@@ -58,23 +66,21 @@ const EventsPage = () => {
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
-        fetchMarvelData('events', 20, 0, null, event.target.value,null , false)
+        fetchMarvelData('events', pageSize, 0, null, event.target.value,null , false)
             .then(data => {
                 console.log(data.total)
                 setEvents(data.results);
                 setTotal(data.total);
                 setIsLoading(false);
             })
-            .catch(error => {
-                console.error("Er was een fout bij het ophalen van het event: ", error);
+            .catch((error) => {
+                console.error("Er was een fout bij het ophalen van de event(s): ", error);
+                handleError(error, setError);
                 setIsLoading(false);
             });
     };
 
-
-    const filteredEvents = events.filter(events =>
-        events.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredEvents = filterData(events, searchTerm, 'title');
 
     return (
         isLoading ? (
@@ -90,12 +96,11 @@ const EventsPage = () => {
                 value={searchTerm}
                 onChange={handleSearchChange}
             />
-            <div>Page {currentPage} of {Math.ceil(total / 20)} met een totaal van {total} resultaten</div>
+            <div>Page {currentPage} of {Math.ceil(total / pageSize)} met een totaal van {total} resultaten</div>
             <div className="event-list" >
                 {filteredEvents.map(event => <EventCard key={event.id} event={event} onCardClick={handleEventClick}/>)}
             </div>
-            <div>Page {currentPage} of {Math.ceil(total / 20)}</div>
-            {/*{events.map(event => <EventCard key={event.id} event={event} onCardClick={handleEventClick}/>)}*/}
+            <div>Page {currentPage} of {Math.ceil(total / pageSize)}</div>
             <PrevNextButton offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
             <Modal
                 isOpen={isModalOpen}
