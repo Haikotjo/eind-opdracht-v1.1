@@ -6,10 +6,12 @@ import {DataContext} from "../context/DataContext";
 import PrevNextButton from "../components/buttons/prevNextButton/PrevNextButton";
 import {handleError} from "../helpers/handleError";
 import {filterData} from "../helpers/filterData";
+import useDebounce from '../hooks/useDebounce';
 
 const EventsPage = () => {
     const { fetchMarvelData } = useContext(DataContext);
     const [searchTerm, setSearchTerm] = useState("");
+    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
     const [currentEvent, setCurrentEvent] = useState(null);
     const [events, setEvents] = useState(null);
@@ -28,22 +30,30 @@ const EventsPage = () => {
 
     // Fetch data from the Marvel API when component mounts and when offset or titleStartsWith changes
     useEffect(() => {
-        fetchMarvelData('events', pageSize, offset, null, searchTerm, null, false)
-            .then(data => {
-                console.log(data.results)
-                setTotal(data.total)
+        const fetchData = async () => {
+            try {
+                const data = await fetchMarvelData('events', pageSize, offset, null, debouncedSearchTerm, null, false);
+                console.log(data.results);
+                setTotal(data.total);
                 if(Array.isArray(data.results)) {
                     setEvents(data.results);
                 }else{
-                    console.error('Unexpected response:', data.results)
+                    console.error('Unexpected response:', data.results);
                     setEvents([]);
                 }
                 setIsLoading(false);
-            })
-            .catch((error) => {
+            } catch (error) {
                 handleError(error, setError);
-            });
-    }, [offset, searchTerm, fetchMarvelData]);
+            }
+        }
+        fetchData();
+    }, [offset, debouncedSearchTerm, fetchMarvelData]);
+
+    useEffect(() => {
+        if (debouncedSearchTerm) {
+            handleSearchChange(debouncedSearchTerm);
+        }
+    }, [debouncedSearchTerm]);
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -64,23 +74,24 @@ const EventsPage = () => {
         setIsModalOpen(false);
     }
 
-    const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value);
-        fetchMarvelData('events', pageSize, 0, null, event.target.value,null , false)
-            .then(data => {
-                console.log(data.total)
-                setEvents(data.results);
-                setTotal(data.total);
-                setIsLoading(false);
-            })
-            .catch((error) => {
-                console.error("Er was een fout bij het ophalen van de event(s): ", error);
-                handleError(error, setError);
-                setIsLoading(false);
-            });
+    const handleSearchChange = async (value) => {
+        setSearchTerm(value);
+        try {
+            const data = await fetchMarvelData('events', pageSize, 0, null, value, null, false);
+            setEvents(data.results);
+            setTotal(data.total);
+            setIsLoading(false);
+        } catch (error) {
+            handleError(error, setError);
+            setIsLoading(false);
+        }
     };
 
-    const filteredEvents = filterData(events, searchTerm, 'title');
+    const onInputChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const filteredEvents = filterData(events, debouncedSearchTerm, 'title');
 
     return (
         isLoading ? (
@@ -94,7 +105,7 @@ const EventsPage = () => {
                 type="text"
                 placeholder="Search for a event..."
                 value={searchTerm}
-                onChange={handleSearchChange}
+                onChange={onInputChange}
             />
             <div>Page {currentPage} of {Math.ceil(total / pageSize)} met een totaal van {total} resultaten</div>
             <div className="event-list" >
@@ -105,7 +116,7 @@ const EventsPage = () => {
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={handleCloseModal}
-                contentLabel="Comic Details Modal"
+                contentLabel="Event Details Modal"
             >
                 {currentEvent && <EventCard event={currentEvent} isModal={true} />}
             </Modal>

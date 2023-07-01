@@ -54,10 +54,6 @@ const DataContextProvider = ({children}) => {
             });
     }
 
-
-
-
-
     return(
         <DataContext.Provider value={data}>
             {children}

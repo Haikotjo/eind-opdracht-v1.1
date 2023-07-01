@@ -5,10 +5,13 @@ import {DataContext} from "../context/DataContext";
 import PrevNextButton from "../components/buttons/prevNextButton/PrevNextButton";
 import {handleError} from "../helpers/handleError";
 import {filterData} from "../helpers/filterData";
+import useDebounce from '../hooks/useDebounce';
 
 function HeroesPage() {
     const { fetchMarvelData } = useContext(DataContext);
+    const [nameStartsWith, setNameStartsWith] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
+    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
     const [heroes, setHeroes] = useState(null);
     const [currentHero, setCurrentHero] = useState(null);
@@ -21,31 +24,36 @@ function HeroesPage() {
 
     const [offset, setOffset] = useState(0);
 
-    const pageSize = 20
+    const pageSize = 20;
     const currentPage = offset / 20 + 1;
 
     useEffect(() => {
-        fetchMarvelData('characters', pageSize, offset, null, null, searchTerm, false)
-            .then(data => {
-                console.log(data.results)
-                setTotal(data.total)
-                if(Array.isArray(data.results)){
-                    setHeroes(data.results);
+        const fetchData = async () => {
+            try {
+                const data = await fetchMarvelData('characters', pageSize, offset, null, nameStartsWith, null, false);
+                console.log(data.results);
+                setTotal(data.total);
+                if (Array.isArray(data.results)) {
                     const validHeroes = data.results.filter(heroes => {
                         return !heroes.thumbnail.path.endsWith('image_not_available');
                     });
                     setHeroes(validHeroes);
-                }else {
-                    console.error('Unexpected response:', data.results)
+                } else {
                     setHeroes([]);
-                    console.log('Total after setTotal:', total);
                 }
                 setIsLoading(false);
-            })
-            .catch((error) => {
+            } catch (error) {
                 handleError(error, setError);
-            });
-    }, [offset, searchTerm, fetchMarvelData, total]);
+            }
+        };
+        fetchData();
+    }, [offset, nameStartsWith, fetchMarvelData, total]);
+
+    useEffect(() => {
+        if (debouncedSearchTerm) {
+            handleSearchChange(debouncedSearchTerm);
+        }
+    }, [debouncedSearchTerm]);
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -68,57 +76,57 @@ function HeroesPage() {
         setIsModalOpen(false);
     }
 
-    const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value);
-        fetchMarvelData('characters', pageSize, 0, null, event.target.value, null, false)
-            .then(data => {
-                console.log(data.total);
-                setHeroes(data.results);
-                setTotal(data.total);
-                setIsLoading(false);
-                console.log('Total after setTotal:', total);
-            })
-            .catch((error) => {
-                console.error("Er was een fout bij het ophalen van de held(en): ", error);
-                handleError(error, setError);
-                setIsLoading(false);
-            });
+    const handleSearchChange = async (value) => {
+        setNameStartsWith(value);
+        try {
+            const data = await fetchMarvelData('characters', pageSize, 0, null, value, false);
+            setHeroes(data.results);
+            setTotal(data.total);
+            setIsLoading(false);
+        } catch (error) {
+            handleError(error, setError);
+            setIsLoading(false);
+        }
     };
 
-    const filteredHeroes = filterData(heroes, searchTerm, 'name');
+    const onInputChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const filteredHeroes = filterData(heroes, nameStartsWith, 'name');
 
     return (
         isLoading ? (
                 <div>Loading...</div>
             ) :
-        <div className="heroes-page">
-            <h1 className="heroes-title">Heroes</h1>
-            <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
-            <input
-                className="heroes-search"
-                type="text"
-                placeholder="Search for a hero..."
-                value={searchTerm}
-                onChange={handleSearchChange}
-            />
-            <div>Page {currentPage} of {Math.ceil(total / 20)} met een totaal van {total} resultaten</div>
-            <div className="heroes-list" >
-                {filteredHeroes.map(hero => <HeroCard key={hero.id} hero={hero} onCardClick={handleHeroClick}/>)}
+            <div className="heroes-page">
+                <h1 className="heroes-title">Heroes</h1>
+                <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+                <input
+                    className="heroes-search"
+                    type="text"
+                    placeholder="Search for a hero..."
+                    value={searchTerm}
+                    onChange={onInputChange}
+                />
+                <div>Page {currentPage} of {Math.ceil(total / pageSize)} met een totaal van {total} resultaten</div>
+                <div className="heroes-list" >
+                    {filteredHeroes.map(hero => <HeroCard key={hero.id} hero={hero} onCardClick={handleHeroClick}/>)}
+                </div>
+                <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+                <Modal
+                    isOpen={isModalOpen}
+                    onRequestClose={handleCloseModal}
+                    contentLabel="Hero Details Modal"
+                >
+                    {currentHero && <HeroCard hero={currentHero} isModal={true} />}
+                </Modal>
+                {
+                    error && (
+                        <div>Error: {error}</div>
+                    )
+                }
             </div>
-            <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
-            <Modal
-                isOpen={isModalOpen}
-                onRequestClose={handleCloseModal}
-                contentLabel="Hero Details Modal"
-            >
-                {currentHero && <HeroCard hero={currentHero} isModal={true} />}
-            </Modal>
-            {
-                error && (
-                    <div>Error: {error}</div>
-                )
-            }
-        </div>
     );
 }
 

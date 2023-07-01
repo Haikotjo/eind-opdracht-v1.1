@@ -5,10 +5,12 @@ import PrevNextButton from "../components/buttons/prevNextButton/PrevNextButton"
 import { DataContext } from '../context/DataContext'
 import {handleError} from "../helpers/handleError";
 import {filterData} from "../helpers/filterData";
+import useDebounce from '../hooks/useDebounce';
 
 const ComicsPage = () => {
     const { fetchMarvelData } = useContext(DataContext);
     const [titleStartsWith, setTitleStartsWith] = useState("");
+    const debouncedTitleStartsWith = useDebounce(titleStartsWith, 1000);
 
     const [currentComic, setCurrentComic] = useState(null);
     const [comics, setComics] = useState(null);
@@ -26,25 +28,33 @@ const ComicsPage = () => {
 
     // Fetch data from the Marvel API when component mounts and when offset or titleStartsWith changes
     useEffect(() => {
-        fetchMarvelData('comics', pageSize, offset, null, null, titleStartsWith, false)
-            .then(data => {
-                console.log(data)
-                setTotal(data.total)
-                if(Array.isArray(data.results)){
-                    setComics(data.results);
+        const fetchData = async () => {
+            try {
+                const data = await fetchMarvelData('comics', pageSize, offset, null, null, debouncedTitleStartsWith, false);
+                console.log(data);
+                setTotal(data.total);
+                if (Array.isArray(data.results)) {
                     const validComics = data.results.filter(comic => {
                         return !comic.thumbnail.path.endsWith('image_not_available');
                     });
                     setComics(validComics);
-                }else{
-                    console.error('Unexpected response:', data.results)
-                    setComics([]);}
+                } else {
+                    console.error('Unexpected response:', data.results);
+                    setComics([]);
+                }
                 setIsLoading(false);
-            })
-            .catch((error) => {
+            } catch (error) {
                 handleError(error, setError);
-            });
-    }, [offset, titleStartsWith, fetchMarvelData]);
+            }
+        }
+        fetchData();
+    }, [offset, debouncedTitleStartsWith, fetchMarvelData]);
+
+    useEffect(() => {
+        if (debouncedTitleStartsWith) {
+            handleSearchChange(debouncedTitleStartsWith);
+        }
+    }, [debouncedTitleStartsWith]);
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -67,25 +77,27 @@ const ComicsPage = () => {
     }
 
 
-    const handleSearchChange = (event) => {
-
-        setTitleStartsWith(event.target.value);
-        fetchMarvelData('comics', pageSize, 0, null, null, event.target.value, false)
-            .then(data => {
-                console.log(data.total)
-                setComics(data.results);
-                setTotal(data.total);
-                setIsLoading(false);
-                console.log('Total after setTotal:', total);
-            })
-            .catch((error) => {
-                console.error("Er was een fout bij het ophalen van de comic(s): ", error);
-                handleError(error, setError);
-                setIsLoading(false);
-            });
+    const handleSearchChange = async (value) => {
+        setTitleStartsWith(value);
+        try {
+            const data = await fetchMarvelData('comics', pageSize, 0, null, null, value, false);
+            console.log(data.total);
+            setComics(data.results);
+            setTotal(data.total);
+            setIsLoading(false);
+            console.log('Total after setTotal:', total);
+        } catch (error) {
+            console.error("Er was een fout bij het ophalen van de comic(s): ", error);
+            handleError(error, setError);
+            setIsLoading(false);
+        }
     };
 
-    const filteredComics = filterData(comics, titleStartsWith, 'title');
+    const onInputChange = (event) => {
+        setTitleStartsWith(event.target.value);
+    };
+
+    const filteredComics = filterData(comics, debouncedTitleStartsWith, 'title');
 
     return (
         isLoading ? (<div>Loading...</div>) :
@@ -97,9 +109,9 @@ const ComicsPage = () => {
                 type="text"
                 placeholder="Search for a comic..."
                 value={titleStartsWith}
-                onChange={handleSearchChange}
+                onChange={onInputChange}
             />
-            <div>Page {currentPage} of {Math.ceil(total / 20)} met een totaal van {total} resultaten</div>
+            <div>Page {currentPage} of {Math.ceil(total / pageSize)} met een totaal van {total} resultaten</div>
             <div className="heroes-list" >
                 {filteredComics.map(comic => <ComicCard key={comic.id} comic={comic} onCardClick={handleComicClick}/>)}
             </div>
