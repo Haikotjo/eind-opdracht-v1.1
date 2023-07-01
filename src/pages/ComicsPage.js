@@ -100,32 +100,37 @@ const ComicsPage = () => {
     const filteredComics = filterData(comics, debouncedTitleStartsWith, 'title');
 
     return (
-        isLoading ? (<div>Loading...</div>) :
-        <div className="comics-page">
-            <h1 className="comic-title">Comics</h1>
-            <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
-            <input
-                className="comics-search"
-                type="text"
-                placeholder="Search for a comic..."
-                value={titleStartsWith}
-                onChange={onInputChange}
-            />
-            <div>Page {currentPage} of {Math.ceil(total / pageSize)} met een totaal van {total} resultaten</div>
-            <div className="heroes-list" >
-                {filteredComics.map(comic => <ComicCard key={comic.id} comic={comic} onCardClick={handleComicClick}/>)}
+        isLoading ? (<div className="loading-container">Loading...</div>) :
+            <div className="comics-page">
+                <h1 className="comic-title">Comics</h1>
+                <PrevNextButton className="page-nav-buttons" currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+                <input
+                    className="comics-search"
+                    type="text"
+                    placeholder="Search for a comic..."
+                    value={titleStartsWith}
+                    onChange={onInputChange}
+                />
+                <div className="page-details">Page {currentPage} of {Math.ceil(total / pageSize)} with a total of {total} results</div>
+                <ul className="comics-list" >
+                    {filteredComics.map(comic =>
+                        <li key={comic.id} className="comic-list-item">
+                            <ComicCard className="comic-card-item" comic={comic} onCardClick={handleComicClick}/>
+                        </li>
+                    )}
+                </ul>
+                <PrevNextButton className="page-nav-buttons" currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+                <Modal
+                    className="comic-details-modal"
+                    isOpen={isModalOpen}
+                    onRequestClose={handleCloseModal}
+                    contentLabel="Comic Details Modal"
+                >
+                    {currentComic && <ComicCard className="comic-card-modal-content" comic={currentComic} isModal={true} />}
+                </Modal>
+                {error && (<div className="error-message">Error: {error}</div>)
+                }
             </div>
-            <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
-            <Modal
-                isOpen={isModalOpen}
-                onRequestClose={handleCloseModal}
-                contentLabel="Comic Details Modal"
-            >
-                {currentComic && <ComicCard comic={currentComic} isModal={true} />}
-            </Modal>
-            {error && (<div>Error: {error}</div>)
-            }
-        </div>
     );
 }
 export default ComicsPage;

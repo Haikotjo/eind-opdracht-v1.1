@@ -97,11 +97,11 @@ function HeroesPage() {
 
     return (
         isLoading ? (
-                <div>Loading...</div>
+                <div className="loading-container">Loading...</div>
             ) :
             <div className="heroes-page">
                 <h1 className="heroes-title">Heroes</h1>
-                <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+                <PrevNextButton className="page-nav-buttons" currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
                 <input
                     className="heroes-search"
                     type="text"
@@ -109,21 +109,26 @@ function HeroesPage() {
                     value={searchTerm}
                     onChange={onInputChange}
                 />
-                <div>Page {currentPage} of {Math.ceil(total / pageSize)} met een totaal van {total} resultaten</div>
-                <div className="heroes-list" >
-                    {filteredHeroes.map(hero => <HeroCard key={hero.id} hero={hero} onCardClick={handleHeroClick}/>)}
-                </div>
-                <PrevNextButton currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+                <div className="page-details">Page {currentPage} of {Math.ceil(total / pageSize)} with a total of {total} results</div>
+                <ul className="heroes-list">
+                    {filteredHeroes.map(hero => (
+                        <li key={hero.id} className="hero-list-item">
+                            <HeroCard className="hero-card-item" hero={hero} onCardClick={handleHeroClick}/>
+                        </li>
+                    ))}
+                </ul>
+                <PrevNextButton className="page-nav-buttons" currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
                 <Modal
+                    className="hero-details-modal"
                     isOpen={isModalOpen}
                     onRequestClose={handleCloseModal}
                     contentLabel="Hero Details Modal"
                 >
-                    {currentHero && <HeroCard hero={currentHero} isModal={true} />}
+                    {currentHero && <HeroCard className="hero-card-modal-content" hero={currentHero} isModal={true} />}
                 </Modal>
                 {
                     error && (
-                        <div>Error: {error}</div>
+                        <div className="error-message">Error: {error}</div>
                     )
                 }
             </div>

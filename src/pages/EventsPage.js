@@ -94,38 +94,38 @@ const EventsPage = () => {
     const filteredEvents = filterData(events, debouncedSearchTerm, 'title');
 
     return (
-        isLoading ? (
-            <div>Loading...</div>
-        ) :
-        <div className="event-page">
-            <h1 className="event-title">Events</h1>
-            <PrevNextButton offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
-            <input
-                className="event-search"
-                type="text"
-                placeholder="Search for a event..."
-                value={searchTerm}
-                onChange={onInputChange}
-            />
-            <div>Page {currentPage} of {Math.ceil(total / pageSize)} met een totaal van {total} resultaten</div>
-            <div className="event-list" >
-                {filteredEvents.map(event => <EventCard key={event.id} event={event} onCardClick={handleEventClick}/>)}
+        isLoading ? (<div className="loading-container">Loading...</div>) :
+            <div className="event-page">
+                <h1 className="event-title">Events</h1>
+                <PrevNextButton className="page-nav-buttons" offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+                <input
+                    className="event-search"
+                    type="text"
+                    placeholder="Search for an event..."
+                    value={searchTerm}
+                    onChange={onInputChange}
+                />
+                <div className="page-details">Page {currentPage} of {Math.ceil(total / pageSize)} with a total of {total} results</div>
+                <ul className="event-list">
+                    {filteredEvents.map(event =>
+                        <li key={event.id} className="event-list-item">
+                            <EventCard className="event-card-item" event={event} onCardClick={handleEventClick}/>
+                        </li>
+                    )}
+                </ul>
+                <div className="page-footer">Page {currentPage} of {Math.ceil(total / pageSize)}</div>
+                <PrevNextButton className="page-nav-buttons" offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+                <Modal
+                    className="event-details-modal"
+                    isOpen={isModalOpen}
+                    onRequestClose={handleCloseModal}
+                    contentLabel="Event Details Modal"
+                >
+                    {currentEvent && <EventCard className="event-card-modal-content" event={currentEvent} isModal={true} />}
+                </Modal>
+                {error && (<div className="error-message">Error: {error}</div>)
+                }
             </div>
-            <div>Page {currentPage} of {Math.ceil(total / pageSize)}</div>
-            <PrevNextButton offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
-            <Modal
-                isOpen={isModalOpen}
-                onRequestClose={handleCloseModal}
-                contentLabel="Event Details Modal"
-            >
-                {currentEvent && <EventCard event={currentEvent} isModal={true} />}
-            </Modal>
-            {
-                error && (
-                    <div>Error: {error}</div>
-                )
-            }
-        </div>
     );
 }
 export default EventsPage;

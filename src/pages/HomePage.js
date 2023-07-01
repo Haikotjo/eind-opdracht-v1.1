@@ -5,14 +5,12 @@ import Modal from "react-modal";
 import HeroCard from "../components/hero-card/HeroCard";
 import ComicCard from "../components/comic-card/ComicCard";
 import {DataContext} from "../context/DataContext";
+import {handleError} from "../helpers/handleError";
 
 const HomePage = () => {
     const [currentRandomEvent, setCurrentRandomEvent] = useState(null);
     const [currentRandomHero, setCurrentRandomHero] = useState(null);
     const [currentRandomComic, setCurrentRandomComic] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const { fetchMarvelData } = useContext(DataContext);
-    const [error, setError] = useState(null);
 
     const [events, setEvents] = useState([]);
     const [heroes, setHeroes] = useState([]);
@@ -21,6 +19,13 @@ const HomePage = () => {
     const [isEventModalOpen, setIsEventModalOpen] = useState(false);
     const [isHeroModalOpen, setIsHeroModalOpen] = useState(false);
     const [isComicModalOpen, setIsComicModalOpen] = useState(false);
+
+    const { fetchMarvelData } = useContext(DataContext);
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+
 
     useEffect(() => {
         const fetchRandomData = async (category) => {
@@ -34,13 +39,16 @@ const HomePage = () => {
 
             const randomData = await fetchMarvelData(category, itemsPerPage, randomOffset);
 
-            return randomData.results;
+            const validData = randomData.results.filter(item => {
+                return !item.thumbnail.path.endsWith('image_not_available');
+            });
+
+            return validData;
         };
 
         setError(null);
         setIsLoading(true);
 
-        // Fetch random data voor elk categorie
         Promise.all([
             fetchRandomData('characters'),
             fetchRandomData('comics'),
@@ -51,10 +59,8 @@ const HomePage = () => {
             setComics(comicsData);
             setEvents(eventsData);
             setIsLoading(false);
-        }).catch(error => {
-
-            setError('Er was een fout bij het ophalen van de data.');
-            console.error("Er was een fout bij het ophalen van de data: ", error);
+        }).catch((error) => {
+            handleError(error);
             setIsLoading(false);
         });
     }, [fetchMarvelData]);
@@ -88,19 +94,24 @@ const HomePage = () => {
 
     return (
         isLoading ? (
-            <div>Loading...</div>
+            <div className="loading-container">Loading...</div>
         ) : error ? (
-            <div className="error">
-                <h2>Er is iets misgegaan...</h2>
-                <p>We konden de data die je vroeg niet laden. Probeer het later opnieuw.</p>
-                <p>Error details: {error}</p>
-            </div>
-        ) :
-        <main className="home">
-            <section>
+                <div className="error">
+                    <h2 className="error-title">Something went wrong...</h2>
+                    <p className="error-message">We couldn't load the data you requested. Please try again later.</p>
+                    <p className="error-details">Error details: {error}</p>
+                </div>
+            ) :
+            <main className="home">
                 <section className="home__section">
-                    <h2 className="home__title">Discover Events or <Link to="/events">search for your favorite event!</Link></h2>
-                    {events.map(event => <EventCard key={event.id} event={event} onCardClick={handleEventClick}/>)}
+                    <h2 className="home__title">Discover Events or <Link className="home__link" to="/events">search for your favorite event!</Link></h2>
+                    <ul className="event-list">
+                        {events.map(event =>
+                            <li key={event.id} className="event-list-item">
+                                <EventCard event={event} onCardClick={handleEventClick}/>
+                            </li>
+                        )}
+                    </ul>
                     <Modal
                         isOpen={isEventModalOpen}
                         onRequestClose={handleCloseModal}
@@ -110,8 +121,14 @@ const HomePage = () => {
                     </Modal>
                 </section>
                 <section className="home__section">
-                    <h2 className="home__title">Discover Heroes or <Link to="/heroes">search for your favorite hero!</Link></h2>
-                    {heroes.map(hero => <HeroCard key={hero.id} hero={hero} onCardClick={handleHeroClick}/>)}
+                    <h2 className="home__title">Discover Heroes or <Link className="home__link" to="/heroes">search for your favorite hero!</Link></h2>
+                    <ul className="hero-list">
+                        {heroes.map(hero =>
+                            <li key={hero.id} className="hero-list-item">
+                                <HeroCard hero={hero} onCardClick={handleHeroClick}/>
+                            </li>
+                        )}
+                    </ul>
                     <Modal
                         isOpen={isHeroModalOpen}
                         onRequestClose={handleCloseModal}
@@ -121,8 +138,14 @@ const HomePage = () => {
                     </Modal>
                 </section>
                 <section className="home__section">
-                    <h2 className="home__title">Discover comics or <Link to="/comics">search for your favorite comic!</Link></h2>
-                    {comics.map(comic => <ComicCard key={comic.id} comic={comic} onCardClick={handleComicClick}/>)}
+                    <h2 className="home__title">Discover comics or <Link className="home__link" to="/comics">search for your favorite comic!</Link></h2>
+                    <ul className="comic-list">
+                        {comics.map(comic =>
+                            <li key={comic.id} className="comic-list-item">
+                                <ComicCard comic={comic} onCardClick={handleComicClick}/>
+                            </li>
+                        )}
+                    </ul>
                     <Modal
                         isOpen={isComicModalOpen}
                         onRequestClose={handleCloseModal}
@@ -131,8 +154,7 @@ const HomePage = () => {
                         {currentRandomComic && <ComicCard comic={currentRandomComic} isModal={true} />}
                     </Modal>
                 </section>
-            </section>
-        </main>
+            </main>
     );
 };
 
