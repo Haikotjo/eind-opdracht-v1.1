@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
 import {Routes, Route, Navigate} from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import HeroesPage from './pages/HeroesPage';
-import ComicsPage from './pages/ComicsPage';
-import EventsPage from './pages/EventsPage';
+import HomePage from './pages/homePage/HomePage';
+import HeroesPage from './pages/heroesPage/HeroesPage';
+import ComicsPage from './pages/comicsPage/ComicsPage';
+import EventsPage from './pages/eventsPage/EventsPage';
 import NavBar from "./navbar/NavBar";
 import DataContextProvider from "./context/DataContext";
 import Page from "./pages/Page";

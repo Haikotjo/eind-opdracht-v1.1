@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useContext  } from 'react';
-import ComicCard from '../components/comic-card/ComicCard';
+import ComicCard from '../../components/comic-card/ComicCard';
 import Modal from "react-modal";
-import PrevNextButton from "../components/buttons/prevNextButton/PrevNextButton";
-import { DataContext } from '../context/DataContext'
-import {handleError} from "../helpers/handleError";
-import {filterData} from "../helpers/filterData";
-import useDebounce from '../hooks/useDebounce';
+import PrevNextButton from "../../components/buttons/prevNextButton/PrevNextButton";
+import { DataContext } from '../../context/DataContext'
+import {handleError} from "../../helpers/handleError";
+import {filterData} from "../../helpers/filterData";
+import useDebounce from '../../hooks/useDebounce';
 import { useParams } from 'react-router-dom';
+import styles from './ComicsPage.module.css';
 
 const ComicsPage = () => {
     const { fetchMarvelData } = useContext(DataContext);
@@ -113,35 +114,41 @@ const ComicsPage = () => {
     const filteredComics = filterData(comics, debouncedTitleStartsWith, 'title');
 
     return (
-        isLoading ? (<div className="loading-container">Loading...</div>) :
-            <div className="comics-page">
-                <h1 className="comic-title">Comics</h1>
-                <PrevNextButton className="page-nav-buttons" currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+        isLoading ? (<div className={styles["loading-container"]}>Loading...</div>) :
+            <div className={styles["comics-page"]}>
+                <h1 className={styles["comic-title"]}>Comics</h1>
                 <input
-                    className="comics-search"
+                    className={styles["comics-search"]}
                     type="text"
                     placeholder="Search for a comic..."
                     value={titleStartsWith}
                     onChange={onInputChange}
                 />
-                <div className="page-details">Page {currentPage} of {Math.ceil(total / pageSize)} with a total of {total} results</div>
-                <ul className="comics-list" >
+                <div className={styles["page-details"]}>Page {currentPage} of {Math.ceil(total / pageSize)} with a total of {total} results</div>
+                <PrevNextButton
+                    className={styles["page-nav-buttons"]}
+                    currentPage={currentPage}
+                    totalPages={Math.ceil(total / pageSize)}
+                    onPrevPage={goToPreviousPage}
+                    onNextPage={goToNextPage}
+                />
+                <ul className={styles["comics-list"]} >
                     {filteredComics.map(comic =>
-                        <li key={comic.id} className="comic-list-item">
-                            <ComicCard className="comic-card-item" comic={comic} onCardClick={handleComicClick}/>
+                        <li key={comic.id} className={styles["comic-list-item"]}>
+                            <ComicCard className={styles["comic-card-item"]} comic={comic} onCardClick={handleComicClick}/>
                         </li>
                     )}
                 </ul>
-                <PrevNextButton className="page-nav-buttons" currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+                <PrevNextButton className={styles["page-nav-buttons"]} currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
                 <Modal
-                    className="comic-details-modal"
+                    className={styles["modal-content"]}
                     isOpen={isModalOpen}
                     onRequestClose={handleCloseModal}
                     contentLabel="Comic Details Modal"
                 >
-                    {currentComic && <ComicCard className="comic-card-modal-content" comic={currentComic} isModal={true} />}
+                    {currentComic && <ComicCard className={styles["comic-card-modal-content"]}comic={currentComic} isModal={true} />}
                 </Modal>
-                {error && (<div className="error-message">Error: {error}</div>)
+                {error && (<div className={styles["error-message"]}>Error: {error}</div>)
                 }
             </div>
     );

@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import HeroCard from '../components/hero-card/HeroCard';
+import HeroCard from '../../components/hero-card/HeroCard';
 import Modal from "react-modal";
-import {DataContext} from "../context/DataContext";
-import PrevNextButton from "../components/buttons/prevNextButton/PrevNextButton";
-import {handleError} from "../helpers/handleError";
-import {filterData} from "../helpers/filterData";
-import useDebounce from '../hooks/useDebounce';
+import {DataContext} from "../../context/DataContext";
+import PrevNextButton from "../../components/buttons/prevNextButton/PrevNextButton";
+import {handleError} from "../../helpers/handleError";
+import {filterData} from "../../helpers/filterData";
+import useDebounce from '../../hooks/useDebounce';
 import { useParams } from 'react-router-dom';
+import styles from './HeroesPage.module.css';
 
 function HeroesPage() {
     const { fetchMarvelData } = useContext(DataContext);
@@ -110,38 +111,38 @@ function HeroesPage() {
 
     return (
         isLoading ? (
-                <div className="loading-container">Loading...</div>
+                <div className={styles["loading-container"]}>Loading...</div>
             ) :
-            <div className="heroes-page">
-                <h1 className="heroes-title">Heroes</h1>
-                <PrevNextButton className="page-nav-buttons" currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+            <div className={styles["heroes-page"]}>
+                <h1 className={styles["heroes-title"]}>Heroes</h1>
                 <input
-                    className="heroes-search"
+                    className={styles["heroes-search"]}
                     type="text"
                     placeholder="Search for a hero..."
                     value={searchTerm}
                     onChange={onInputChange}
                 />
-                <div className="page-details">Page {currentPage} of {Math.ceil(total / pageSize)} with a total of {total} results</div>
-                <ul className="heroes-list">
+                <div className={styles["page-details"]}>Page {currentPage} of {Math.ceil(total / pageSize)} with a total of {total} results</div>
+                <PrevNextButton className={styles["page-nav-buttons"]} currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+                <ul className={styles["heroes-list"]}>
                     {filteredHeroes.map(hero => (
-                        <li key={hero.id} className="hero-list-item">
-                            <HeroCard className="hero-card-item" hero={hero} onCardClick={handleHeroClick}/>
+                        <li key={hero.id} className={styles["hero-list-item"]}>
+                            <HeroCard className={styles["hero-card-item"]} hero={hero} onCardClick={handleHeroClick}/>
                         </li>
                     ))}
                 </ul>
-                <PrevNextButton className="page-nav-buttons" currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+                <PrevNextButton className={styles["page-nav-buttons"]} currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
                 <Modal
-                    className="hero-details-modal"
+                    className={styles["modal-content"]}
                     isOpen={isModalOpen}
                     onRequestClose={handleCloseModal}
                     contentLabel="Hero Details Modal"
                 >
-                    {currentHero && <HeroCard className="hero-card-modal-content" hero={currentHero} isModal={true} />}
+                    {currentHero && <HeroCard className={styles["hero-card-modal-content"]} hero={currentHero} isModal={true} />}
                 </Modal>
                 {
                     error && (
-                        <div className="error-message">Error: {error}</div>
+                        <div className={styles["error-message"]}>Error: {error}</div>
                     )
                 }
             </div>

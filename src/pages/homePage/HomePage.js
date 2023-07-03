@@ -1,11 +1,12 @@
 import React, {useState, useEffect, useContext} from 'react';
-import EventCard from '../components/event-card/EventCard';
+import EventCard from '../../components/event-card/EventCard';
 import { Link } from 'react-router-dom';
 import Modal from "react-modal";
-import HeroCard from "../components/hero-card/HeroCard";
-import ComicCard from "../components/comic-card/ComicCard";
-import {DataContext} from "../context/DataContext";
-import {handleError} from "../helpers/handleError";
+import HeroCard from "../../components/hero-card/HeroCard";
+import ComicCard from "../../components/comic-card/ComicCard";
+import {DataContext} from "../../context/DataContext";
+import {handleError} from "../../helpers/handleError";
+import styles from './HomePage.module.css';
 
 const HomePage = () => {
     const [currentRandomEvent, setCurrentRandomEvent] = useState(null);
@@ -24,8 +25,6 @@ const HomePage = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-
-
 
     useEffect(() => {
         const fetchRandomData = async (category) => {
@@ -94,20 +93,20 @@ const HomePage = () => {
 
     return (
         isLoading ? (
-            <div className="loading-container">Loading...</div>
+            <div className={styles["loading-container"]}>Loading...</div>
         ) : error ? (
-                <div className="error">
-                    <h2 className="error-title">Something went wrong...</h2>
-                    <p className="error-message">We couldn't load the data you requested. Please try again later.</p>
-                    <p className="error-details">Error details: {error}</p>
+                <div className={styles["error"]}>
+                    <h2 className={styles["error-title"]}>Something went wrong...</h2>
+                    <p className={styles["error-message"]}>We couldn't load the data you requested. Please try again later.</p>
+                    <p className={styles["error-details"]}>Error details: {error}</p>
                 </div>
             ) :
-            <main className="home">
-                <section className="home__section">
-                    <h2 className="home__title">Discover Events or <Link className="home__link" to="/events">search for your favorite event!</Link></h2>
-                    <ul className="event-list">
+            <main className={styles["home"]}>
+                <section className={styles["home__section"]}>
+                    <h2 className={styles["home__title"]}>Discover Events or <Link className={styles["home__link"]} to="/events">search for your favorite event!</Link></h2>
+                    <ul className={styles["event-list"]}>
                         {events.map(event =>
-                            <li key={event.id} className="event-list-item">
+                            <li key={event.id} className={styles["event-list-item"]}>
                                 <EventCard event={event} onCardClick={handleEventClick}/>
                             </li>
                         )}
@@ -120,11 +119,11 @@ const HomePage = () => {
                         {currentRandomEvent && <EventCard event={currentRandomEvent} isModal={true} />}
                     </Modal>
                 </section>
-                <section className="home__section">
-                    <h2 className="home__title">Discover Heroes or <Link className="home__link" to="/heroes">search for your favorite hero!</Link></h2>
-                    <ul className="hero-list">
+                <section className={styles["home__section"]}>
+                    <h2 className={styles["home__title"]}>Discover Heroes or <Link className={styles["home__link"]} to="/heroes">search for your favorite hero!</Link></h2>
+                    <ul className={styles["hero-list"]}>
                         {heroes.map(hero =>
-                            <li key={hero.id} className="hero-list-item">
+                            <li key={hero.id} className={styles["hero-list-item"]}>
                                 <HeroCard hero={hero} onCardClick={handleHeroClick}/>
                             </li>
                         )}

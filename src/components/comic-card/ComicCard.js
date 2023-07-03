@@ -56,6 +56,7 @@ const ComicCard = ({ comic, isModal, onCardClick }) => {
 
             <Modal
                 isOpen={modalIsOpen}
+                className="modal-content"
                 onRequestClose={closeModal}
                 contentLabel="Hero Modal"
             >

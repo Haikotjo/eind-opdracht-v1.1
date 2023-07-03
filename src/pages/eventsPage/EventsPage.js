@@ -1,12 +1,12 @@
 import React, { useEffect, useState,useContext } from 'react';
-import EventCard from "../components/event-card/EventCard";
+import EventCard from "../../components/event-card/EventCard";
 import Modal from "react-modal";
-import HeroCard from "../components/hero-card/HeroCard";
-import {DataContext} from "../context/DataContext";
-import PrevNextButton from "../components/buttons/prevNextButton/PrevNextButton";
-import {handleError} from "../helpers/handleError";
-import {filterData} from "../helpers/filterData";
-import useDebounce from '../hooks/useDebounce';
+import {DataContext} from "../../context/DataContext";
+import PrevNextButton from "../../components/buttons/prevNextButton/PrevNextButton";
+import {handleError} from "../../helpers/handleError";
+import {filterData} from "../../helpers/filterData";
+import useDebounce from '../../hooks/useDebounce';
+import styles from './EventsPage.module.css';
 
 const EventsPage = () => {
     const { fetchMarvelData } = useContext(DataContext);
@@ -94,36 +94,42 @@ const EventsPage = () => {
     const filteredEvents = filterData(events, debouncedSearchTerm, 'title');
 
     return (
-        isLoading ? (<div className="loading-container">Loading...</div>) :
-            <div className="event-page">
-                <h1 className="event-title">Events</h1>
-                <PrevNextButton className="page-nav-buttons" offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+        isLoading ? (<div className={styles["loading-container"]}>Loading...</div>) :
+            <div className={styles["event-page"]}>
+                <h1 className={styles["event-title"]}>Events</h1>
                 <input
-                    className="event-search"
+                    className={styles["event-search"]}
                     type="text"
                     placeholder="Search for an event..."
                     value={searchTerm}
                     onChange={onInputChange}
                 />
-                <div className="page-details">Page {currentPage} of {Math.ceil(total / pageSize)} with a total of {total} results</div>
-                <ul className="event-list">
+                <div className={styles["page-details"]}>Page {currentPage} of {Math.ceil(total / pageSize)} with a total of {total} results</div>
+                <PrevNextButton
+                    className={styles["page-nav-buttons"]}
+                    currentPage={currentPage}
+                    totalPages={Math.ceil(total / pageSize)}
+                    onPrevPage={goToPreviousPage}
+                    onNextPage={goToNextPage}
+                />
+                <ul className={styles["event-list"]}>
                     {filteredEvents.map(event =>
-                        <li key={event.id} className="event-list-item">
-                            <EventCard className="event-card-item" event={event} onCardClick={handleEventClick}/>
+                        <li key={event.id} className={styles["event-list-item"]}>
+                            <EventCard className={styles["event-card-item"]} event={event} onCardClick={handleEventClick}/>
                         </li>
                     )}
                 </ul>
-                <div className="page-footer">Page {currentPage} of {Math.ceil(total / pageSize)}</div>
-                <PrevNextButton className="page-nav-buttons" offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+                <div className={styles["page-footer"]}>Page {currentPage} of {Math.ceil(total / pageSize)}</div>
+                <PrevNextButton className={styles["page-nav-buttons"]} offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
                 <Modal
-                    className="event-details-modal"
+                    className={styles["modal-content"]}
                     isOpen={isModalOpen}
                     onRequestClose={handleCloseModal}
                     contentLabel="Event Details Modal"
                 >
-                    {currentEvent && <EventCard className="event-card-modal-content" event={currentEvent} isModal={true} />}
+                    {currentEvent && <EventCard className={styles["event-card-modal-content"]} event={currentEvent} isModal={true} />}
                 </Modal>
-                {error && (<div className="error-message">Error: {error}</div>)
+                {error && (<div className={styles["error-message"]}>Error: {error}</div>)
                 }
             </div>
     );

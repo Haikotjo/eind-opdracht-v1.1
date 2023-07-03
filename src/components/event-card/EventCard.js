@@ -75,6 +75,7 @@ const EventCard = ({ event, isModal, onCardClick }) => {
                 <Modal
                     isOpen={heroModalIsOpen}
                     onRequestClose={closeHeroModal}
+                    className="modal-content"
                     contentLabel="Hero Modal"
                 >
                     {currentHero && <HeroCard hero={currentHero} isModal />}
@@ -84,6 +85,7 @@ const EventCard = ({ event, isModal, onCardClick }) => {
                 <Modal
                     isOpen={comicModalIsOpen}
                     onRequestClose={closeComicModal}
+                    className="modal-content"
                     contentLabel="Comic Modal"
                 >
                     {currentComic && <ComicCard comic={currentComic} isModal />}
