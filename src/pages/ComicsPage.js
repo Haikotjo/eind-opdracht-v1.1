@@ -6,6 +6,7 @@ import { DataContext } from '../context/DataContext'
 import {handleError} from "../helpers/handleError";
 import {filterData} from "../helpers/filterData";
 import useDebounce from '../hooks/useDebounce';
+import { useParams } from 'react-router-dom';
 
 const ComicsPage = () => {
     const { fetchMarvelData } = useContext(DataContext);
@@ -14,6 +15,7 @@ const ComicsPage = () => {
 
     const [currentComic, setCurrentComic] = useState(null);
     const [comics, setComics] = useState(null);
+    const { comicId } = useParams();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -29,6 +31,16 @@ const ComicsPage = () => {
     // Fetch data from the Marvel API when component mounts and when offset or titleStartsWith changes
     useEffect(() => {
         const fetchData = async () => {
+            if (comicId) {
+                try {
+                    const response = await fetchMarvelData('comics', null, null, comicId, null, null, true);
+                    setCurrentComic(response[0]);
+                    setIsModalOpen(true);
+                } catch (error) {
+                    console.error("Er was een fout bij het ophalen van de comic: ", error);
+                }
+            }
+
             try {
                 const data = await fetchMarvelData('comics', pageSize, offset, null, null, debouncedTitleStartsWith, false);
                 console.log(data);
@@ -48,7 +60,8 @@ const ComicsPage = () => {
             }
         }
         fetchData();
-    }, [offset, debouncedTitleStartsWith, fetchMarvelData]);
+    }, [comicId, offset, debouncedTitleStartsWith, fetchMarvelData]);
+
 
     useEffect(() => {
         if (debouncedTitleStartsWith) {

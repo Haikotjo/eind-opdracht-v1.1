@@ -4,6 +4,7 @@ import HeroCard from '../hero-card/HeroCard';
 import ComicCard from "../comic-card/ComicCard";
 import { DataContext } from '../../context/DataContext';
 import SaveButton from "../buttons/addToFavorite/AddToFavorite";
+import {Link} from "react-router-dom";
 
 const EventCard = ({ event, isModal, onCardClick }) => {
     const { fetchMarvelData } = useContext(DataContext);
@@ -28,18 +29,6 @@ const EventCard = ({ event, isModal, onCardClick }) => {
         setHeroModalIsOpen(false);
     }
 
-    function openComicModal(comic) {
-        const comicId = comic.resourceURI.split('/').pop();
-
-        fetchMarvelData('comics', null, null, comicId, null, null, true)
-            .then(response => {
-                setCurrentComic(response[0]);
-                setComicModalIsOpen(true);
-            })
-            .catch(error => {
-                console.error("Er was een fout bij het ophalen van de comic: ", error);
-            });
-    }
     function closeComicModal() {
         setComicModalIsOpen(false);
     }
@@ -47,14 +36,14 @@ const EventCard = ({ event, isModal, onCardClick }) => {
 
     return (
         <div className="event-card" onClick={() => !isModal && onCardClick(event)}>
+                <h2 className="comic-info-title">{event ? event.title : ''}</h2>
             <img
                 className="event-card-image"
-                src={event && event.thumbnail ? `${event.thumbnail.path}/portrait_incredible.${event.thumbnail.extension}` : 'fallbackAfbeeldingURL'}
                 alt={event.title}
+                src={event && event.thumbnail ? `${event.thumbnail.path}/portrait_incredible.${event.thumbnail.extension}` : 'fallbackAfbeeldingURL'}
             />
             {isModal && (<SaveButton itemKey="savedEvent" item={event} />)}
             <div className="comic-info">
-                <h2 className="comic-info-title">{event ? event.title : ''}</h2>
 
                 {isModal && (
                     <>
@@ -62,9 +51,9 @@ const EventCard = ({ event, isModal, onCardClick }) => {
                         <ul className="comic-info-hero-list"> Heroes:
                             {event.characters.items.map((character, index) => (
                                 <li key={index}>
-                                    <button onClick={() => openHeroModal(character)}>
+                                    <Link to={`/heroes/${character.resourceURI.split('/').pop()}`}>
                                         {character.name}
-                                    </button>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
@@ -74,9 +63,9 @@ const EventCard = ({ event, isModal, onCardClick }) => {
                     <ul className="hero-info-comic-list"> Comics:
                         {event.comics.items.map((comic, index) => (
                             <li key={index}>
-                                <button onClick={() => openComicModal(comic)}>
+                                <Link to={`/comics/${comic.resourceURI.split('/').pop()}`}>
                                     {comic.name}
-                                </button>
+                                </Link>
                             </li>
                         ))}
                     </ul>

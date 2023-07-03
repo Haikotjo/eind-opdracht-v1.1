@@ -22,8 +22,12 @@ const AppRoutes = () => {
                     <NavBar />
                     <Routes>
                         <Route path="/" element={<HomePage />} />
-                        <Route path="/heroes" element={<HeroesPage />} />
-                        <Route path="/comics" element={<ComicsPage />} />
+                        <Route path="/heroes" element={<HeroesPage />}>
+                            <Route path=":heroId" element={<HeroesPage />} />
+                        </Route>
+                        <Route path="/comics" element={<ComicsPage />}>
+                            <Route path=":comicId" element={<ComicsPage />} />
+                        </Route>
                         <Route path="/events" element={<EventsPage />} />
                         <Route path="/page" element={<Page />} />
                         <Route path="/login" element={<LoginPage />} />

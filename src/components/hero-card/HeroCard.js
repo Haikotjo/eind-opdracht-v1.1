@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import ComicCard from '../comic-card/ComicCard';
 import {DataContext} from "../../context/DataContext";
 import SaveButton from "../buttons/addToFavorite/AddToFavorite";
+import {Link} from "react-router-dom";
 
 const HeroCard = ({ hero, isModal, onCardClick }) => {
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -28,26 +29,24 @@ const HeroCard = ({ hero, isModal, onCardClick }) => {
 
     return (
         <div className="hero-card" onClick={() => !isModal && onCardClick(hero)}>
+                <h2 className="hero-info-name">{hero.name}</h2>
             <img
                 className="hero-card-image"
-                src={`${hero.thumbnail.path}/portrait_incredible.${hero.thumbnail.extension}`}
                 alt={hero.name}
+                src={`${hero.thumbnail.path}/portrait_incredible.${hero.thumbnail.extension}`}
             />
             {isModal && (<SaveButton itemKey="savedHero" item={hero} />)}
             <div className="hero-info">
-                <h2 className="hero-info-name">{hero.name}</h2>
                 {isModal && (
                     <>
                         <p className="hero-info-description">{hero.description}</p>
                         <ul className="hero-info-comic-list">
+                            <h4>Comics</h4>
                             {hero.comics.items.map((comic, index) => (
                                 <li key={index}>
-                                    <button onClick={(event) => {
-                                        event.stopPropagation();
-                                        openModal(comic);
-                                    }}>
+                                    <Link to={`/comics/${comic.resourceURI.split('/').pop()}`}>
                                         {comic.name}
-                                    </button>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>

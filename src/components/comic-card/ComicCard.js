@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import HeroCard from '../hero-card/HeroCard';
 import { DataContext } from '../../context/DataContext';
 import SaveButton from "../buttons/addToFavorite/AddToFavorite";
+import {Link} from "react-router-dom";
 
 const ComicCard = ({ comic, isModal, onCardClick }) => {
     const { fetchMarvelData } = useContext(DataContext);
@@ -27,6 +28,7 @@ const ComicCard = ({ comic, isModal, onCardClick }) => {
 
     return (
         <div className="comic-card" onClick={() => !isModal && onCardClick(comic)}>
+                <h2 className="comic-info-title">{comic.title}</h2>
             <img
                 className="comic-card-image"
                 src={`${comic.thumbnail.path}/portrait_incredible.${comic.thumbnail.extension}`}
@@ -35,7 +37,6 @@ const ComicCard = ({ comic, isModal, onCardClick }) => {
             {isModal && (<SaveButton itemKey="savedComic" item={comic} />)}
 
             <div className="comic-info">
-                <h2 className="comic-info-title">{comic.title}</h2>
 
                 {isModal && (
                     <>
@@ -43,12 +44,9 @@ const ComicCard = ({ comic, isModal, onCardClick }) => {
                         <ul className="comic-info-hero-list">
                             {comic.characters.items.map((character, index) => (
                                 <li key={index}>
-                                    <button onClick={(event) => {
-                                        event.stopPropagation();
-                                        openModal(character);
-                                    }}>
+                                    <Link to={`/heroes/${character.resourceURI.split('/').pop()}`}>
                                         {character.name}
-                                    </button>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>

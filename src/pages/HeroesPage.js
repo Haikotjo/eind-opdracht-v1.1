@@ -6,6 +6,7 @@ import PrevNextButton from "../components/buttons/prevNextButton/PrevNextButton"
 import {handleError} from "../helpers/handleError";
 import {filterData} from "../helpers/filterData";
 import useDebounce from '../hooks/useDebounce';
+import { useParams } from 'react-router-dom';
 
 function HeroesPage() {
     const { fetchMarvelData } = useContext(DataContext);
@@ -27,8 +28,20 @@ function HeroesPage() {
     const pageSize = 20;
     const currentPage = offset / 20 + 1;
 
+    const { heroId } = useParams();
+
     useEffect(() => {
         const fetchData = async () => {
+            if (heroId) {
+                try {
+                    const response = await fetchMarvelData('characters', null, null, heroId, null, null, true);
+                    setCurrentHero(response[0]);
+                    setIsModalOpen(true);
+                } catch (error) {
+                    console.error("Er was een fout bij het ophalen van de hero: ", error);
+                }
+            }
+
             try {
                 const data = await fetchMarvelData('characters', pageSize, offset, null, nameStartsWith, null, false);
                 console.log(data.results);
@@ -47,7 +60,7 @@ function HeroesPage() {
             }
         };
         fetchData();
-    }, [offset, nameStartsWith, fetchMarvelData, total]);
+    }, [heroId, offset, nameStartsWith, fetchMarvelData, total]);
 
     useEffect(() => {
         if (debouncedSearchTerm) {
