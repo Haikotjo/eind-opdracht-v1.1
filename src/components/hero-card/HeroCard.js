@@ -28,17 +28,19 @@ const HeroCard = ({ hero, isModal, onCardClick }) => {
     }
 
     return (
-        <div className="hero-card" onClick={() => !isModal && onCardClick(hero)}>
-                <h2 className="hero-info-name">{hero.name}</h2>
+        <>
+        <div className="hero-card">
             <img
                 className="hero-card-image"
                 alt={hero.name}
                 src={`${hero.thumbnail.path}/portrait_incredible.${hero.thumbnail.extension}`}
             />
+            <button onClick={() => !isModal && onCardClick(hero)}>more</button>
             {isModal && (<SaveButton itemKey="savedHero" item={hero} />)}
             <div className="hero-info">
                 {isModal && (
                     <>
+                        <h2 className="hero-info-name">{hero.name}</h2>
                         <p className="hero-info-description">{hero.description}</p>
                         <ul className="hero-info-comic-list">
                             <h4>Comics</h4>
@@ -63,6 +65,7 @@ const HeroCard = ({ hero, isModal, onCardClick }) => {
                 {currentComic && <ComicCard comic={currentComic} isModal={isModal} />}
             </Modal>
         </div>
+        </>
     );
 }
 

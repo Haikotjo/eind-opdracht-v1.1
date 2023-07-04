@@ -6,7 +6,7 @@ import PrevNextButton from "../../components/buttons/prevNextButton/PrevNextButt
 import {handleError} from "../../helpers/handleError";
 import {filterData} from "../../helpers/filterData";
 import useDebounce from '../../hooks/useDebounce';
-import styles from './EventsPage.module.css';
+import styles from './EventsPage.module.scss';
 
 const EventsPage = () => {
     const { fetchMarvelData } = useContext(DataContext);
@@ -120,7 +120,13 @@ const EventsPage = () => {
                     )}
                 </ul>
                 <div className={styles["page-footer"]}>Page {currentPage} of {Math.ceil(total / pageSize)}</div>
-                <PrevNextButton className={styles["page-nav-buttons"]} offset={offset} total={total} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+                <PrevNextButton
+                    className={styles["page-nav-buttons"]}
+                    currentPage={currentPage}
+                    totalPages={Math.ceil(total / pageSize)}
+                    onPrevPage={goToPreviousPage}
+                    onNextPage={goToNextPage}
+                />
                 <Modal
                     className={styles["modal-content"]}
                     isOpen={isModalOpen}

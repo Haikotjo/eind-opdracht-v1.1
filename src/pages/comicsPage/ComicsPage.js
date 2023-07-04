@@ -7,7 +7,7 @@ import {handleError} from "../../helpers/handleError";
 import {filterData} from "../../helpers/filterData";
 import useDebounce from '../../hooks/useDebounce';
 import { useParams } from 'react-router-dom';
-import styles from './ComicsPage.module.css';
+import styles from './ComicsPage.module.scss';
 
 const ComicsPage = () => {
     const { fetchMarvelData } = useContext(DataContext);
@@ -139,7 +139,14 @@ const ComicsPage = () => {
                         </li>
                     )}
                 </ul>
-                <PrevNextButton className={styles["page-nav-buttons"]} currentPage={currentPage} totalPages={Math.ceil(total / pageSize)} onPrevPage={goToPreviousPage} onNextPage={goToNextPage} />
+                <div className={styles["page-details"]}>Page {currentPage} of {Math.ceil(total / pageSize)}</div>
+                <PrevNextButton
+                    className={styles["page-nav-buttons"]}
+                    currentPage={currentPage}
+                    totalPages={Math.ceil(total / pageSize)}
+                    onPrevPage={goToPreviousPage}
+                    onNextPage={goToNextPage}
+                />
                 <Modal
                     className={styles["modal-content"]}
                     isOpen={isModalOpen}

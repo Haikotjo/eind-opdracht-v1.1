@@ -6,7 +6,7 @@ import HeroCard from "../../components/hero-card/HeroCard";
 import ComicCard from "../../components/comic-card/ComicCard";
 import {DataContext} from "../../context/DataContext";
 import {handleError} from "../../helpers/handleError";
-import styles from './HomePage.module.css';
+import styles from './HomePage.module.scss';
 
 const HomePage = () => {
     const [currentRandomEvent, setCurrentRandomEvent] = useState(null);
@@ -32,7 +32,7 @@ const HomePage = () => {
             const data = await fetchMarvelData(category, 1, 0);
             const totalItems = data.total;
 
-            const itemsPerPage = 5;
+            const itemsPerPage = 15;
             const maxOffset = totalItems - itemsPerPage;
             const randomOffset = Math.floor(Math.random() * maxOffset);
 
@@ -91,6 +91,7 @@ const HomePage = () => {
         setIsComicModalOpen(false);
     }
 
+
     return (
         isLoading ? (
             <div className={styles["loading-container"]}>Loading...</div>
@@ -136,11 +137,11 @@ const HomePage = () => {
                         {currentRandomHero && <HeroCard hero={currentRandomHero} isModal={true} />}
                     </Modal>
                 </section>
-                <section className="home__section">
-                    <h2 className="home__title">Discover comics or <Link className="home__link" to="/comics">search for your favorite comic!</Link></h2>
-                    <ul className="comic-list">
+                <section className={styles["home__section"]}>
+                    <h2 className={styles["home__title"]}>Discover comics or <Link className={styles["home__link"]} to="/comics">search for your favorite comic!</Link></h2>
+                    <ul className={styles["comic-list"]}>
                         {comics.map(comic =>
-                            <li key={comic.id} className="comic-list-item">
+                            <li key={comic.id} className={styles["comic-list-item"]}>
                                 <ComicCard comic={comic} onCardClick={handleComicClick}/>
                             </li>
                         )}

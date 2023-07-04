@@ -1,3 +1,4 @@
+@import './_globals.scss';
 /* CSS Reset */
 
 html, body, div, span, applet, object, iframe,
@@ -28,10 +29,6 @@ footer, header, hgroup, menu, nav, section {
     display: block;
 }
 
-body {
-    line-height: 1;
-}
-
 ol, ul {
     list-style: none;
 }
@@ -50,12 +47,25 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
-/*Modals*/
 
-/* GlobalStyles.css */
+/* Fonts*/
+
+body {
+    font-family: $font-primary;
+    line-height: 1;
+}
+
+/* Fonts*/
+
+
+body {
+    background: white;
+    color: $color-primary;
+    line-height: 1;
+}
 
 /* Andere globale stijlen ... */
-
+/*Modals*/
 .modal-content {
     position: absolute;
     top: 50%;

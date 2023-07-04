@@ -27,19 +27,18 @@ const ComicCard = ({ comic, isModal, onCardClick }) => {
     }
 
     return (
-        <div className="comic-card" onClick={() => !isModal && onCardClick(comic)}>
-                <h2 className="comic-info-title">{comic.title}</h2>
+        <div className="comic-card">
             <img
                 className="comic-card-image"
                 src={`${comic.thumbnail.path}/portrait_incredible.${comic.thumbnail.extension}`}
                 alt={comic.title}
             />
             {isModal && (<SaveButton itemKey="savedComic" item={comic} />)}
-
             <div className="comic-info">
-
+                <button onClick={() => !isModal && onCardClick(comic)}>more</button>
                 {isModal && (
                     <>
+                        <h2 className="comic-info-title">{comic.title}</h2>
                         <p className="comic-info-description">{comic.description}</p>
                         <ul className="comic-info-hero-list">
                             {comic.characters.items.map((character, index) => (

@@ -35,8 +35,7 @@ const EventCard = ({ event, isModal, onCardClick }) => {
 
 
     return (
-        <div className="event-card" onClick={() => !isModal && onCardClick(event)}>
-                <h2 className="comic-info-title">{event ? event.title : ''}</h2>
+        <div className="event-card">
             <img
                 className="event-card-image"
                 alt={event.title}
@@ -44,9 +43,10 @@ const EventCard = ({ event, isModal, onCardClick }) => {
             />
             {isModal && (<SaveButton itemKey="savedEvent" item={event} />)}
             <div className="comic-info">
-
+                <button onClick={() => !isModal && onCardClick(event)}>more</button>
                 {isModal && (
                     <>
+                        <h2 className="comic-info-title">{event ? event.title : ''}</h2>
                         <p className="comic-info-description">{event.description}</p>
                         <ul className="comic-info-hero-list"> Heroes:
                             {event.characters.items.map((character, index) => (
