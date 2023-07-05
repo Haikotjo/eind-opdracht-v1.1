@@ -5,9 +5,10 @@ import ComicCard from "../comic-card/ComicCard";
 import { DataContext } from '../../context/DataContext';
 import SaveButton from "../buttons/addToFavorite/AddToFavorite";
 import {Link} from "react-router-dom";
+import styles from './EventCard.module.scss';
 
 const EventCard = ({ event, isModal, onCardClick }) => {
-    const { fetchMarvelData } = useContext(DataContext);
+    const {fetchMarvelData} = useContext(DataContext);
     const [heroModalIsOpen, setHeroModalIsOpen] = useState(false);
     const [comicModalIsOpen, setComicModalIsOpen] = useState(false);
     const [currentHero, setCurrentHero] = useState(null);
@@ -25,6 +26,7 @@ const EventCard = ({ event, isModal, onCardClick }) => {
                 console.error("Er was een fout bij het ophalen van de character: ", error);
             });
     }
+
     function closeHeroModal() {
         setHeroModalIsOpen(false);
     }
@@ -35,22 +37,24 @@ const EventCard = ({ event, isModal, onCardClick }) => {
 
 
     return (
-        <div className="event-card">
+        <div className={styles['event-card']}>
             <img
-                className="event-card-image"
+                className={styles['event-card__image']}
                 alt={event.title}
                 src={event && event.thumbnail ? `${event.thumbnail.path}/portrait_incredible.${event.thumbnail.extension}` : 'fallbackAfbeeldingURL'}
             />
-            {isModal && (<SaveButton itemKey="savedEvent" item={event} />)}
-            <div className="comic-info">
-                <button onClick={() => !isModal && onCardClick(event)}>more</button>
+            {isModal && (<SaveButton className ={styles['save-button']} itemKey="savedEvent" item={event}/>)}
+            <div className={styles['event-card__info']}>
+                {!isModal && (<button className={styles['event-card__info--btn']}
+                                      onClick={() => !isModal && onCardClick(event)}>more
+                </button>)}
                 {isModal && (
                     <>
-                        <h2 className="comic-info-title">{event ? event.title : ''}</h2>
-                        <p className="comic-info-description">{event.description}</p>
-                        <ul className="comic-info-hero-list"> Heroes:
+                        <h2 className={styles['event-card__info--title']}>{event ? event.title : ''}</h2>
+                        <p className={styles['event-card__info--description']}>{event.description}</p>
+                        <ul className={styles['event-card__info--hero-list']}> Heroes:
                             {event.characters.items.map((character, index) => (
-                                <li key={index}>
+                                <li key={index} className={styles['event-card__info--hero-list-item']}>
                                     <Link to={`/heroes/${character.resourceURI.split('/').pop()}`}>
                                         {character.name}
                                     </Link>
@@ -60,9 +64,9 @@ const EventCard = ({ event, isModal, onCardClick }) => {
                     </>
                 )}
                 {isModal && (
-                    <ul className="hero-info-comic-list"> Comics:
+                    <ul className={styles['event-card__info--comic-list']}> Comics:
                         {event.comics.items.map((comic, index) => (
-                            <li key={index}>
+                            <li key={index} className={styles['event-card__info--comic-list-item']}>
                                 <Link to={`/comics/${comic.resourceURI.split('/').pop()}`}>
                                     {comic.name}
                                 </Link>
@@ -75,24 +79,23 @@ const EventCard = ({ event, isModal, onCardClick }) => {
                 <Modal
                     isOpen={heroModalIsOpen}
                     onRequestClose={closeHeroModal}
-                    className="modal-content"
+                    className={styles['modal-content']}
                     contentLabel="Hero Modal"
                 >
-                    {currentHero && <HeroCard hero={currentHero} isModal />}
+                    {currentHero && <HeroCard hero={currentHero} isModal/>}
                 </Modal>
             </div>
             <div>
                 <Modal
                     isOpen={comicModalIsOpen}
                     onRequestClose={closeComicModal}
-                    className="modal-content"
+                    className={styles['modal-content']}
                     contentLabel="Comic Modal"
                 >
-                    {currentComic && <ComicCard comic={currentComic} isModal />}
+                    {currentComic && <ComicCard comic={currentComic} isModal/>}
                 </Modal>
             </div>
         </div>
     );
 }
-
-export default EventCard;
+    export default EventCard;

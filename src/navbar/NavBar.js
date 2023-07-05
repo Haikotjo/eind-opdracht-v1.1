@@ -1,9 +1,10 @@
-import { Link, NavLink } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import styles from './NavBar.module.scss';
 
 function NavBar() {
+
     const { isAuth, logout } = useContext(AuthContext)
 
     return (
@@ -21,8 +22,8 @@ function NavBar() {
                 }
                 {!isAuth &&
                     <>
-                        <li className={styles['navbar-item']}><Link to="/login" className={styles['navbar-link']}>Login</Link></li>
-                        <li className={styles['navbar-item']}><Link to="/register" className={styles['navbar-link']}>Register</Link></li>
+                        <li className={styles['navbar-item']}><NavLink to="/login" className={styles['navbar-link']}>Login</NavLink></li>
+                        <li className={styles['navbar-item']}><NavLink to="/register" className={styles['navbar-link']}>Register</NavLink></li>
                     </>
                 }
             </ul>

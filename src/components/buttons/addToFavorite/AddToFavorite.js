@@ -27,9 +27,13 @@ function SaveButton({ itemKey, item }) {
 
     return (
         <>
-            <button onClick={handleSave} disabled={isSaved}>
-                {isSaved ? 'Already Saved' : 'Save'}
-            </button>
+            <img
+                onClick={handleSave}
+                disabled={isSaved}
+                src={isSaved ? '/images/heart-filled-second-color.svg' : '/images/heart-empty-second-color.svg'} alt="heart"
+                width="75px"
+                height="75px"
+            />
             {showMessage && <Link to="/login">Login to add to favorites</Link>}
         </>
     );

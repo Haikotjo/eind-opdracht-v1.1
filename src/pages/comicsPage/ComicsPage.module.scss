@@ -1,9 +1,12 @@
+@import '../../styles/_globals.scss';
+
 .comics-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 0;
     list-style: none;
+    margin: 20px;
 }
 
 .comic-list-item {
@@ -34,4 +37,12 @@
     color: #05335f;
     outline: none;
     box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+}
+
+.comic-title {
+    font-family: $font-secondary;
+    font-size: 50px;
+    color: $color-secondary;
+    text-align: center;
+    text-transform: uppercase;
 }

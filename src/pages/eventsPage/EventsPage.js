@@ -96,7 +96,7 @@ const EventsPage = () => {
     return (
         isLoading ? (<div className={styles["loading-container"]}>Loading...</div>) :
             <div className={styles["event-page"]}>
-                <h1 className={styles["event-title"]}>Events</h1>
+                <h1 className={styles["event-title"]}>All Events</h1>
                 <input
                     className={styles["event-search"]}
                     type="text"

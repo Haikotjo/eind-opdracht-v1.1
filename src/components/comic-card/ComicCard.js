@@ -4,6 +4,7 @@ import HeroCard from '../hero-card/HeroCard';
 import { DataContext } from '../../context/DataContext';
 import SaveButton from "../buttons/addToFavorite/AddToFavorite";
 import {Link} from "react-router-dom";
+import styles from './ComicCard.module.scss';
 
 const ComicCard = ({ comic, isModal, onCardClick }) => {
     const { fetchMarvelData } = useContext(DataContext);
@@ -27,22 +28,22 @@ const ComicCard = ({ comic, isModal, onCardClick }) => {
     }
 
     return (
-        <div className="comic-card">
+        <div className={styles["comic-card"]}>
             <img
-                className="comic-card-image"
+                className={styles["comic-card__image"]}
                 src={`${comic.thumbnail.path}/portrait_incredible.${comic.thumbnail.extension}`}
                 alt={comic.title}
             />
             {isModal && (<SaveButton itemKey="savedComic" item={comic} />)}
-            <div className="comic-info">
-                <button onClick={() => !isModal && onCardClick(comic)}>more</button>
+            {!isModal && (<button className={styles["comic-card__info-btn"]} onClick={() => !isModal && onCardClick(comic)}>more</button>)}
+            <div className={styles["comic-card__info"]}>
                 {isModal && (
                     <>
-                        <h2 className="comic-info-title">{comic.title}</h2>
-                        <p className="comic-info-description">{comic.description}</p>
-                        <ul className="comic-info-hero-list">
+                        <h2 className={styles["comic-card__info-title"]}>{comic.title}</h2>
+                        <p className={styles["comic-card__info-description"]}>{comic.description}</p>
+                        <ul className={styles["comic-card__info-hero-list"]}>
                             {comic.characters.items.map((character, index) => (
-                                <li key={index}>
+                                <li key={index} className={styles["comic-card__info-hero-list-item"]}>
                                     <Link to={`/heroes/${character.resourceURI.split('/').pop()}`}>
                                         {character.name}
                                     </Link>
@@ -55,7 +56,7 @@ const ComicCard = ({ comic, isModal, onCardClick }) => {
 
             <Modal
                 isOpen={modalIsOpen}
-                className="modal-content"
+                className={styles["modal-content"]}
                 onRequestClose={closeModal}
                 contentLabel="Hero Modal"
             >
@@ -66,3 +67,4 @@ const ComicCard = ({ comic, isModal, onCardClick }) => {
 }
 
 export default ComicCard;
+

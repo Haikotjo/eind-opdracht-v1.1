@@ -6,7 +6,6 @@ import ComicsPage from './pages/comicsPage/ComicsPage';
 import EventsPage from './pages/eventsPage/EventsPage';
 import NavBar from "./navbar/NavBar";
 import DataContextProvider from "./context/DataContext";
-import Page from "./pages/Page";
 import LoginPage from './pages/LoginPage';
 import ProfilePage from "./pages/ProfilePage";
 import {AuthContext} from "./context/AuthContext";
@@ -29,7 +28,6 @@ const AppRoutes = () => {
                             <Route path=":comicId" element={<ComicsPage />} />
                         </Route>
                         <Route path="/events" element={<EventsPage />} />
-                        <Route path="/page" element={<Page />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/profile" element={isAuth ? <ProfilePage /> : <Navigate to="/login"/>} />

@@ -4,6 +4,7 @@ import ComicCard from '../comic-card/ComicCard';
 import {DataContext} from "../../context/DataContext";
 import SaveButton from "../buttons/addToFavorite/AddToFavorite";
 import {Link} from "react-router-dom";
+import styles from './HeroCard.module.scss';
 
 const HeroCard = ({ hero, isModal, onCardClick }) => {
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -29,42 +30,44 @@ const HeroCard = ({ hero, isModal, onCardClick }) => {
 
     return (
         <>
-        <div className="hero-card">
-            <img
-                className="hero-card-image"
-                alt={hero.name}
-                src={`${hero.thumbnail.path}/portrait_incredible.${hero.thumbnail.extension}`}
-            />
-            <button onClick={() => !isModal && onCardClick(hero)}>more</button>
-            {isModal && (<SaveButton itemKey="savedHero" item={hero} />)}
-            <div className="hero-info">
-                {isModal && (
-                    <>
-                        <h2 className="hero-info-name">{hero.name}</h2>
-                        <p className="hero-info-description">{hero.description}</p>
-                        <ul className="hero-info-comic-list">
-                            <h4>Comics</h4>
-                            {hero.comics.items.map((comic, index) => (
-                                <li key={index}>
-                                    <Link to={`/comics/${comic.resourceURI.split('/').pop()}`}>
-                                        {comic.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </>
-                )}
-            </div>
+            <div className={styles["hero-card"]}>
+                <div className={styles["hero-card__image-wrapper"]}>
+                    <img
+                        className={styles["hero-card__image"]}
+                        alt={hero.name}
+                        src={`${hero.thumbnail.path}/portrait_incredible.${hero.thumbnail.extension}`}
+                    />
+                    {isModal && (<SaveButton itemKey="savedHero" item={hero} />)}
+                    {!isModal && (<button className={styles["hero-card__button"]} onClick={() => !isModal && onCardClick(hero)}>more</button>)}
+                </div>
+                <div className={styles["hero-info"]}>
+                    {isModal && (
+                        <>
+                                <h2 className={styles["hero-info__name"]}>{hero.name}</h2>
+                                <p className={styles["hero-info__description"]}>{hero.description}</p>
+                                <ul className={styles["hero-info__comic-list"]}>
+                                <h4>Comics</h4>
+                                {hero.comics.items.map((comic, index) => (
+                                    <li key={index} className={styles["hero-info__comic-list-item"]}>
+                                        <Link to={`/comics/${comic.resourceURI.split('/').pop()}`}>
+                                            {comic.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </>
+                    )}
+                </div>
 
-            <Modal
-                isOpen={modalIsOpen}
-                className="modal-content"
-                onRequestClose={closeModal}
-                contentLabel="Comic Modal"
-            >
-                {currentComic && <ComicCard comic={currentComic} isModal={isModal} />}
-            </Modal>
-        </div>
+                <Modal
+                    isOpen={modalIsOpen}
+                    className={styles["modal-content"]}
+                    onRequestClose={closeModal}
+                    contentLabel="Comic Modal"
+                >
+                    {currentComic && <ComicCard comic={currentComic} isModal={isModal} />}
+                </Modal>
+            </div>
         </>
     );
 }
