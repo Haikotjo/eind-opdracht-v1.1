@@ -56,14 +56,19 @@ body {
 }
 
 /* Fonts*/
-
-
 body {
-    background: white;
     color: $color-primary;
     line-height: 1;
 }
 
+/* Achtergrond */
+body {
+    background-image: url("../../public/images/achtergrondWit.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+}
 /* Andere globale stijlen ... */
 /*Modals*/
 .modal-content {

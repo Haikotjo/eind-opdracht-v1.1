@@ -8,6 +8,7 @@ import {filterData} from "../../helpers/filterData";
 import useDebounce from '../../hooks/useDebounce';
 import { useParams } from 'react-router-dom';
 import styles from './HeroesPage.module.scss';
+import Loading from "../../components/loading/Loading";
 
 function HeroesPage() {
     const { fetchMarvelData } = useContext(DataContext);
@@ -69,10 +70,6 @@ function HeroesPage() {
         }
     }, [debouncedSearchTerm]);
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
     function goToNextPage() {
         setOffset(offset + pageSize);
     }
@@ -107,12 +104,10 @@ function HeroesPage() {
         setSearchTerm(event.target.value);
     };
 
-    const filteredHeroes = filterData(heroes, nameStartsWith, 'name');
+    const filteredHeroes = heroes ? filterData(heroes, debouncedSearchTerm, 'name') : [];
 
     return (
-        isLoading ? (
-                <div className={styles["loading-container"]}>Loading...</div>
-            ) :
+        isLoading ? <Loading /> :
             <div className={styles["heroes-page"]}>
                 <h1 className={styles["heroes-title"]}>ALL SUPER HEROES</h1>
                 <input

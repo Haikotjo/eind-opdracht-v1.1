@@ -7,6 +7,7 @@ import ComicCard from "../../components/comic-card/ComicCard";
 import {DataContext} from "../../context/DataContext";
 import {handleError} from "../../helpers/handleError";
 import styles from './HomePage.module.scss';
+import Loading from "../../components/loading/Loading";
 
 const HomePage = () => {
     const [currentRandomEvent, setCurrentRandomEvent] = useState(null);
@@ -93,9 +94,7 @@ const HomePage = () => {
 
 
     return (
-        isLoading ? (
-            <div className={styles["loading-container"]}>Loading...</div>
-        ) : error ? (
+        isLoading ? <Loading /> : error ? (
                 <div className={styles["error"]}>
                     <h2 className={styles["error-title"]}>Something went wrong...</h2>
                     <p className={styles["error-message"]}>We couldn't load the data you requested. Please try again later.</p>

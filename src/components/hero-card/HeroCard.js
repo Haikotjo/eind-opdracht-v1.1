@@ -37,7 +37,12 @@ const HeroCard = ({ hero, isModal, onCardClick }) => {
                         alt={hero.name}
                         src={`${hero.thumbnail.path}/portrait_incredible.${hero.thumbnail.extension}`}
                     />
-                    {isModal && (<SaveButton itemKey="savedHero" item={hero} />)}
+                    {isModal && (
+                        <>
+                            <SaveButton itemKey="savedHero" item={hero} />
+                            <p>favorite</p>
+                        </>
+                    )}
                     {!isModal && (<button className={styles["hero-card__button"]} onClick={() => !isModal && onCardClick(hero)}>more</button>)}
                 </div>
                 <div className={styles["hero-info"]}>

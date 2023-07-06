@@ -7,6 +7,7 @@ import {handleError} from "../../helpers/handleError";
 import {filterData} from "../../helpers/filterData";
 import useDebounce from '../../hooks/useDebounce';
 import styles from './EventsPage.module.scss';
+import Loading from "../../components/loading/Loading";
 
 const EventsPage = () => {
     const { fetchMarvelData } = useContext(DataContext);
@@ -55,9 +56,6 @@ const EventsPage = () => {
         }
     }, [debouncedSearchTerm]);
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
     function goToNextPage() {
         setOffset(offset + pageSize);
     }
@@ -91,10 +89,10 @@ const EventsPage = () => {
         setSearchTerm(event.target.value);
     };
 
-    const filteredEvents = filterData(events, debouncedSearchTerm, 'title');
+    const filteredEvents = events ? filterData(events, debouncedSearchTerm, 'title') : [];
 
     return (
-        isLoading ? (<div className={styles["loading-container"]}>Loading...</div>) :
+        isLoading ? <Loading /> :
             <div className={styles["event-page"]}>
                 <h1 className={styles["event-title"]}>All Events</h1>
                 <input

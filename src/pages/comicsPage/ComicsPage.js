@@ -8,6 +8,7 @@ import {filterData} from "../../helpers/filterData";
 import useDebounce from '../../hooks/useDebounce';
 import { useParams } from 'react-router-dom';
 import styles from './ComicsPage.module.scss';
+import Loading from "../../components/loading/Loading";
 
 const ComicsPage = () => {
     const { fetchMarvelData } = useContext(DataContext);
@@ -70,10 +71,6 @@ const ComicsPage = () => {
         }
     }, [debouncedTitleStartsWith]);
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
     function goToNextPage() {
         setOffset(offset + pageSize);
     }
@@ -111,10 +108,11 @@ const ComicsPage = () => {
         setTitleStartsWith(event.target.value);
     };
 
-    const filteredComics = filterData(comics, debouncedTitleStartsWith, 'title');
+    const filteredComics = comics ? filterData(comics, debouncedTitleStartsWith, 'title') : [];
+
 
     return (
-        isLoading ? (<div className={styles["loading-container"]}>Loading...</div>) :
+        isLoading ? <Loading /> :
             <div className={styles["comics-page"]}>
                 <h1 className={styles["comic-title"]}>All Comics</h1>
                 <input
