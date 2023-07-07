@@ -1,68 +1,52 @@
-import React, { useState, useContext } from 'react';
-import Modal from 'react-modal';
-import HeroCard from '../hero-card/HeroCard';
-import { DataContext } from '../../context/DataContext';
+import React, {useState} from 'react';
 import SaveButton from "../buttons/addToFavorite/AddToFavorite";
 import {Link} from "react-router-dom";
 import styles from './ComicCard.module.scss';
+import { Card, Space, Collapse } from 'antd';
 
-const ComicCard = ({ comic, isModal, onCardClick }) => {
-    const { fetchMarvelData } = useContext(DataContext);
-    const [modalIsOpen, setIsOpen] = useState(false);
-    const [currentHero, setCurrentHero] = useState(null);
+const { Panel } = Collapse;
 
-    function openModal(character) {
-        const characterId = character.resourceURI.split('/').pop();
+const ComicCard = ({ comic }) => {
 
-        fetchMarvelData('characters', null, null, characterId, null, null, true)
-            .then(response => {
-                setCurrentHero(response[0]);
-                setIsOpen(true);
-            })
-            .catch(error => {
-                console.error("Er was een fout bij het ophalen van de comic: ", error);
-            });
-    }
-    function closeModal() {
-        setIsOpen(false);
-    }
+    const [isExpanded, setIsExpanded] = useState(false)
+    const handlePanelChange = (key) => {
+        setIsExpanded(!!key.length);
+    };
 
     return (
-        <div className={styles["comic-card"]}>
-            <img
-                className={styles["comic-card__image"]}
-                src={`${comic.thumbnail.path}/portrait_incredible.${comic.thumbnail.extension}`}
-                alt={comic.title}
-            />
-            {isModal && (<SaveButton itemKey="savedComic" item={comic} />)}
-            {!isModal && (<button className={styles["comic-card__info-btn"]} onClick={() => !isModal && onCardClick(comic)}>more</button>)}
-            <div className={styles["comic-card__info"]}>
-                {isModal && (
-                    <>
-                        <h2 className={styles["comic-card__info-title"]}>{comic.title}</h2>
-                        <p className={styles["comic-card__info-description"]}>{comic.description}</p>
-                        <ul className={styles["comic-card__info-hero-list"]}>
-                            {comic.characters.items.map((character, index) => (
-                                <li key={index} className={styles["comic-card__info-hero-list-item"]}>
-                                    <Link to={`/heroes/${character.resourceURI.split('/').pop()}`}>
-                                        {character.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </>
-                )}
-            </div>
-
-            <Modal
-                isOpen={modalIsOpen}
-                className={styles["modal-content"]}
-                onRequestClose={closeModal}
-                contentLabel="Hero Modal"
+        <Space direction="vertical" size={16}>
+            <Card
+                title={comic.title}
+                extra={
+                    <Collapse ghost onChange={handlePanelChange}>
+                        <Panel header={isExpanded ? "Less" : "More"} key="1">
+                            <SaveButton itemKey="savedComic" item={comic} />
+                            <h2 className={styles["comic-card__info-title"]}>{comic.title}</h2>
+                            <p className={styles["comic-card__info-description"]}>{comic.description}</p>
+                            <ul className={styles["comic-card__info-hero-list"]}>
+                                {comic.characters.items.map((character, index) => (
+                                    <li key={index} className={styles["comic-card__info-hero-list-item"]}>
+                                        <Link to={`/heroes/${character.resourceURI.split('/').pop()}`}>
+                                            {character.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </Panel>
+                    </Collapse>
+                }
+                style={{
+                    width: 300,
+                }}
             >
-                {currentHero && <HeroCard hero={currentHero} isModal={isModal} />}
-            </Modal>
-        </div>
+                <img
+                    className={styles["comic-card__image"]}
+                    src={`${comic.thumbnail.path}/portrait_incredible.${comic.thumbnail.extension}`}
+                    alt={comic.title}
+                />
+                <SaveButton itemKey="savedComic" item={comic} />
+            </Card>
+        </Space>
     );
 }
 

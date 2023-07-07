@@ -1,21 +1,23 @@
-import React, { useEffect, useState, useContext } from 'react';
-import EventCard from "../../components/event-card/EventCard";
+import React, { useState, useEffect, useContext } from 'react';
+import HeroCard from '../../components/hero-card/HeroCard';
 import Modal from "react-modal";
-import { DataContext } from "../../context/DataContext";
+import {DataContext} from "../../context/DataContext";
 import PrevNextButton from "../../components/buttons/prevNextButton/PrevNextButton";
-import { handleError } from "../../helpers/handleError";
-import { filterData } from "../../helpers/filterData";
+import {handleError} from "../../helpers/handleError";
+import {filterData} from "../../helpers/filterData";
 import useDebounce from '../../hooks/useDebounce';
-import styles from './EventsPage.module.scss';
+import { useParams } from 'react-router-dom';
+import styles from './HeroesPage.module.scss';
 import Loading from "../../components/loading/Loading";
 
-function EventsPage() {
+function HeroesPage() {
     const { fetchMarvelData } = useContext(DataContext);
+    const [nameStartsWith, setNameStartsWith] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
     const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
-    const [currentEvent, setCurrentEvent] = useState(null);
-    const [events, setEvents] = useState(null);
+    const [heroes, setHeroes] = useState(null);
+    const [currentHero, setCurrentHero] = useState(null);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,29 +27,42 @@ function EventsPage() {
 
     const [offset, setOffset] = useState(0);
 
-    const pageSize = 20
-    const currentPage = offset / pageSize + 1;
+    const pageSize = 20;
+    const currentPage = offset / 20 + 1;
 
+    const { heroId } = useParams();
 
-    // Fetch data from the Marvel API when component mounts and when offset or searchTerm changes
     useEffect(() => {
         const fetchData = async () => {
+            if (heroId) {
+                try {
+                    const response = await fetchMarvelData('characters', null, null, heroId, null, null, true);
+                    setCurrentHero(response[0]);
+                    setIsModalOpen(true);
+                } catch (error) {
+                    console.error("Er was een fout bij het ophalen van de hero: ", error);
+                }
+            }
+
             try {
-                const data = await fetchMarvelData('events', pageSize, offset, null, debouncedSearchTerm, null, false);
+                const data = await fetchMarvelData('characters', pageSize, offset, null, nameStartsWith, null, false);
+                console.log(data.results);
                 setTotal(data.total);
                 if (Array.isArray(data.results)) {
-                    setEvents(data.results);
+                    const validHeroes = data.results.filter(heroes => {
+                        return !heroes.thumbnail.path.endsWith('image_not_available');
+                    });
+                    setHeroes(validHeroes);
                 } else {
-                    console.error('Unexpected response:', data.results);
-                    setEvents([]);
+                    setHeroes([]);
                 }
                 setIsLoading(false);
             } catch (error) {
                 handleError(error, setError);
             }
-        }
+        };
         fetchData();
-    }, [offset, debouncedSearchTerm, fetchMarvelData]);
+    }, [heroId, offset, nameStartsWith, fetchMarvelData, total]);
 
     useEffect(() => {
         if (debouncedSearchTerm) {
@@ -63,8 +78,8 @@ function EventsPage() {
         setOffset(Math.max(0, offset - pageSize));
     }
 
-    const handleEventClick = (event) => {
-        setCurrentEvent(event);
+    const handleHeroClick = (hero) => {
+        setCurrentHero(hero);
         setIsModalOpen(true);
     };
 
@@ -73,10 +88,10 @@ function EventsPage() {
     }
 
     const handleSearchChange = async (value) => {
-        setSearchTerm(value);
+        setNameStartsWith(value);
         try {
-            const data = await fetchMarvelData('events', pageSize, 0, null, value, null, false);
-            setEvents(data.results);
+            const data = await fetchMarvelData('characters', pageSize, 0, null, value, false);
+            setHeroes(data.results);
             setTotal(data.total);
             setIsLoading(false);
         } catch (error) {
@@ -89,16 +104,16 @@ function EventsPage() {
         setSearchTerm(event.target.value);
     };
 
-    const filteredEvents = events ? filterData(events, debouncedSearchTerm, 'title') : [];
+    const filteredHeroes = heroes ? filterData(heroes, debouncedSearchTerm, 'name') : [];
 
     return (
         isLoading ? <Loading /> :
-            <div className={styles["event-page"]}>
-                <h1 className={styles["event-title"]}>All Events</h1>
+            <div className={styles["heroes-page"]}>
+                <h1 className={styles["heroes-title"]}>ALL SUPER HEROES</h1>
                 <input
-                    className={styles["event-search"]}
+                    className={styles["heroes-search"]}
                     type="text"
-                    placeholder="Search for an event..."
+                    placeholder="Search for a hero..."
                     value={searchTerm}
                     onChange={onInputChange}
                 />
@@ -110,14 +125,14 @@ function EventsPage() {
                     onPrevPage={goToPreviousPage}
                     onNextPage={goToNextPage}
                 />
-                <ul className={styles["event-list"]}>
-                    {filteredEvents.map(event =>
-                        <li key={event.id} className={styles["event-list-item"]}>
-                            <EventCard className={styles["event-card-item"]} event={event} onCardClick={handleEventClick} />
+                <ul className={styles["heroes-list"]}>
+                    {filteredHeroes.map(hero => (
+                        <li key={hero.id} className={styles["hero-list-item"]}>
+                            <HeroCard className={styles["hero-card-item"]} hero={hero} onCardClick={handleHeroClick}/>
                         </li>
-                    )}
+                    ))}
                 </ul>
-                <div className={styles["page-footer"]}>Page {currentPage} of {Math.ceil(total / pageSize)}</div>
+                <div className={styles["page-details"]}>Page {currentPage} of {Math.ceil(total / pageSize)}</div>
                 <PrevNextButton
                     className={styles["page-nav-buttons"]}
                     currentPage={currentPage}
@@ -129,13 +144,17 @@ function EventsPage() {
                     className={styles["modal-content"]}
                     isOpen={isModalOpen}
                     onRequestClose={handleCloseModal}
-                    contentLabel="Event Details Modal"
+                    contentLabel="Hero Details Modal"
                 >
-                    {currentEvent && <EventCard className={styles["event-card-modal-content"]} event={currentEvent} isModal={true} />}
+                    {currentHero && <HeroCard className={styles["hero-card-modal-content"]} hero={currentHero} isModal={true} />}
                 </Modal>
-                {error && (<div className={styles["error-message"]}>Error: {error}</div>)}
+                {
+                    error && (
+                        <div className={styles["error-message"]}>Error: {error}</div>
+                    )
+                }
             </div>
     );
 }
 
-export default EventsPage;
+export default HeroesPage;

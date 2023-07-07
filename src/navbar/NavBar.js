@@ -81,11 +81,22 @@ function ResponsiveAppBar() {
                             }}
                         >
                             {(isAuth ? ['Home', 'Events', 'Comics', 'Heroes', 'Profile', 'Logout'] : ['Events', 'Comics', 'Heroes', 'Login', 'Register']).map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
-                                </MenuItem>
+                                page === "Logout" ?
+                                    <MenuItem key={page} onClick={logout}>
+                                        <Typography textAlign="center">{page}</Typography>
+                                    </MenuItem> :
+                                    <NavLink
+                                        key={page}
+                                        to={`/${page.toLowerCase()}`}
+                                        style={{ color: 'black', textDecoration: 'none' }}
+                                    >
+                                        <MenuItem onClick={handleCloseNavMenu}>
+                                            <Typography textAlign="center">{page}</Typography>
+                                        </MenuItem>
+                                    </NavLink>
                             ))}
                         </Menu>
+
                     </Box>
                     <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Typography
@@ -111,7 +122,7 @@ function ResponsiveAppBar() {
                             page === "Logout" ?
                                 <Button
                                     key={page}
-                                    onClick={logout}  // hier voeg je de logout functie toe
+                                    onClick={logout}
                                     sx={{ my: 2, color: 'white', display: 'block' }}
                                 >
                                     {page}
@@ -129,6 +140,7 @@ function ResponsiveAppBar() {
                                     </Button>
                                 </NavLink>
                         ))}
+
                     </Box>
                 </Toolbar>
             </Container>

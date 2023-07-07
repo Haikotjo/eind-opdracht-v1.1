@@ -1,5 +1,5 @@
 
-//@import './_globals.scss';
+@import './_globals.scss';
 ///* CSS Reset */
 //
 //html, body, div, span, applet, object, iframe,
@@ -92,3 +92,19 @@
 //.active {
 //    color: $color-quaternary;
 //}
+
+
+.ant-card-head-title {
+  color: $color-primary ;
+}
+.ant-collapse-expand-icon , .ant-collapse-header-text {
+  color: $color-secondary;
+}
+
+.ant-pagination-item{
+  color: $color-secondary !important;
+}
+
+a {
+  color: $color-secondary;
+}

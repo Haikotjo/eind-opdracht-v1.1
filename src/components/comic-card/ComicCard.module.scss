@@ -1,4 +1,4 @@
-//@import '../../styles/_globals.scss';
+@import '../../styles/_globals.scss';
 //
 //.comic-card {
 //  display: grid;
@@ -80,3 +80,11 @@
 //    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 //  }
 //}
+.ant-card-head-title {
+  color: red !important;
+}
+.ant-card-head {
+  background-color: red;
+  color: red;
+}
+
