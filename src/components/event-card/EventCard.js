@@ -20,7 +20,7 @@ const EventCard = ({ event }) => {
                 extra={
                     <Collapse ghost onChange={handlePanelChange}>
                         <Panel header={isExpanded ? "Less" : "More"} key="1">
-                            <SaveButton itemKey="savedEvent" item={event} />
+                            <SaveButton className="heart-icon" itemKey="savedEvent" item={event} />
                             <h2 className={styles['event-card__info--title']}>{event ? event.title : ''}</h2>
                             <p className={styles['event-card__info--description']}>{event.description}</p>
                             <ul className={styles['event-card__info--hero-list']}> Heroes:
@@ -48,7 +48,6 @@ const EventCard = ({ event }) => {
                     width: 250,
                 }}
             >
-
                 <img
                     className={styles['event-card__image']}
                     alt={event.title}

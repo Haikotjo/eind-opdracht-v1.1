@@ -1,6 +1,8 @@
 import React, {useContext, useState, useEffect, useReducer} from 'react';
 import {SavedContext} from '../../../context/SavedContext';
 import {Link} from "react-router-dom";
+import styles from "./SaveButton.scss";
+import {HeartTwoTone} from '@ant-design/icons';
 
 function SaveButton({ itemKey, item }) {
     const { isItemSaved, saveItem, removeItem } = useContext(SavedContext);
@@ -34,9 +36,8 @@ function SaveButton({ itemKey, item }) {
         <>
             <img
                 onClick={handleSave}
+                className="heart-icon"
                 src={isSaved ? '/images/heart-filled-second-color.svg' : '/images/heart-empty-second-color.svg'} alt="heart"
-                width="75px"
-                height="75px"
             />
             {showMessage && <Link to="/login">Login to add to favorites</Link>}
         </>

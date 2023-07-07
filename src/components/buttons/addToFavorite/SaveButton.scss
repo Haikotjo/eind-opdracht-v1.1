@@ -1,0 +1,13 @@
+@import '../../../styles/_globals.scss';
+
+.heart-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.heart-icon:hover {
+  width: 28px;
+  height: 28px;
+}
