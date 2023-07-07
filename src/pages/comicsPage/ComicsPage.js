@@ -69,7 +69,7 @@ function ComicsPage() {
                 />
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
                     {comics.map(comic => (
-                        <div style={{ margin: '1em' }}>
+                        <div style={{ margin: '0.5em' }}>
                             <ComicCard key={comic.id} comic={comic} />
                         </div>
                     ))}

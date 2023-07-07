@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import SaveButton from "../buttons/addToFavorite/AddToFavorite";
+import SaveButton from "../buttons/addToFavorite/SaveButton";
 import {Link} from "react-router-dom";
 import styles from './ComicCard.module.scss';
 import { Card, Space, Collapse } from 'antd';
@@ -16,6 +16,7 @@ const ComicCard = ({ comic }) => {
     return (
         <Space direction="vertical" size={16}>
             <Card
+                size="small"
                 title={comic.title}
                 extra={
                     <Collapse ghost onChange={handlePanelChange}>
@@ -36,7 +37,7 @@ const ComicCard = ({ comic }) => {
                     </Collapse>
                 }
                 style={{
-                    width: 300,
+                    width: 250,
                 }}
             >
                 <img

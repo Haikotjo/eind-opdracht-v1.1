@@ -70,7 +70,7 @@ function HeroesPage() {
                 />
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
                     {heroes.map(hero => (
-                        <div style={{ margin: '1em' }}>
+                        <div style={{ margin: '0.5em' }}>
                             <HeroCard key={hero.id} hero={hero} />
                         </div>
                     ))}

@@ -5,6 +5,7 @@ import AuthContextProvider, {AuthContext} from "./context/AuthContext";
 import './styles/App.scss'
 import {CssBaseline} from "@mui/material";
 import { Card, Space, Collapse, ConfigProvider } from 'antd';
+import {SavedProvider} from "./context/SavedContext";
 
 Modal.setAppElement('#root');
 function App() {
@@ -19,7 +20,9 @@ function App() {
             <Router>
                 <CssBaseline />
                 <AuthContextProvider>
+                    <SavedProvider>
                     <Routes />
+                    </SavedProvider>
                 </AuthContextProvider>
             </Router>
         </ConfigProvider>

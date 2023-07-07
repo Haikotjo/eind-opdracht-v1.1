@@ -7,7 +7,7 @@ import EventsPage from './pages/eventsPage/EventsPage';
 import NavBarOG from "./navbar/NavBarOG";
 import DataContextProvider from "./context/DataContext";
 import LoginPage from './pages/LoginPage';
-import ProfilePage from "./pages/ProfilePage";
+import ProfilePage from "./pages/profilePage/ProfilePage";
 import {AuthContext} from "./context/AuthContext";
 import Register from "./pages/Register";
 import NavBarT from "./navbar/NavBar";

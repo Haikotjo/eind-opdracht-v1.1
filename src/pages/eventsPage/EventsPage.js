@@ -1,139 +1,79 @@
-import React, { useEffect, useState, useContext } from 'react';
-import EventCard from "../../components/event-card/EventCard";
-import Modal from "react-modal";
+import React, { useState, useEffect, useContext } from 'react';
+import EventCard from '../../components/event-card/EventCard';
+import { Pagination } from 'antd';
 import { DataContext } from "../../context/DataContext";
-import PrevNextButton from "../../components/buttons/prevNextButton/PrevNextButton";
-import { handleError } from "../../helpers/handleError";
-import { filterData } from "../../helpers/filterData";
 import useDebounce from '../../hooks/useDebounce';
 import styles from './EventsPage.module.scss';
 import Loading from "../../components/loading/Loading";
 
 function EventsPage() {
     const { fetchMarvelData } = useContext(DataContext);
-    const [searchTerm, setSearchTerm] = useState("");
-    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
-
-    const [currentEvent, setCurrentEvent] = useState(null);
-    const [events, setEvents] = useState(null);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [events, setEvents] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [total, setTotal] = useState(null);
-    const [error, setError] = useState(null);
-
     const [offset, setOffset] = useState(0);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [pageSize, setPageSize] = useState(20);
+    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
-    const pageSize = 20
-    const currentPage = offset / pageSize + 1;
-
-
-    // Fetch data from the Marvel API when component mounts and when offset or searchTerm changes
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await fetchMarvelData('events', pageSize, offset, null, debouncedSearchTerm, null, false);
-                setTotal(data.total);
+                const data = await fetchMarvelData('events', pageSize, offset, null, debouncedSearchTerm, false);
                 if (Array.isArray(data.results)) {
                     setEvents(data.results);
+                    setTotal(data.total);
+                    setIsLoading(false);
                 } else {
-                    console.error('Unexpected response:', data.results);
                     setEvents([]);
                 }
-                setIsLoading(false);
             } catch (error) {
-                handleError(error, setError);
+                console.error("Er was een fout bij het ophalen van de events: ", error);
             }
-        }
+        };
         fetchData();
-    }, [offset, debouncedSearchTerm, fetchMarvelData]);
+    }, [fetchMarvelData, offset, pageSize, debouncedSearchTerm]);
 
-    useEffect(() => {
-        if (debouncedSearchTerm) {
-            handleSearchChange(debouncedSearchTerm);
-        }
-    }, [debouncedSearchTerm]);
-
-    function goToNextPage() {
-        setOffset(offset + pageSize);
+    const handlePageChange = (page, pageSize) => {
+        setOffset((page - 1) * pageSize);
     }
 
-    function goToPreviousPage() {
-        setOffset(Math.max(0, offset - pageSize));
+    const handleSizeChange = (current, size) => {
+        setPageSize(size);
+        setOffset(0);
     }
-
-    const handleEventClick = (event) => {
-        setCurrentEvent(event);
-        setIsModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-    }
-
-    const handleSearchChange = async (value) => {
-        setSearchTerm(value);
-        try {
-            const data = await fetchMarvelData('events', pageSize, 0, null, value, null, false);
-            setEvents(data.results);
-            setTotal(data.total);
-            setIsLoading(false);
-        } catch (error) {
-            handleError(error, setError);
-            setIsLoading(false);
-        }
-    };
 
     const onInputChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
-    const filteredEvents = events ? filterData(events, debouncedSearchTerm, 'title') : [];
-
     return (
         isLoading ? <Loading /> :
-            <div className={styles["event-page"]}>
+            <div className={styles["events-page"]}>
                 <h1 className={styles["event-title"]}>All Events</h1>
                 <input
-                    className={styles["event-search"]}
+                    className={styles["events-search"]}
                     type="text"
                     placeholder="Search for an event..."
                     value={searchTerm}
                     onChange={onInputChange}
                 />
-                <div className={styles["page-details"]}>Page {currentPage} of {Math.ceil(total / pageSize)} with a total of {total} results</div>
-                <PrevNextButton
-                    className={styles["page-nav-buttons"]}
-                    currentPage={currentPage}
-                    totalPages={Math.ceil(total / pageSize)}
-                    onPrevPage={goToPreviousPage}
-                    onNextPage={goToNextPage}
+                <Pagination
+                    defaultCurrent={1}
+                    current={(offset / pageSize) + 1}
+                    total={total}
+                    pageSize={pageSize}
+                    showSizeChanger
+                    onShowSizeChange={handleSizeChange}
+                    onChange={handlePageChange}
                 />
-                <ul className={styles["event-list"]}>
-                    {filteredEvents.map(event =>
-                        <li key={event.id} className={styles["event-list-item"]}>
-                            <EventCard className={styles["event-card-item"]} event={event} onCardClick={handleEventClick} />
-                        </li>
-                    )}
-                </ul>
-                <div className={styles["page-footer"]}>Page {currentPage} of {Math.ceil(total / pageSize)}</div>
-                <PrevNextButton
-                    className={styles["page-nav-buttons"]}
-                    currentPage={currentPage}
-                    totalPages={Math.ceil(total / pageSize)}
-                    onPrevPage={goToPreviousPage}
-                    onNextPage={goToNextPage}
-                />
-                <Modal
-                    className={styles["modal-content"]}
-                    isOpen={isModalOpen}
-                    onRequestClose={handleCloseModal}
-                    contentLabel="Event Details Modal"
-                >
-                    {currentEvent && <EventCard className={styles["event-card-modal-content"]} event={currentEvent} isModal={true} />}
-                </Modal>
-                {error && (<div className={styles["error-message"]}>Error: {error}</div>)}
+                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+                    {events.map(event => (
+                        <div style={{ margin: '0.5em' }}>
+                            <EventCard key={event.id} event={event} />
+                        </div>
+                    ))}
+                </div>
             </div>
     );
 }

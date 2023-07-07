@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import SaveButton from "../buttons/addToFavorite/AddToFavorite";
+import SaveButton from "../buttons/addToFavorite/SaveButton";
 import {Link} from "react-router-dom";
 import styles from './HeroCard.module.scss';
 import {Card, Collapse, Space} from "antd";
@@ -37,7 +37,7 @@ const HeroCard = ({ hero }) => {
                     </Collapse>
                 }
                 style={{
-                    width: 300,
+                    width: 250,
                 }}
             >
                 <img
