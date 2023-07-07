@@ -4,12 +4,15 @@ import {AuthContext} from "../../context/AuthContext";
 import ComicCard from "../../components/comic-card/ComicCard";
 import HeroCard from "../../components/hero-card/HeroCard";
 import EventCard from "../../components/event-card/EventCard";
+import { SavedContext } from '../../context/SavedContext';
 
 function Profile() {
     const { user: { email, username} } = useContext(AuthContext);
     const [savedComic, setSavedComic] = useState([]);
     const [savedHero, setSavedHero] = useState([]);
     const [savedEvent, setSavedEvent] = useState([]);
+
+    const { savedItemsChangeCounter } = useContext(SavedContext);
 
     useEffect(() => {
         const comic = JSON.parse(localStorage.getItem('savedComic')) || [];
@@ -19,6 +22,18 @@ function Profile() {
         setSavedHero(hero);
         setSavedEvent(event);
     }, []);
+
+    useEffect(() => {
+        const savedHeroFromStorage = JSON.parse(localStorage.getItem('savedHero')) || [];
+        setSavedHero(savedHeroFromStorage);
+
+        const savedComicFromStorage = JSON.parse(localStorage.getItem('savedComic')) || [];
+        setSavedComic(savedComicFromStorage);
+
+        const savedEventFromStorage = JSON.parse(localStorage.getItem('savedEvent')) || [];
+        setSavedEvent(savedEventFromStorage);
+
+    }, [savedItemsChangeCounter]);
 
     return (
         <main>

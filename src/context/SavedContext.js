@@ -7,6 +7,7 @@ export const SavedContext = createContext();
 export const SavedProvider = ({ children }) => {
     const { isAuth } = useContext(AuthContext);
     const [savedItems, setSavedItems] = useState([]);
+    const [savedItemsChangeCounter, setSavedItemsChangeCounter] = useState(0);
 
     const getSavedItems = (itemKey) => {
         return JSON.parse(localStorage.getItem(itemKey)) || [];
@@ -25,6 +26,7 @@ export const SavedProvider = ({ children }) => {
         items.push(item);
         localStorage.setItem(itemKey, JSON.stringify(items));
         setSavedItems(items);
+        setSavedItemsChangeCounter(prevCount => prevCount + 1); // Add this line
         return true;
     };
 
@@ -33,10 +35,11 @@ export const SavedProvider = ({ children }) => {
         items = items.filter(item => item.id !== id);
         localStorage.setItem(itemKey, JSON.stringify(items));
         setSavedItems(items);
+        setSavedItemsChangeCounter(prevCount => prevCount + 1); // Add this line
     };
 
     return (
-        <SavedContext.Provider value={{ isItemSaved, saveItem, removeItem }}>
+        <SavedContext.Provider value={{ isItemSaved, saveItem, removeItem, savedItemsChangeCounter }}>
             {children}
         </SavedContext.Provider>
     );
