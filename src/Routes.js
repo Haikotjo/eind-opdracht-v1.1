@@ -6,10 +6,10 @@ import ComicsPage from './pages/comicsPage/ComicsPage';
 import EventsPage from './pages/eventsPage/EventsPage';
 import NavBarOG from "./navbar/NavBarOG";
 import DataContextProvider from "./context/DataContext";
-import LoginPage from './pages/LoginPage';
+import LoginPage from './pages/login/LoginPage';
 import ProfilePage from "./pages/profilePage/ProfilePage";
 import {AuthContext} from "./context/AuthContext";
-import Register from "./pages/Register";
+import Register from "./pages/register/Register";
 import NavBarT from "./navbar/NavBar";
 
 const AppRoutes = () => {

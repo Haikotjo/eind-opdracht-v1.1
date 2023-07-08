@@ -2,7 +2,7 @@ import React, {useContext, useState, useEffect, useReducer} from 'react';
 import {SavedContext} from '../../../context/SavedContext';
 import {Link} from "react-router-dom";
 import styles from "./SaveButton.scss";
-import {HeartTwoTone} from '@ant-design/icons';
+
 
 function SaveButton({ itemKey, item }) {
     const { isItemSaved, saveItem, removeItem } = useContext(SavedContext);

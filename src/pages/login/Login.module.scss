@@ -1,0 +1,38 @@
+.login-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+
+  &__title {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-basis: 50%; // Neemt 50% van de breedte van de ouder in beslag
+    max-width: 600px; // Maar niet breder dan 600px
+  }
+
+  &__input {
+    // Voeg hier stijlen toe voor de invoervelden
+  }
+
+  &__error {
+    color: red;
+    margin-bottom: 10px;
+  }
+
+  &__submit-btn {
+    // Voeg hier stijlen toe voor de verzendknop
+  }
+
+  &__register-link {
+    text-align: center;
+    margin-top: 20px;
+  }
+}

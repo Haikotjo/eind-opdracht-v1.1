@@ -1,14 +1,58 @@
-import React, {useState} from 'react';
+import React, { useContext, useState } from 'react';
 import SaveButton from "../buttons/addToFavorite/SaveButton";
-import {Link} from "react-router-dom";
 import styles from './EventCard.module.scss';
-import {Card, Collapse, Space} from "antd";
+import { Card, Space, Collapse, Button } from 'antd';
+import { DataContext } from '../../context/DataContext';
+import CustomModal from '../customModal/CustomModal';
 
 const { Panel } = Collapse;
 
 const EventCard = ({ event }) => {
+    const { fetchMarvelData } = useContext(DataContext);
+    const [isComicModalVisible, setIsComicModalVisible] = useState(false);
+    const [isCharacterModalVisible, setIsCharacterModalVisible] = useState(false);
+
+    const [selectedComic, setSelectedComic] = useState(null);
+    const [selectedCharacter, setSelectedCharacter] = useState(null);
+
+    const showModal = async (item, type) => {
+        const itemId = item.resourceURI.split('/').pop();
+        console.log("Fetching data for item ID: ", itemId); // Log the item ID
+        try {
+            const data = await fetchMarvelData(type, 1, 0, itemId);
+            console.log(data); // Log the data
+            const itemData = data.results[0];
+            console.log(itemData.thumbnail); // Log the thumbnail
+            if (type === 'comics') {
+                setSelectedComic(itemData);
+                setIsComicModalVisible(true); // Open the comic modal
+            } else if (type === 'characters') {
+                setSelectedCharacter(itemData);
+                setIsCharacterModalVisible(true); // Open the character modal
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleComicModalOk = () => {
+        setIsComicModalVisible(false);
+    };
+
+    const handleComicModalCancel = () => {
+        setIsComicModalVisible(false);
+    };
+
+    const handleCharacterModalOk = () => {
+        setIsCharacterModalVisible(false);
+    };
+
+    const handleCharacterModalCancel = () => {
+        setIsCharacterModalVisible(false);
+    };
 
     const [isExpanded, setIsExpanded] = useState(false)
+
     const handlePanelChange = (key) => {
         setIsExpanded(!!key.length);
     };
@@ -23,21 +67,23 @@ const EventCard = ({ event }) => {
                             <SaveButton className="heart-icon" itemKey="savedEvent" item={event} />
                             <h2 className={styles['event-card__info--title']}>{event ? event.title : ''}</h2>
                             <p className={styles['event-card__info--description']}>{event.description}</p>
-                            <ul className={styles['event-card__info--hero-list']}> Heroes:
+                            <ul>
+                                <p>heroes</p>
                                 {event.characters.items.map((character, index) => (
-                                    <li key={index} className={styles['event-card__info--hero-list-item']}>
-                                        <Link to={`/heroes/${character.resourceURI.split('/').pop()}`}>
+                                    <li key={index}>
+                                        <a onClick={() => showModal(character, 'characters')}>
                                             {character.name}
-                                        </Link>
+                                        </a>
                                     </li>
                                 ))}
                             </ul>
-                            <ul className={styles['event-card__info--comic-list']}> Comics:
+                            <ul>
+                                <p>comics</p>
                                 {event.comics.items.map((comic, index) => (
-                                    <li key={index} className={styles['event-card__info--comic-list-item']}>
-                                        <Link to={`/comics/${comic.resourceURI.split('/').pop()}`}>
+                                    <li key={index}>
+                                        <a onClick={() => showModal(comic, 'comics')}>
                                             {comic.name}
-                                        </Link>
+                                        </a>
                                     </li>
                                 ))}
                             </ul>
@@ -55,7 +101,24 @@ const EventCard = ({ event }) => {
                 />
                 <SaveButton itemKey="savedEvent" item={event} />
             </Card>
+            <CustomModal
+                isModalVisible={isComicModalVisible}
+                handleOk={handleComicModalOk}
+                handleCancel={handleComicModalCancel}
+                selectedItem={selectedComic}
+                itemKey="savedComic"
+                title="Comic Details"
+            />
+            <CustomModal
+                isModalVisible={isCharacterModalVisible}
+                handleOk={handleCharacterModalOk}
+                handleCancel={handleCharacterModalCancel}
+                selectedItem={selectedCharacter}
+                itemKey="savedHero"
+                title="Hero Details"
+            />
         </Space>
     );
 }
-    export default EventCard;
+
+export default EventCard;

@@ -43,7 +43,6 @@ function HeroesPage() {
         setOffset(0);
     }
 
-
     const onInputChange = (event) => {
         setSearchTerm(event.target.value);
     };
