@@ -1,0 +1,17 @@
+  @import '../../styles/_globals.scss';
+
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.register-page__form {
+  max-width: 50%;
+  width: 600px;
+}
+
+.alert {
+  color: red;
+}

@@ -1,4 +1,3 @@
-// _globals.scss
 
 // Breakpoints
 $breakpoints: (
@@ -31,9 +30,9 @@ $color-quinary: #dee2e6;
       @content;
     }
   }
-
     // Warn if the breakpoint doesn't exist
   @else {
     @warn "Het breekpunt '#{$breakpoint}' kon niet worden gevonden. Controleer of het is gedefinieerd.";
   }
 }
+

@@ -4,12 +4,12 @@ import HomePage from './pages/homePage/HomePage';
 import HeroesPage from './pages/heroesPage/HeroesPage';
 import ComicsPage from './pages/comicsPage/ComicsPage';
 import EventsPage from './pages/eventsPage/EventsPage';
-import NavBar from "./navbar/NavBar";
 import DataContextProvider from "./context/DataContext";
-import LoginPage from './pages/LoginPage';
-import ProfilePage from "./pages/ProfilePage";
+import LoginPage from './pages/login/LoginPage';
+import ProfilePage from "./pages/profilePage/ProfilePage";
 import {AuthContext} from "./context/AuthContext";
-import Register from "./pages/Register";
+import Register from "./pages/register/Register";
+import NavBarT from "./navbar/NavBar";
 
 const AppRoutes = () => {
 
@@ -18,7 +18,7 @@ const AppRoutes = () => {
     return (
         <>
                 <DataContextProvider>
-                    <NavBar />
+                    <NavBarT />
                     <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/heroes" element={<HeroesPage />}>

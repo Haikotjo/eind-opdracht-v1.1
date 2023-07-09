@@ -1,79 +1,85 @@
-import React, { useState, useContext } from 'react';
-import Modal from 'react-modal';
-import ComicCard from '../comic-card/ComicCard';
-import {DataContext} from "../../context/DataContext";
-import SaveButton from "../buttons/addToFavorite/AddToFavorite";
-import {Link} from "react-router-dom";
+import React, { useContext, useState } from 'react';
+import SaveButton from "../buttons/addToFavorite/SaveButton";
 import styles from './HeroCard.module.scss';
+import { DataContext } from '../../context/DataContext';
+import CustomModal from '../customModal/CustomModal';
 
-const HeroCard = ({ hero, isModal, onCardClick }) => {
-    const [modalIsOpen, setIsOpen] = useState(false);
-    const [currentComic, setCurrentComic] = useState(null);
+const HeroCard = ({ hero }) => {
     const { fetchMarvelData } = useContext(DataContext);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [selectedComic, setSelectedComic] = useState(null);
 
-    function openModal(comic) {
+    const [isExpanded, setIsExpanded] = useState(false)
+
+    const showModal = async (comic) => {
+        setIsModalVisible(true);
+
         const comicId = comic.resourceURI.split('/').pop();
+        console.log("Fetching data for comic ID: ", comicId);
+        try {
+            const data = await fetchMarvelData('comics', 1, 0, comicId);
+            console.log(data); // Log the data
+            const comicData = data.results[0];
+            console.log(comicData.thumbnail); // Log the thumbnail
+            setSelectedComic(comicData);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-        fetchMarvelData('comics', null, null, comicId, null, null, true)
-            .then(response => {
-                setCurrentComic(response[0]);
-                setIsOpen(true);
-            })
-            .catch(error => {
-                console.error("Er was een fout bij het ophalen van de comic: ", error);
-            });
-    }
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
 
-    function closeModal() {
-        setIsOpen(false);
-    }
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    const handlePanelChange = () => {
+        setIsExpanded(!isExpanded);
+    };
 
     return (
-        <>
-            <div className={styles["hero-card"]}>
-                <div className={styles["hero-card__image-wrapper"]}>
-                    <img
-                        className={styles["hero-card__image"]}
-                        alt={hero.name}
-                        src={`${hero.thumbnail.path}/portrait_incredible.${hero.thumbnail.extension}`}
-                    />
-                    {isModal && (
-                        <>
-                            <SaveButton itemKey="savedHero" item={hero} />
-                            <p>favorite</p>
-                        </>
-                    )}
-                    {!isModal && (<button className={styles["hero-card__button"]} onClick={() => !isModal && onCardClick(hero)}>more</button>)}
-                </div>
-                <div className={styles["hero-info"]}>
-                    {isModal && (
-                        <>
-                                <h2 className={styles["hero-info__name"]}>{hero.name}</h2>
-                                <p className={styles["hero-info__description"]}>{hero.description}</p>
-                                <ul className={styles["hero-info__comic-list"]}>
-                                <h4>Comics</h4>
-                                {hero.comics.items.map((comic, index) => (
-                                    <li key={index} className={styles["hero-info__comic-list-item"]}>
-                                        <Link to={`/comics/${comic.resourceURI.split('/').pop()}`}>
-                                            {comic.name}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </>
-                    )}
+        <div className={styles.card}>
+            <div className={styles.title}>{hero.name}</div>
+            <div className={styles.content}>
+                <img
+                    className={styles['hero-card__image']}
+                    alt={hero.name}
+                    src={`${hero.thumbnail.path}/portrait_incredible.${hero.thumbnail.extension}`}
+                />
+                <SaveButton itemKey="savedHero" item={hero} />
+
+                <div className={styles['more-info']} onClick={handlePanelChange}>
+                    {isExpanded ? "Less" : "More"}
                 </div>
 
-                <Modal
-                    isOpen={modalIsOpen}
-                    className={styles["modal-content"]}
-                    onRequestClose={closeModal}
-                    contentLabel="Comic Modal"
-                >
-                    {currentComic && <ComicCard comic={currentComic} isModal={isModal} />}
-                </Modal>
+                {isExpanded && (
+                    <>
+                        <h2 className={styles['hero-info__name']}>{hero.name}</h2>
+                        <p className={styles['hero-info__description']}>{hero.description}</p>
+                        <ul>
+                            {hero.comics.items.map((comic, index) => (
+                                <li key={index}>
+                                    <a onClick={() => showModal(comic)}>
+                                        {comic.name}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
+                )}
             </div>
-        </>
+
+            <CustomModal
+                isModalVisible={isModalVisible}
+                handleOk={handleOk}
+                handleCancel={handleCancel}
+                selectedItem={selectedComic}
+                itemKey="savedHero"
+                title="Comic Details"
+            />
+        </div>
     );
 }
 

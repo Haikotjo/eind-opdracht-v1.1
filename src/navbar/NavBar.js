@@ -1,34 +1,150 @@
-import {BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
+import * as React from 'react';
+import { NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import AdbIcon from '@mui/icons-material/Adb';
 import styles from './NavBar.module.scss';
 
-function NavBar() {
+function ResponsiveAppBar() {
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
 
-    const { isAuth, logout } = useContext(AuthContext)
+    const { isAuth, logout } = useContext(AuthContext);
+
+    const handleOpenNavMenu = (event) => {
+        setAnchorElNav(event.currentTarget);
+    };
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
+
 
     return (
-        <nav className={styles.navbar}>
-            <ul className={styles['navbar-list-left']}>
-                <li className={styles['navbar-item']}><NavLink to="/" end className={styles['navbar-link']}>Home</NavLink></li>
-                <li className={styles['navbar-item']}><NavLink to="/heroes" className={styles['navbar-link']}>Heroes</NavLink></li>
-                <li className={styles['navbar-item']}><NavLink to="/comics" className={styles['navbar-link']}>Comics</NavLink></li>
-                <li className={styles['navbar-item']}><NavLink to="/events" className={styles['navbar-link']}>Events</NavLink></li>
-                {isAuth && <li className={styles['navbar-item']}><NavLink to="/profile" className={styles['navbar-link']}>Profile</NavLink></li>}
-            </ul>
-            <ul className={styles['navbar-list-right']}>
-                {isAuth &&
-                    <li className={styles['navbar-item']}><button type="button" className={styles['navbar-link']} onClick={logout}>Logout</button></li>
-                }
-                {!isAuth &&
-                    <>
-                        <li className={styles['navbar-item']}><NavLink to="/login" className={styles['navbar-link']}>Login</NavLink></li>
-                        <li className={styles['navbar-item']}><NavLink to="/register" className={styles['navbar-link']}>Register</NavLink></li>
-                    </>
-                }
-            </ul>
-        </nav>
+        <AppBar className={styles["app-bar"]} position="static">
+            <Container maxWidth="xl">
+                <Toolbar disableGutters>
+                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="a"
+                        href="/"
+                        sx={{
+                            mr: 2,
+                            display: { xs: 'none', md: 'flex' },
+                            fontFamily: 'monospace',
+                            fontWeight: 700,
+                            letterSpacing: '.3rem',
+                            color: 'inherit',
+                            textDecoration: 'none',
+                        }}
+                    >
+                        Comic Collector
+                    </Typography>
+
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleOpenNavMenu}
+                            color="inherit"
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorElNav}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            open={Boolean(anchorElNav)}
+                            onClose={handleCloseNavMenu}
+                            sx={{
+                                display: { xs: 'block', md: 'none' },
+                            }}
+                        >
+                            {(isAuth ? ['Home', 'Events', 'Comics', 'Heroes', 'Profile', 'Logout'] : ['Events', 'Comics', 'Heroes', 'Login', 'Register']).map((page) => (
+                                page === "Logout" ?
+                                    <MenuItem key={page} onClick={logout}>
+                                        <Typography textAlign="center">{page}</Typography>
+                                    </MenuItem> :
+                                    <NavLink
+                                        key={page}
+                                        to={`/${page.toLowerCase()}`}
+                                        style={{ color: 'black', textDecoration: 'none' }}
+                                    >
+                                        <MenuItem onClick={handleCloseNavMenu}>
+                                            <Typography textAlign="center">{page}</Typography>
+                                        </MenuItem>
+                                    </NavLink>
+                            ))}
+                        </Menu>
+
+                    </Box>
+                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+                    <Typography
+                        variant="h5"
+                        noWrap
+                        component="a"
+                        href=""
+                        sx={{
+                            mr: 2,
+                            display: { xs: 'flex', md: 'none' },
+                            flexGrow: 1,
+                            fontFamily: 'monospace',
+                            fontWeight: 700,
+                            letterSpacing: '.3rem',
+                            color: 'inherit',
+                            textDecoration: 'none',
+                        }}
+                    >
+                        HERO
+                    </Typography>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                        {(isAuth ? ['Events', 'Comics', 'Heroes', 'Profile', 'Logout'] : ['Events', 'Comics', 'Heroes', 'Login', 'Register']).map((page) => (
+                            page === "Logout" ?
+                                <Button
+                                    key={page}
+                                    onClick={logout}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                >
+                                    {page}
+                                </Button> :
+                                <NavLink
+                                    key={page}
+                                    to={`/${page.toLowerCase()}`}
+                                    style={{ color: 'white', textDecoration: 'none' }}
+                                >
+                                    <Button
+                                        onClick={handleCloseNavMenu}
+                                        sx={{ my: 2, color: 'white', display: 'block' }}
+                                    >
+                                        {page}
+                                    </Button>
+                                </NavLink>
+                        ))}
+
+                    </Box>
+                </Toolbar>
+            </Container>
+        </AppBar>
     );
 }
-
-export default NavBar;
+export default ResponsiveAppBar;

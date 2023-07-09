@@ -1,0 +1,33 @@
+@import '../../styles/_globals.scss';
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  &__form {
+    max-width: 50%;
+    width: 600px;
+  }
+
+  &__title {
+    // Voeg hier stijlen toe voor de titel.
+  }
+
+  &__input {
+    // Voeg hier stijlen toe voor de inputvelden.
+  }
+
+  &__error {
+    // Voeg hier stijlen toe voor de foutmelding.
+  }
+
+  &__register-link {
+    // Voeg hier stijlen toe voor de register-link.
+  }
+
+  &__submit-btn {
+    // Voeg hier stijlen toe voor de submit-knop.
+  }
+}
