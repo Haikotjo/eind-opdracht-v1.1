@@ -5,25 +5,26 @@ import { Link } from "react-router-dom";
 import styles from './LoginPage.module.scss';
 
 function LoginPage() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState(null)
-    const { login } = useContext(AuthContext)
+    const [username, setUsername] = useState(""); // State voor de gebruikersnaam
+    const [password, setPassword] = useState(""); // State voor het wachtwoord
+    const [error, setError] = useState(null) // State voor het beheren van fouten
+    const { login } = useContext(AuthContext) // Haal de login-functie uit de AuthContext
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(false)
 
         try {
+            // Probeer de gebruiker in te loggen
             const res = await axios.post('https://frontend-educational-backend.herokuapp.com/api/auth/signin', {
                 username: username,
                 password: password,
             });
             console.log(res.data)
-            login(res.data.accessToken, '/profile');
+            login(res.data.accessToken, '/profile'); // Bij succesvolle login, stuur de gebruiker naar de profielpagina
         } catch (e) {
             console.log("Onjuiste email en wachtwoord combinatie", e)
-            setError(true)
+            setError(true) // Als er een fout optreedt, stel de fout state in op true
         }
     }
 
@@ -47,7 +48,7 @@ function LoginPage() {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-                    {error && <p className={styles["login-page__error"]}>Error Onjuiste aanmeldgegevens.</p>}
+                    {error && <p className={styles["login-page__error"]}>Er is een fout opgetreden. Controleer of je gebruikersnaam en wachtwoord correct zijn.</p>}
                     <p className={styles["login-page__register-link"]}>Heb je nog geen account? <Link to="/register">Registreer</Link> je dan eerst.</p>
                     <button type="submit" className={styles["login-page__submit-btn"]}>Login</button>
                 </form>

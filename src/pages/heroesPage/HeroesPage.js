@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import HeroCard from '../../components/hero-card/HeroCard';
 import { DataContext } from "../../context/DataContext";
+import { handleError } from "../../helpers/handleError";
 import useDebounce from '../../hooks/useDebounce';
 import styles from './HeroesPage.module.scss';
 import Loading from "../../components/loading/Loading";
@@ -13,6 +14,7 @@ function HeroesPage() {
     const [offset, setOffset] = useState(0);
     const [searchTerm, setSearchTerm] = useState("");
     const [pageSize, setPageSize] = useState(20);
+    const [error, setError] = useState(null);
     const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
     useEffect(() => {
@@ -27,12 +29,14 @@ function HeroesPage() {
                     setHeroes([]);
                 }
             } catch (error) {
-                console.error("Er was een fout bij het ophalen van de heroes: ", error);
+                handleError(error); // Handle de error met de helper functie
+                setError(error);    // Zet de error state zodat deze kan worden weergegeven aan de gebruiker
             }
         };
         fetchData();
     }, [fetchMarvelData, offset, pageSize, debouncedSearchTerm]);
 
+    // Handlers voor paginagrootte en pagina wijzigingen
     const handlePageChange = (event) => {
         const page = Number(event.target.value);
         setOffset((page - 1) * pageSize);
@@ -44,12 +48,19 @@ function HeroesPage() {
         setOffset(0);
     }
 
+    // Handler voor zoekterm wijzigingen
     const onInputChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
     return (
-        isLoading ? <Loading /> :
+        isLoading ? <Loading /> : error ? (
+                <div className={styles["error"]}>
+                    <h2 className={styles["error-title"]}>Er is iets misgegaan...</h2>
+                    <p className={styles["error-message"]}>We konden de gevraagde data niet laden. Probeer het later opnieuw.</p>
+                    <p className={styles["error-details"]}>Foutdetails: {error.message}</p>
+                </div>
+            ) :
             <div className={styles["heroes-page"]}>
                 <h1 className={styles["heroes-title"]}>ALL SUPER HEROES</h1>
                 <input

@@ -19,11 +19,12 @@ const HomePage = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        // Functie om willekeurige data op te halen
         const fetchRandomData = async (category) => {
             const data = await fetchMarvelData(category, 1, 0);
             const totalItems = data.total;
 
-            const itemsPerPage = 10;
+            const itemsPerPage = 25;
             const maxOffset = totalItems - itemsPerPage;
             const randomOffset = Math.floor(Math.random() * maxOffset);
 
@@ -34,6 +35,7 @@ const HomePage = () => {
         setError(null);
         setIsLoading(true);
 
+        // Haal de data voor alle categorieën op
         Promise.all([
             fetchRandomData('characters'),
             fetchRandomData('comics'),
@@ -44,7 +46,8 @@ const HomePage = () => {
             setEvents(eventsData);
             setIsLoading(false);
         }).catch((error) => {
-            handleError(error);
+            handleError(error); // Handle de error met de helper functie
+            setError(error);    // Zet de error state zodat deze kan worden weergegeven aan de gebruiker
             setIsLoading(false);
         });
     }, [fetchMarvelData]);
@@ -54,7 +57,7 @@ const HomePage = () => {
                 <div className={styles["error"]}>
                     <h2 className={styles["error-title"]}>Something went wrong...</h2>
                     <p className={styles["error-message"]}>We couldn't load the data you requested. Please try again later.</p>
-                    <p className={styles["error-details"]}>Error details: {error}</p>
+                    <p className={styles["error-details"]}>Error details: {error.message}</p>
                 </div>
             ) :
             <main className={styles["home"]}>

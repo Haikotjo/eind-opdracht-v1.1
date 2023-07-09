@@ -5,9 +5,12 @@ import axios from "axios";
 import useIdleTimer from "../hooks/UseIdleTimer";
 import {clearLocalStorage} from "../helpers/ClearLocalStorage";
 
+// AuthContext wordt gecreëerd en kan worden gebruikt om authentificatiestatus te delen tussen componenten.
 export const AuthContext = createContext(null)
+
 function AuthContextProvider({children}) {
 
+    // Authentificatiestatus wordt beheerd door de useState hook.
     const [auth, setAuth] = useState({
         isAuth: false,
         user: null,
@@ -15,6 +18,8 @@ function AuthContextProvider({children}) {
     });
     const navigate = useNavigate();
 
+    // Bij het laden van de component wordt gecontroleerd of er een token in de lokale opslag is,
+    // en of het token geldig is. Zo ja, dan wordt de gebruiker ingelogd.
     useEffect(()=>{
         const storedToken = localStorage.getItem('token')
 
@@ -30,7 +35,10 @@ function AuthContextProvider({children}) {
         }
     },[])
 
+    // Als er een uur lang geen activiteit is geweest, wordt de gebruiker automatisch uitgelogd.
     useIdleTimer(logout, 3600000);
+
+    // Deze functie wordt gebruikt om de gebruiker in te loggen.
     async function login(jwt_token, redirect) {
         localStorage.setItem('token', jwt_token);
         try {
@@ -59,6 +67,7 @@ function AuthContextProvider({children}) {
         }
     }
 
+    // Deze functie wordt gebruikt om de gebruiker uit te loggen.
     function logout() {
         clearLocalStorage();
         setAuth({
@@ -70,6 +79,8 @@ function AuthContextProvider({children}) {
         navigate('/')
     }
 
+    // De context provider maakt de authentificatiestatus en de login en logout functies beschikbaar
+    // voor alle kindcomponenten.
     const data = {
         isAuth: auth.isAuth,
         user: auth.user,

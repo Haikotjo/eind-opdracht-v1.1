@@ -2,6 +2,7 @@ import axios from 'axios';
 import md5 from 'md5';
 import React, {createContext, useState} from "react";
 
+// DataContext wordt gecreëerd en kan worden gebruikt om data te delen tussen componenten.
 export const DataContext = createContext(null)
 
 const publicKey = process.env.REACT_APP_MARVEL_PUBLIC_KEY;
@@ -10,6 +11,7 @@ const BASE_URL = 'http://gateway.marvel.com/v1/public';
 
 const DataContextProvider = ({children}) => {
 
+    // useState hook wordt gebruikt om de status van een item bij te houden.
     const [isItem, setItem] = useState("")
 
     const data = {
@@ -17,11 +19,13 @@ const DataContextProvider = ({children}) => {
         setItem : setItem,
         fetchMarvelData: fetchMarvelData,
     }
+
+    // Deze functie creëert een md5-hash die nodig is voor de Marvel API.
     function createHash(timeStamp) {
         return md5(timeStamp + privateKey + publicKey);
     }
 
-
+    // Deze functie wordt gebruikt om data op te halen van de Marvel API.
     function fetchMarvelData(endpoint, limit = 20, offset = 0, id = null, searchTerm, nameStartsWith, wantResults) {
         const timeStamp = Date.now();
         const hash = createHash(timeStamp);
@@ -34,6 +38,7 @@ const DataContextProvider = ({children}) => {
             offset
         }
 
+        // De parameters van de API-aanvraag worden aangepast op basis van de meegegeven argumenten.
         if (searchTerm) {
             params.nameStartsWith = searchTerm;
         }
@@ -47,6 +52,7 @@ const DataContextProvider = ({children}) => {
             url = `${url}/${id}`;
         }
 
+        // De daadwerkelijke API-aanvraag wordt gedaan met behulp van axios.
         return axios.get(url, {params})
             .then(response => wantResults ? response.data.data.results : response.data.data)
             .catch(error => {
@@ -54,6 +60,8 @@ const DataContextProvider = ({children}) => {
             });
     }
 
+    // De context provider maakt de data en de fetchMarvelData-functie beschikbaar
+    // voor alle kindcomponenten.
     return(
         <DataContext.Provider value={data}>
             {children}
