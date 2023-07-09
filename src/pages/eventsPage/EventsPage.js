@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import EventCard from '../../components/event-card/EventCard';
-import { Pagination } from 'antd';
 import { DataContext } from "../../context/DataContext";
 import useDebounce from '../../hooks/useDebounce';
 import styles from './EventsPage.module.scss';
@@ -34,11 +33,13 @@ function EventsPage() {
         fetchData();
     }, [fetchMarvelData, offset, pageSize, debouncedSearchTerm]);
 
-    const handlePageChange = (page, pageSize) => {
+    const handlePageChange = (event) => {
+        const page = Number(event.target.value);
         setOffset((page - 1) * pageSize);
     }
 
-    const handleSizeChange = (current, size) => {
+    const handleSizeChange = (event) => {
+        const size = Number(event.target.value);
         setPageSize(size);
         setOffset(0);
     }
@@ -50,7 +51,7 @@ function EventsPage() {
     return (
         isLoading ? <Loading /> :
             <div className={styles["events-page"]}>
-                <h1 className={styles["event-title"]}>All Events</h1>
+                <h1 className={styles["events-title"]}>All Events</h1>
                 <input
                     className={styles["events-search"]}
                     type="text"
@@ -58,18 +59,22 @@ function EventsPage() {
                     value={searchTerm}
                     onChange={onInputChange}
                 />
-                <Pagination
-                    defaultCurrent={1}
-                    current={(offset / pageSize) + 1}
-                    total={total}
-                    pageSize={pageSize}
-                    showSizeChanger
-                    onShowSizeChange={handleSizeChange}
-                    onChange={handlePageChange}
-                />
-                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+                <div className={styles["pagination"]}>
+                    <input
+                        type="number"
+                        value={(offset / pageSize) + 1}
+                        onChange={handlePageChange}
+                    />
+                    <input
+                        type="number"
+                        value={pageSize}
+                        onChange={handleSizeChange}
+                    />
+                    <span>Total: {total}</span>
+                </div>
+                <div className={styles["events-wrapper"]}>
                     {events.map(event => (
-                        <div style={{ margin: '0.5em' }}>
+                        <div className={styles["event-card-wrapper"]}>
                             <EventCard key={event.id} event={event} />
                         </div>
                     ))}

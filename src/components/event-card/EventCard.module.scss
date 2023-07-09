@@ -1,79 +1,61 @@
-//@import '../../styles/_globals.scss';
-//
-//.event-card {
-//  display: grid;
-//  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-//  gap: 1rem;
-//  padding: 1rem;
-//  background-color: #fff;
-//  border-radius: 8px;
-//  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-//
-//  &__image {
-//    width: 100%;
-//    height: auto;
-//    object-fit: cover;
-//    border-radius: 8px;
-//  }
-//
-//  &__info {
-//    display: flex;
-//    flex-direction: column;
-//    justify-content: center;
-//    align-items: center;
-//    text-align: center;
-//
-//    &--btn {
-//      //margin-bottom: 1rem;
-//      padding: 0.5rem 1rem;
-//      font-size: 1rem;
-//      color: #fff;
-//      background-color: #007BFF;
-//      border: none;
-//      border-radius: 4px;
-//      cursor: pointer;
-//
-//      &:hover {
-//        background-color: #0056b3;
-//      }
-//    }
-//
-//    &--title {
-//      margin-bottom: 0.5rem;
-//      font-size: 1.2rem;
-//      font-weight: bold;
-//    }
-//
-//    &--description {
-//      font-size: 0.9rem;
-//    }
-//
-//    &--hero-list,
-//    &--comic-list {
-//      list-style: none;
-//      padding: 0;
-//
-//      &-item {
-//        font-size: 0.8rem;
-//        color: #007BFF;
-//
-//        &:not(:last-child) {
-//          margin-bottom: 0.5rem;
-//        }
-//      }
-//    }
-//  }
-//
-//  .modal-content {
-//    display: flex;
-//    flex-direction: column;
-//    justify-content: center;
-//    align-items: center;
-//    width: 90vw;
-//    max-width: 400px;
-//    padding: 2rem;
-//    background-color: #fff;
-//    border-radius: 8px;
-//    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-//  }
-//}
+@import '../../styles/_globals.scss';
+
+.card {
+  width: 250px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  margin: 0.5em;
+  overflow: hidden;
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+}
+
+.title {
+  background-color: #f0f2f5;
+  color: #262626;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+}
+
+.content {
+  padding: 10px;
+}
+
+.event-card__image {
+  width: 100%;
+  height: auto;
+}
+
+.more-info {
+  color: #fff;
+  background-color: #1890ff;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.more-info:hover {
+  background-color: #40a9ff;
+}
+
+.event-info__name {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 0.75em;
+}
+
+.event-info__description {
+  margin-top: 0.5em;
+}
+
+.e-card__info-hero-list-item {
+  cursor: pointer;
+  color: #1890ff;
+  transition: color 0.3s ease;
+}
+
+.comic-card__info-hero-list-item:hover {
+  color: #40a9ff;
+}

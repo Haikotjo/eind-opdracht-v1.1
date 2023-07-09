@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import ComicCard from '../../components/comic-card/ComicCard';
-import { Pagination } from 'antd';
 import { DataContext } from "../../context/DataContext";
 import useDebounce from '../../hooks/useDebounce';
 import styles from './ComicsPage.module.scss';
@@ -19,7 +18,7 @@ function ComicsPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await fetchMarvelData('comics', pageSize, offset, null, debouncedSearchTerm, false);
+                const data = await fetchMarvelData('comics', pageSize, offset, null, null, debouncedSearchTerm, false);
                 if (Array.isArray(data.results)) {
                     setComics(data.results);
                     setTotal(data.total);
@@ -34,11 +33,13 @@ function ComicsPage() {
         fetchData();
     }, [fetchMarvelData, offset, pageSize, debouncedSearchTerm]);
 
-    const handlePageChange = (page, pageSize) => {
+    const handlePageChange = (event) => {
+        const page = Number(event.target.value);
         setOffset((page - 1) * pageSize);
     }
 
-    const handleSizeChange = (current, size) => {
+    const handleSizeChange = (event) => {
+        const size = Number(event.target.value);
         setPageSize(size);
         setOffset(0);
     }
@@ -58,18 +59,22 @@ function ComicsPage() {
                     value={searchTerm}
                     onChange={onInputChange}
                 />
-                <Pagination
-                    defaultCurrent={1}
-                    current={(offset / pageSize) + 1}
-                    total={total}
-                    pageSize={pageSize}
-                    showSizeChanger
-                    onShowSizeChange={handleSizeChange}
-                    onChange={handlePageChange}
-                />
-                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+                <div className={styles["pagination"]}>
+                    <input
+                        type="number"
+                        value={(offset / pageSize) + 1}
+                        onChange={handlePageChange}
+                    />
+                    <input
+                        type="number"
+                        value={pageSize}
+                        onChange={handleSizeChange}
+                    />
+                    <span>Total: {total}</span>
+                </div>
+                <div className={styles["comics-wrapper"]}>
                     {comics.map(comic => (
-                        <div style={{ margin: '0.5em' }}>
+                        <div className={styles["comic-card-wrapper"]}>
                             <ComicCard key={comic.id} comic={comic} />
                         </div>
                     ))}

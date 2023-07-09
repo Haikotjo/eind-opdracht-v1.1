@@ -4,7 +4,6 @@ import HomePage from './pages/homePage/HomePage';
 import HeroesPage from './pages/heroesPage/HeroesPage';
 import ComicsPage from './pages/comicsPage/ComicsPage';
 import EventsPage from './pages/eventsPage/EventsPage';
-import NavBarOG from "./navbar/NavBarOG";
 import DataContextProvider from "./context/DataContext";
 import LoginPage from './pages/login/LoginPage';
 import ProfilePage from "./pages/profilePage/ProfilePage";

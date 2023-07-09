@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import HeroCard from '../../components/hero-card/HeroCard';
-import { Pagination } from 'antd';
 import { DataContext } from "../../context/DataContext";
 import useDebounce from '../../hooks/useDebounce';
 import styles from './HeroesPage.module.scss';
@@ -34,11 +33,13 @@ function HeroesPage() {
         fetchData();
     }, [fetchMarvelData, offset, pageSize, debouncedSearchTerm]);
 
-    const handlePageChange = (page, pageSize) => {
+    const handlePageChange = (event) => {
+        const page = Number(event.target.value);
         setOffset((page - 1) * pageSize);
     }
 
-    const handleSizeChange = (current, size) => {
+    const handleSizeChange = (event) => {
+        const size = Number(event.target.value);
         setPageSize(size);
         setOffset(0);
     }
@@ -58,23 +59,26 @@ function HeroesPage() {
                     value={searchTerm}
                     onChange={onInputChange}
                 />
-                <Pagination
-                    defaultCurrent={1}
-                    current={(offset / pageSize) + 1}
-                    total={total}
-                    pageSize={pageSize}
-                    showSizeChanger
-                    onShowSizeChange={handleSizeChange}
-                    onChange={handlePageChange}
-                />
-                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+                <div className={styles["pagination"]}>
+                    <input
+                        type="number"
+                        value={(offset / pageSize) + 1}
+                        onChange={handlePageChange}
+                    />
+                    <input
+                        type="number"
+                        value={pageSize}
+                        onChange={handleSizeChange}
+                    />
+                    <span>Total: {total}</span>
+                </div>
+                <div className={styles["heroes-wrapper"]}>
                     {heroes.map(hero => (
-                        <div style={{ margin: '0.5em' }}>
+                        <div className={styles["hero-card-wrapper"]}>
                             <HeroCard key={hero.id} hero={hero} />
                         </div>
                     ))}
                 </div>
-
             </div>
     );
 }

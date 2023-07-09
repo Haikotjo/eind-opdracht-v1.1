@@ -2,9 +2,7 @@ import React, { useContext, useState } from 'react';
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Space, Input, Button } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import './Login.module.scss';
+import styles from './LoginPage.module.scss';
 
 function LoginPage() {
     const [username, setUsername] = useState("");
@@ -30,31 +28,28 @@ function LoginPage() {
     }
 
     return (
-        <div className="login-page" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-            <div className="login-page__form" style={{ maxWidth: '50%', width: '600px' }}>
-                <h2 className="login-page__title">Login</h2>
-                <form onSubmit={handleSubmit} className="login-page__form">
-                    <Space direction="vertical" style={{ width: '100%' }}>
-                        <Input
-                            size="large"
-                            className="login-page__input"
+        <div className={styles["login-page"]}>
+            <div className={styles["login-page__form"]}>
+                <h2 className={styles["login-page__title"]}>Login</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className={styles["input-group"]}>
+                        <input
+                            className={styles["login-page__input"]}
                             placeholder="Gebruikersnaam"
-                            prefix={<UserOutlined />}
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
-                        <Input.Password
-                            size="large"
-                            className="login-page__input"
+                        <input
+                            type="password"
+                            className={styles["login-page__input"]}
                             placeholder="Wachtwoord"
-                            prefix={<LockOutlined />}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                    </Space>
-                    {error && <p className="login-page__error">Error Onjuiste aanmeldgegevens.</p>}
-                <p className="login-page__register-link">Heb je nog geen account? <Link to="/register">Registreer</Link> je dan eerst.</p>
-                    <Button type="primary" htmlType="submit" className="login-page__submit-btn">Login</Button>
+                    </div>
+                    {error && <p className={styles["login-page__error"]}>Error Onjuiste aanmeldgegevens.</p>}
+                    <p className={styles["login-page__register-link"]}>Heb je nog geen account? <Link to="/register">Registreer</Link> je dan eerst.</p>
+                    <button type="submit" className={styles["login-page__submit-btn"]}>Login</button>
                 </form>
             </div>
         </div>

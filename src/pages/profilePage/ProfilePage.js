@@ -1,10 +1,10 @@
 import React, {useContext, useState, useEffect} from 'react';
-import { Row, Col } from 'antd';
 import {AuthContext} from "../../context/AuthContext";
 import ComicCard from "../../components/comic-card/ComicCard";
 import HeroCard from "../../components/hero-card/HeroCard";
 import EventCard from "../../components/event-card/EventCard";
 import { SavedContext } from '../../context/SavedContext';
+import styles from './ProfilePage.module.scss';
 
 function Profile() {
     const { user: { email, username} } = useContext(AuthContext);
@@ -36,16 +36,16 @@ function Profile() {
     }, [savedItemsChangeCounter]);
 
     return (
-        <main>
+        <main className={styles["profile-page"]}>
             <h1>My Profile</h1>
             <p>Welcome <span>{ email } </span></p>
             <p>Your name is: <span>{ username }</span></p>
 
-            <Row gutter={[16, 16]}>
-                <Col xs={24} sm={24} md={8} lg={8}>
+            <div className={styles["row"]}>
+                <div className={styles["col"]}>
                     <section>
                         <h2>Saved Comics</h2>
-                        <div className="comics-list" >
+                        <div className={styles["comics-list"]} >
                             {savedComic.map(comic => {
                                 return <ComicCard
                                     key={comic.id}
@@ -54,11 +54,11 @@ function Profile() {
                             })}
                         </div>
                     </section>
-                </Col>
-                <Col xs={24} sm={24} md={8} lg={8}>
+                </div>
+                <div className={styles["col"]}>
                     <section>
                         <h2>Saved Heroes</h2>
-                        <div className="heroes-list" >
+                        <div className={styles["heroes-list"]} >
                             {savedHero.map(hero => {
                                 return <HeroCard
                                     key={hero.id}
@@ -67,11 +67,11 @@ function Profile() {
                             })}
                         </div>
                     </section>
-                </Col>
-                <Col xs={24} sm={24} md={8} lg={8}>
+                </div>
+                <div className={styles["col"]}>
                     <section>
                         <h2>Saved Events</h2>
-                        <div className="events-list" >
+                        <div className={styles["events-list"]} >
                             {savedEvent.map(event => {
                                 return <EventCard
                                     key={event.id}
@@ -80,8 +80,8 @@ function Profile() {
                             })}
                         </div>
                     </section>
-                </Col>
-            </Row>
+                </div>
+            </div>
         </main>
     );
 }

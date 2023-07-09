@@ -1,0 +1,22 @@
+@import '../../styles/_globals.scss';
+
+.profile-page {
+    padding: 2rem;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin: -1rem;
+}
+
+.col {
+    flex: 1 1 30%;
+    margin: 1rem;
+}
+
+.comics-list, .heroes-list, .events-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}

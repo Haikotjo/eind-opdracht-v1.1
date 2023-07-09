@@ -1,16 +1,15 @@
 import React, { useContext, useState } from 'react';
 import SaveButton from "../buttons/addToFavorite/SaveButton";
 import styles from './ComicCard.module.scss';
-import { Card, Space, Collapse, Button } from 'antd';
 import { DataContext } from '../../context/DataContext';
 import CustomModal from '../customModal/CustomModal';
-
-const { Panel } = Collapse;
 
 const ComicCard = ({ comic }) => {
     const { fetchMarvelData } = useContext(DataContext);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedCharacter, setSelectedCharacter] = useState(null);
+
+    const [isExpanded, setIsExpanded] = useState(false)
 
     const showModal = async (character) => {
         setIsModalVisible(true);
@@ -36,45 +35,42 @@ const ComicCard = ({ comic }) => {
         setIsModalVisible(false);
     };
 
-    const [isExpanded, setIsExpanded] = useState(false)
-    const handlePanelChange = (key) => {
-        setIsExpanded(!!key.length);
+    const handlePanelChange = () => {
+        setIsExpanded(!isExpanded);
     };
 
     return (
-        <Space direction="vertical" size={16}>
-            <Card
-                size="small"
-                title={comic.title}
-                extra={
-                    <Collapse ghost onChange={handlePanelChange}>
-                        <Panel header={isExpanded ? "Less" : "More"} key="1">
-                            <SaveButton itemKey="savedComic" item={comic} />
-                            <h2 className={styles["comic-card__info-title"]}>{comic.title}</h2>
-                            <p className={styles["comic-card__info-description"]}>{comic.description}</p>
-                            <ul className={styles["comic-card__info-hero-list"]}>
-                                {comic.characters.items.map((character, index) => (
-                                    <li key={index} className={styles["comic-card__info-hero-list-item"]}>
-                                        <a onClick={() => showModal(character)}>
-                                            {character.name}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </Panel>
-                    </Collapse>
-                }
-                style={{
-                    width: 250,
-                }}
-            >
+        <div className={styles.card}>
+            <div className={styles.title}>{comic.title}</div>
+            <div className={styles.content}>
                 <img
-                    className={styles["comic-card__image"]}
+                    className={styles['comic-card__image']}
                     src={`${comic.thumbnail.path}/portrait_incredible.${comic.thumbnail.extension}`}
                     alt={comic.title}
                 />
                 <SaveButton itemKey="savedComic" item={comic} />
-            </Card>
+
+                <div className={styles['more-info']} onClick={handlePanelChange}>
+                    {isExpanded ? "Less" : "More"}
+                </div>
+
+                {isExpanded && (
+                    <>
+                        <h2 className={styles['comic-card__info-title']}>{comic.title}</h2>
+                        <p className={styles['comic-card__info-description']}>{comic.description}</p>
+                        <ul className={styles['comic-card__info-hero-list']}>
+                            {comic.characters.items.map((character, index) => (
+                                <li key={index} className={styles['comic-card__info-hero-list-item']}>
+                                    <a onClick={() => showModal(character)}>
+                                        {character.name}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
+                )}
+            </div>
+
             <CustomModal
                 isModalVisible={isModalVisible}
                 handleOk={handleOk}
@@ -82,9 +78,8 @@ const ComicCard = ({ comic }) => {
                 selectedItem={selectedCharacter}
                 itemKey="savedHero"
                 title="Character Details"
-            >
-            </CustomModal>
-        </Space>
+            />
+        </div>
     );
 };
 

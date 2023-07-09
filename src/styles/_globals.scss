@@ -1,39 +1,38 @@
- //_globals.scss
-//
-//// Breakpoints
-//$breakpoints: (
-//        'small': 576px,
-//        'medium': 768px,
-//        'large': 992px,
-//        'xlarge': 1200px,
-//        'xxlarge': 1400px,
-//);
-//
-//// Fonts
-//$font-primary: 'Montserrat', sans-serif;
-//$font-secondary: 'Shadows Into Light', cursive;
-//
+
+// Breakpoints
+$breakpoints: (
+        'small': 576px,
+        'medium': 768px,
+        'large': 992px,
+        'xlarge': 1200px,
+        'xxlarge': 1400px,
+);
+
+// Fonts
+$font-primary: 'Montserrat', sans-serif;
+$font-secondary: 'Shadows Into Light', cursive;
+
 // Colors
 $color-primary: #181C25;
 $color-secondary: #B12F56;
 $color-tertiary: #F7A072;
 $color-quaternary: #44BBA4;
 $color-quinary: #dee2e6;
-//
-//// Mixin for media query
-//@mixin respond-to($breakpoint) {
-//  // Check if the given breakpoint exists in the map
-//  @if map-has-key($breakpoints, $breakpoint) {
-//    // Retrieve the value of the breakpoint
-//    $breakpoint-value: map-get($breakpoints, $breakpoint);
-//
-//    @media (min-width: $breakpoint-value) {
-//      @content;
-//    }
-//  }
-//
-//    // Warn if the breakpoint doesn't exist
-//  @else {
-//    @warn "Het breekpunt '#{$breakpoint}' kon niet worden gevonden. Controleer of het is gedefinieerd.";
-//  }
-//}
+
+// Mixin for media query
+@mixin respond-to($breakpoint) {
+  // Check if the given breakpoint exists in the map
+  @if map-has-key($breakpoints, $breakpoint) {
+    // Retrieve the value of the breakpoint
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+    @media (min-width: $breakpoint-value) {
+      @content;
+    }
+  }
+    // Warn if the breakpoint doesn't exist
+  @else {
+    @warn "Het breekpunt '#{$breakpoint}' kon niet worden gevonden. Controleer of het is gedefinieerd.";
+  }
+}
+

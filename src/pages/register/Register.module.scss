@@ -1,13 +1,17 @@
+  @import '../../styles/_globals.scss';
+
 .register-page {
-  background-color: #f0f2f5;
-  padding: 16px;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .register-page__form {
-  background-color: #ffffff;
-  padding: 16px;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  max-width: 50%;
+  width: 600px;
+}
+
+.alert {
+  color: red;
 }

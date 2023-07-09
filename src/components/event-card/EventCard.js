@@ -1,11 +1,8 @@
 import React, { useContext, useState } from 'react';
 import SaveButton from "../buttons/addToFavorite/SaveButton";
 import styles from './EventCard.module.scss';
-import { Card, Space, Collapse, Button } from 'antd';
 import { DataContext } from '../../context/DataContext';
 import CustomModal from '../customModal/CustomModal';
-
-const { Panel } = Collapse;
 
 const EventCard = ({ event }) => {
     const { fetchMarvelData } = useContext(DataContext);
@@ -52,55 +49,53 @@ const EventCard = ({ event }) => {
     };
 
     const [isExpanded, setIsExpanded] = useState(false)
-
-    const handlePanelChange = (key) => {
-        setIsExpanded(!!key.length);
+    const handlePanelChange = () => {
+        setIsExpanded(!isExpanded);
     };
 
     return (
-        <Space direction="vertical" size={16}>
-            <Card
-                title={event.title}
-                extra={
-                    <Collapse ghost onChange={handlePanelChange}>
-                        <Panel header={isExpanded ? "Less" : "More"} key="1">
-                            <SaveButton className="heart-icon" itemKey="savedEvent" item={event} />
-                            <h2 className={styles['event-card__info--title']}>{event ? event.title : ''}</h2>
-                            <p className={styles['event-card__info--description']}>{event.description}</p>
-                            <ul>
-                                <p>heroes</p>
-                                {event.characters.items.map((character, index) => (
-                                    <li key={index}>
-                                        <a onClick={() => showModal(character, 'characters')}>
-                                            {character.name}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                            <ul>
-                                <p>comics</p>
-                                {event.comics.items.map((comic, index) => (
-                                    <li key={index}>
-                                        <a onClick={() => showModal(comic, 'comics')}>
-                                            {comic.name}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </Panel>
-                    </Collapse>
-                }
-                style={{
-                    width: 250,
-                }}
-            >
+        <div className={styles.card}>
+            <div className={styles.title}>{event.title}</div>
+            <div className={styles.content}>
                 <img
                     className={styles['event-card__image']}
                     alt={event.title}
                     src={event && event.thumbnail ? `${event.thumbnail.path}/portrait_incredible.${event.thumbnail.extension}` : 'fallbackAfbeeldingURL'}
                 />
                 <SaveButton itemKey="savedEvent" item={event} />
-            </Card>
+
+                <div className={styles['more-info']} onClick={handlePanelChange}>
+                    {isExpanded ? "Less" : "More"}
+                </div>
+
+                {isExpanded && (
+                    <>
+                        <h2 className={styles['event-card__info--title']}>{event ? event.title : ''}</h2>
+                        <p className={styles['event-card__info--description']}>{event.description}</p>
+                        <ul>
+                            <p>heroes</p>
+                            {event.characters.items.map((character, index) => (
+                                <li key={index}>
+                                    <a onClick={() => showModal(character, 'characters')}>
+                                        {character.name}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                        <ul>
+                            <p>comics</p>
+                            {event.comics.items.map((comic, index) => (
+                                <li key={index}>
+                                    <a onClick={() => showModal(comic, 'comics')}>
+                                        {comic.name}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
+                )}
+            </div>
+
             <CustomModal
                 isModalVisible={isComicModalVisible}
                 handleOk={handleComicModalOk}
@@ -117,7 +112,7 @@ const EventCard = ({ event }) => {
                 itemKey="savedHero"
                 title="Hero Details"
             />
-        </Space>
+        </div>
     );
 }
 

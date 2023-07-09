@@ -4,8 +4,8 @@ import Modal from 'react-modal';
 import AuthContextProvider, {AuthContext} from "./context/AuthContext";
 import './styles/App.scss'
 import {CssBaseline} from "@mui/material";
-import { Card, Space, Collapse, ConfigProvider } from 'antd';
 import {SavedProvider} from "./context/SavedContext";
+import {ConfigProvider} from "antd";
 
 Modal.setAppElement('#root');
 function App() {

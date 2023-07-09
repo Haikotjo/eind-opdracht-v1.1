@@ -1,6 +1,6 @@
 import React from 'react';
-import { Modal, Button } from 'antd';
 import SaveButton from "../buttons/addToFavorite/SaveButton";
+import styles from "./CustomModal.module.scss";
 
 const CustomModal = ({
                          isModalVisible,
@@ -11,21 +11,32 @@ const CustomModal = ({
                          title,
                          children
                      }) => {
+    if (!isModalVisible) {
+        return null;
+    }
+
     return (
-        <Modal title={title} open={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-            {selectedItem && (
-                <>
-                    <SaveButton itemKey={itemKey} item={selectedItem} />
-                    <h2>{selectedItem.title || selectedItem.name}</h2>
-                    <p>{selectedItem.description}</p>
-                    <img
-                        src={`${selectedItem.thumbnail.path}/portrait_incredible.${selectedItem.thumbnail.extension}`}
-                        alt={selectedItem.title || selectedItem.name}
-                    />
-                    {children}
-                </>
-            )}
-        </Modal>
+        <div className={styles.modal}>
+            <div className={styles.content}>
+                <h2>{title}</h2>
+                {selectedItem && (
+                    <>
+                        <SaveButton itemKey={itemKey} item={selectedItem} />
+                        <h2>{selectedItem.title || selectedItem.name}</h2>
+                        <p>{selectedItem.description}</p>
+                        <img
+                            src={`${selectedItem.thumbnail.path}/portrait_incredible.${selectedItem.thumbnail.extension}`}
+                            alt={selectedItem.title || selectedItem.name}
+                        />
+                        {children}
+                        <div className={styles.buttons}>
+                            <button onClick={handleOk}>OK</button>
+                            <button onClick={handleCancel}>Cancel</button>
+                        </div>
+                    </>
+                )}
+            </div>
+        </div>
     );
 }
 
