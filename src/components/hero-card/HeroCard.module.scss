@@ -10,9 +10,8 @@
 }
 
 .title {
-  background-color: #f0f2f5;
-  color: #262626;
-  font-weight: bold;
+  background-color: $color-primary;
+  color: $color-secondary;
   padding: 10px;
   text-align: center;
 }
@@ -27,8 +26,8 @@
 }
 
 .more-info {
-  color: #fff;
-  background-color: #1890ff;
+  color: $color-secondary;
+  background-color: $color-primary;
   padding: 10px 16px;
   border-radius: 4px;
   cursor: pointer;
@@ -50,12 +49,17 @@
   margin-top: 0.5em;
 }
 
-.comic-card__info-hero-list-item {
+.hero-card__info-comic-list {
+  list-style: none;
+  padding: 0;
+}
+
+.hero-card__info-comic-list-item {
   cursor: pointer;
   color: #1890ff;
   transition: color 0.3s ease;
 }
 
-.comic-card__info-hero-list-item:hover {
+.hero-card__info-comic-list-item:hover {
   color: #40a9ff;
 }

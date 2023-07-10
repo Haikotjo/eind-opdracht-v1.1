@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import ComicCard from '../../components/comic-card/ComicCard';
 import { DataContext } from "../../context/DataContext";
+import { handleError } from "../../helpers/handleError";
 import useDebounce from '../../hooks/useDebounce';
 import styles from './ComicsPage.module.scss';
 import Loading from "../../components/loading/Loading";
@@ -13,8 +14,10 @@ function ComicsPage() {
     const [offset, setOffset] = useState(0);
     const [searchTerm, setSearchTerm] = useState("");
     const [pageSize, setPageSize] = useState(20);
+    const [error, setError] = useState(null);
     const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
+    // Fetch de comic data
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -27,12 +30,14 @@ function ComicsPage() {
                     setComics([]);
                 }
             } catch (error) {
-                console.error("Er was een fout bij het ophalen van de comics: ", error);
+                handleError(error); // Handle de error met de helper functie
+                setError(error);    // Zet de error state zodat deze kan worden weergegeven aan de gebruiker
             }
         };
         fetchData();
     }, [fetchMarvelData, offset, pageSize, debouncedSearchTerm]);
 
+    // Handlers voor paginawisseling en wijziging van paginagrootte
     const handlePageChange = (event) => {
         const page = Number(event.target.value);
         setOffset((page - 1) * pageSize);
@@ -44,13 +49,21 @@ function ComicsPage() {
         setOffset(0);
     }
 
+    // Handler voor zoekterm input
     const onInputChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
     return (
-        isLoading ? <Loading /> :
-            <div className={styles["comics-page"]}>
+        error ? (
+                <div className={styles["error"]}>
+                    <h2 className={styles["error-title"]}>Er is iets misgegaan...</h2>
+                    <p className={styles["error-message"]}>We konden de gevraagde data niet laden. Probeer het later opnieuw.</p>
+                    <p className={styles["error-details"]}>Foutdetails: {error.message}</p>
+                </div>
+            ) :
+            isLoading ? <Loading /> :
+                <div className={styles["comics-page"]}>
                 <h1 className={styles["comic-title"]}>All Comics</h1>
                 <input
                     className={styles["comics-search"]}

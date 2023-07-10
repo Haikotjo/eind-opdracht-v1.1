@@ -10,9 +10,8 @@
 }
 
 .title {
-  background-color: #f0f2f5;
-  color: #262626;
-  font-weight: bold;
+  background-color: $color-primary;
+  color: $color-secondary;
   padding: 10px;
   text-align: center;
 }
@@ -27,8 +26,8 @@
 }
 
 .more-info {
-  color: #fff;
-  background-color: #1890ff;
+  color: $color-secondary;
+  background-color: $color-primary;
   padding: 10px 16px;
   border-radius: 4px;
   cursor: pointer;

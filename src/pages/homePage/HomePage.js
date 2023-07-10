@@ -19,11 +19,12 @@ const HomePage = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        // Functie om willekeurige data op te halen
         const fetchRandomData = async (category) => {
             const data = await fetchMarvelData(category, 1, 0);
             const totalItems = data.total;
 
-            const itemsPerPage = 10;
+            const itemsPerPage = 25;
             const maxOffset = totalItems - itemsPerPage;
             const randomOffset = Math.floor(Math.random() * maxOffset);
 
@@ -34,6 +35,7 @@ const HomePage = () => {
         setError(null);
         setIsLoading(true);
 
+        // Haal de data voor alle categorieën op
         Promise.all([
             fetchRandomData('characters'),
             fetchRandomData('comics'),
@@ -44,7 +46,8 @@ const HomePage = () => {
             setEvents(eventsData);
             setIsLoading(false);
         }).catch((error) => {
-            handleError(error);
+            handleError(error); // Handle de error met de helper functie
+            setError(error);    // Zet de error state zodat deze kan worden weergegeven aan de gebruiker
             setIsLoading(false);
         });
     }, [fetchMarvelData]);
@@ -54,12 +57,12 @@ const HomePage = () => {
                 <div className={styles["error"]}>
                     <h2 className={styles["error-title"]}>Something went wrong...</h2>
                     <p className={styles["error-message"]}>We couldn't load the data you requested. Please try again later.</p>
-                    <p className={styles["error-details"]}>Error details: {error}</p>
+                    <p className={styles["error-details"]}>Error details: {error.message}</p>
                 </div>
             ) :
             <main className={styles["home"]}>
                 <section className={styles["home__section"]}>
-                    <h2 className={styles["home__title"]}>Discover Events or <Link className={styles["home__link"]} to="/events">search for your favorite event!</Link></h2>
+                    <h2 className={styles["home__title"]}><Link className={styles["home__link"]} to="/events">Events</Link></h2>
                     <div className={styles["carousel"]}>
                         {events.map(event =>
                             <EventCard key={event.id} event={event} />
@@ -67,7 +70,7 @@ const HomePage = () => {
                     </div>
                 </section>
                 <section className={styles["home__section"]}>
-                    <h2 className={styles["home__title"]}>Discover Heroes or <Link className={styles["home__link"]} to="/heroes">search for your favorite hero!</Link></h2>
+                    <h2 className={styles["home__title"]}><Link className={styles["home__link"]} to="/heroes">Heroes</Link></h2>
                     <div className={styles["carousel"]}>
                         {heroes.map(hero =>
                             <HeroCard key={hero.id} hero={hero} />
@@ -75,7 +78,7 @@ const HomePage = () => {
                     </div>
                 </section>
                 <section className={styles["home__section"]}>
-                    <h2 className={styles["home__section-title"]}>Discover comics or <Link className={styles["home__link"]} to="/comics">search for your favorite comic!</Link></h2>
+                    <h2 className={styles["home__section-title"]}><Link className={styles["home__link"]} to="/comics">Comic</Link></h2>
                     <div className={styles["carousel"]}>
                         {comics.map(comic =>
                             <ComicCard key={comic.id} comic={comic} />

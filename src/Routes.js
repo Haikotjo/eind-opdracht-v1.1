@@ -9,7 +9,7 @@ import LoginPage from './pages/login/LoginPage';
 import ProfilePage from "./pages/profilePage/ProfilePage";
 import {AuthContext} from "./context/AuthContext";
 import Register from "./pages/register/Register";
-import NavBarT from "./navbar/NavBar";
+import NavBarT from "./components/navbar/NavBar";
 
 const AppRoutes = () => {
 

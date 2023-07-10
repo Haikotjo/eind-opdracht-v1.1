@@ -5,7 +5,9 @@ import styles from './Register.module.scss';
 
 function RegisterPage() {
     const navigate = useNavigate();
-    const [error, setError] = useState(false);
+
+    // Initialiseren van state variabelen
+    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         username: '',
@@ -14,36 +16,37 @@ function RegisterPage() {
     });
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
+        event.preventDefault(); // Standaard form verzending voorkomen
 
-        setError(false);
-        setLoading(true);
+        setError(null); // Reset de error state
+        setLoading(true); // Zet loading op true tijdens het verzenden van data
 
         try {
+            // Versturen van POST request naar het backend
             const res = await axios.post('https://frontend-educational-backend.herokuapp.com/api/auth/signup', {
                 email: formData.email,
                 password: formData.password,
                 username: formData.username,
                 role: ["user"]
             });
-            console.log("User successfully registered with Email: " + formData.email + " Username: " + formData.username);
-            navigate('/profile');
+            console.log("Gebruiker succesvol geregistreerd met e-mail: " + formData.email + " Gebruikersnaam: " + formData.username);
+            navigate('/profile'); // Navigeer naar de profielpagina na succesvolle registratie
         } catch (e) {
-            console.error("Registration failed!!! ⛔", e);
-            setError(true);
+            console.error("Registratie mislukt!!! ⛔", e);
+            setError(e.response.data.message || e.message); // Toon de error bericht van de response, indien beschikbaar
         }
-        setLoading(false);
+        setLoading(false); // Zet loading op false na het verzenden van data
     }
 
     const handleInputChange = (event) => {
-        setFormData({ ...formData, [event.target.name]: event.target.value });
+        setFormData({ ...formData, [event.target.name]: event.target.value }); // Update de form data state wanneer input verandert
     };
 
     return (
         <div className={styles["register-page"]}>
             <form onSubmit={handleSubmit} className={styles["register-page__form"]}>
                 <h2>Register</h2>
-                {error && <div className={styles["alert"]}>This account already exists. Try another email address.</div>}
+                {error && <div className={styles["alert"]}>{error}</div>} {/* Toon het error bericht als er een error is */}
                 <label>
                     Username
                     <input
@@ -78,7 +81,7 @@ function RegisterPage() {
                 <button type="submit" disabled={loading}>
                     {loading ? 'Loading...' : 'Register'}
                 </button>
-                <p>Already have an account? You can <Link to="/login">login here</Link>.</p>
+                <p>Heb je al een account? Je kunt <Link to="/login">hier inloggen</Link>.</p>
             </form>
         </div>
     );

@@ -1,8 +1,8 @@
 export function clearLocalStorage() {
-    // Remove user token
+    // Verwijer user token
     localStorage.removeItem('token');
 
-    // Remove other user related data
+    // Verwijder alle andere gebruikers gerelateerde data
     localStorage.removeItem('savedEvent');
     localStorage.removeItem('savedComic');
     localStorage.removeItem('savedHero');
