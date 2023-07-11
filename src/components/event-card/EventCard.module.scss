@@ -36,7 +36,7 @@
 }
 
 .more-info:hover {
-  background-color: #40a9ff;
+  background-color: $color-quaternary;
 }
 
 .event-info__name {
@@ -49,12 +49,34 @@
   margin-top: 0.5em;
 }
 
-.e-card__info-hero-list-item {
+.event-card__info-comic-list {
+  list-style: none;
+  padding: 0;
+}
+
+.event-card__info-hero-list {
+  list-style: none;
+  padding: 0;
+}
+
+.event-card__info-comic-list-item {
   cursor: pointer;
-  color: #1890ff;
+  color: $color-secondary;
   transition: color 0.3s ease;
 }
 
-.comic-card__info-hero-list-item:hover {
-  color: #40a9ff;
+.event-card__info-comic-list-item:hover {
+  color: $color-quaternary;
 }
+
+.event-card__info-hero-list-item {
+  cursor: pointer;
+  color: $color-secondary;
+  transition: color 0.3s ease;
+}
+
+.event-card__info-hero-list-item:hover {
+  color: $color-quaternary;
+}
+
+

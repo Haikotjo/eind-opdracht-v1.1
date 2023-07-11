@@ -85,22 +85,22 @@ const EventCard = ({ event }) => {
 
                 {isExpanded && (
                     <>
-                        <h2 className={styles['event-card__info--title']}>{event ? event.title : ''}</h2>
-                        <p className={styles['event-card__info--description']}>{event.description}</p>
+                        <h2 className={styles['event-card__info-name']}>{event ? event.title : ''}</h2>
+                        <p className={styles['event-card__info-description']}>{event.description}</p>
                         <ul className={styles['event-card__info-hero-list']}>
                             <h2>Heroes</h2>
                             {event.characters.items.map((character, index) => (
-                                <li key={index}>
+                                <li key={index} className={styles['event-card__info-comic-list-item']}>
                                     <a onClick={() => showModal(character, 'characters')}>
                                         {character.name}
                                     </a>
                                 </li>
                             ))}
                         </ul>
-                        <ul className={styles['event-card__info-hero-list']}>
-                            <p>comics</p>
+                        <ul className={styles['event-card__info-comic-list']}>
+                            <h2>comics</h2>
                             {event.comics.items.map((comic, index) => (
-                                <li key={index}>
+                                <li key={index}className={styles['event-card__info-hero-list-item']}>
                                     <a onClick={() => showModal(comic, 'comics')}>
                                         {comic.name}
                                     </a>

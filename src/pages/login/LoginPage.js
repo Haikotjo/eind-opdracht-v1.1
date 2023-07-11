@@ -3,6 +3,7 @@ import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import styles from './LoginPage.module.scss';
+import StandardButton from "../../components/buttons/standardButton/StandardButton";
 
 function LoginPage() {
     const [username, setUsername] = useState(""); // State voor de gebruikersnaam
@@ -49,8 +50,8 @@ function LoginPage() {
                         />
                     </div>
                     {error && <p className={styles["login-page__error"]}>Er is een fout opgetreden. Controleer of je gebruikersnaam en wachtwoord correct zijn.</p>}
-                    <p className={styles["login-page__register-link"]}>Heb je nog geen account? <Link to="/register">Registreer</Link> je dan eerst.</p>
-                    <button type="submit" className={styles["login-page__submit-btn"]}>Login</button>
+                    <p >Heb je nog geen account? <Link  to="/register" className={styles["login-page__register-link"]}>Registreer</Link> je dan eerst.</p>
+                    <StandardButton type="submit">Login</StandardButton>
                 </form>
             </div>
         </div>

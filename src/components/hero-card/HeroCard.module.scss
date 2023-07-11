@@ -36,7 +36,7 @@
 }
 
 .more-info:hover {
-  background-color: #40a9ff;
+  background-color: $color-quaternary;
 }
 
 .hero-info__name {
@@ -56,10 +56,10 @@
 
 .hero-card__info-comic-list-item {
   cursor: pointer;
-  color: #1890ff;
+  color: $color-secondary;
   transition: color 0.3s ease;
 }
 
 .hero-card__info-comic-list-item:hover {
-  color: #40a9ff;
+  color: $color-quaternary;
 }

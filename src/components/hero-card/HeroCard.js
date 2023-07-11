@@ -67,11 +67,11 @@ const HeroCard = ({ hero }) => {
 
                 {isExpanded && (
                     <>
-                        <h2 className={styles['hero-info__name']}> {hero.name}</h2>
-                        <p className={styles['hero-info__description']}>{hero.description}</p>
+                        <h2 className={styles['hero-card__info-name']}> {hero.name}</h2>
+                        <p className={styles['hero-card__info-description']}>{hero.description}</p>
                         <ul className={styles['hero-card__info-comic-list']}>
                             {hero.comics.items.map((comic, index) => (
-                                <li key={index}>
+                                <li key={index} className={styles['hero-card__info-comic-list-item']}>
                                     <a onClick={() => showModal(comic)}>
                                         {comic.name}
                                     </a>
