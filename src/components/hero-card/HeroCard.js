@@ -4,6 +4,7 @@ import { handleError } from "../../helpers/handleError";
 import styles from './HeroCard.module.scss';
 import { DataContext } from '../../context/DataContext';
 import CustomModal from '../customModal/CustomModal';
+import StandardButton from "../buttons/standardButton/StandardButton";
 
 const HeroCard = ({ hero }) => {
     const { fetchMarvelData } = useContext(DataContext);
@@ -59,19 +60,19 @@ const HeroCard = ({ hero }) => {
                     alt={hero.name}
                     src={`${hero.thumbnail.path}/portrait_incredible.${hero.thumbnail.extension}`}
                 />
+                <div className={styles.buttonContainer}>
                 <SaveButton itemKey="savedHero" item={hero} />
-
-                <div className={styles['more-info']} onClick={handlePanelChange}>
+                <StandardButton className={styles['more-info']} onClick={handlePanelChange}>
                     {isExpanded ? "Less" : "More"}
+                </StandardButton>
                 </div>
-
                 {isExpanded && (
                     <>
-                        <h2 className={styles['hero-info__name']}> {hero.name}</h2>
-                        <p className={styles['hero-info__description']}>{hero.description}</p>
+                        <h2 className={styles['hero-card__info-name']}> {hero.name}</h2>
+                        <p className={styles['hero-card__info-description']}>{hero.description}</p>
                         <ul className={styles['hero-card__info-comic-list']}>
                             {hero.comics.items.map((comic, index) => (
-                                <li key={index}>
+                                <li key={index} className={styles['hero-card__info-comic-list-item']}>
                                     <a onClick={() => showModal(comic)}>
                                         {comic.name}
                                     </a>

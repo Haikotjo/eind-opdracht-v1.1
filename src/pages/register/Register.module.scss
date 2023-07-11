@@ -1,17 +1,58 @@
-  @import '../../styles/_globals.scss';
+@import '../../styles/_globals.scss';
 
 .register-page {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+
+  &__form {
+    max-width: 50%;
+    width: 600px;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  &__error {
+    color: red;
+    margin-top: 10px;
+  }
+
+  &__register-link {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #888;
+
+    a {
+      color: #888;
+      text-decoration: underline;
+    }
+  }
+
+  .alert {
+    color: red;
+    margin-top: 10px;
+  }
 }
 
-.register-page__form {
-  max-width: 50%;
-  width: 600px;
+.register-page__register-link {
+  color: $color-secondary;
+  font-weight: bold;
+  &:hover {
+    color: $color-quaternary;
+  }
 }
 
-.alert {
-  color: red;
-}

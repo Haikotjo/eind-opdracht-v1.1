@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from './Register.module.scss';
+import StandardButton from "../../components/buttons/standardButton/StandardButton";
 
 function RegisterPage() {
     const navigate = useNavigate();
@@ -44,22 +45,25 @@ function RegisterPage() {
 
     return (
         <div className={styles["register-page"]}>
-            <form onSubmit={handleSubmit} className={styles["register-page__form"]}>
-                <h2>Register</h2>
-                {error && <div className={styles["alert"]}>{error}</div>} {/* Toon het error bericht als er een error is */}
-                <label>
-                    Username
-                    <input
-                        type="text"
-                        name="username"
-                        value={formData.username}
-                        onChange={handleInputChange}
+            <div className={styles["register-page__form"]}>
+                <h2 className={styles["register-page__title"]}>Register</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className={styles["input-group"]}>
+                    <label>
+                        Username
+                        <input
+                            className={styles["register-page__input"]}
+                            type="text"
+                            name="username"
+                            value={formData.username}
+                            onChange={handleInputChange}
                         required
                     />
                 </label>
                 <label>
                     Email
                     <input
+                        className={styles["register-page__input"]}
                         type="email"
                         name="email"
                         value={formData.email}
@@ -70,6 +74,7 @@ function RegisterPage() {
                 <label>
                     Password
                     <input
+                        className={styles["register-page__input"]}
                         type="password"
                         name="password"
                         value={formData.password}
@@ -78,11 +83,14 @@ function RegisterPage() {
                         minLength="6"
                     />
                 </label>
-                <button type="submit" disabled={loading}>
+                    </div>
+                    {error && <p className={styles["alert"]}>{error}</p>}
+                <StandardButton type="submit" disabled={loading}>
                     {loading ? 'Loading...' : 'Register'}
-                </button>
-                <p>Heb je al een account? Je kunt <Link to="/login">hier inloggen</Link>.</p>
+                </StandardButton>
+                <p>Heb je al een account? Je kunt <Link to="/login" className={styles["register-page__register-link"]}>hier inloggen</Link>.</p>
             </form>
+            </div>
         </div>
     );
 }

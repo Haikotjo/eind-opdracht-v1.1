@@ -14,6 +14,9 @@
   color: $color-secondary;
   padding: 10px;
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .content {
@@ -25,6 +28,12 @@
   height: auto;
 }
 
+.buttonContainer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
 .more-info {
   color: $color-secondary;
   background-color: $color-primary;
@@ -33,10 +42,11 @@
   cursor: pointer;
   text-align: center;
   transition: background-color 0.3s ease;
+  justify-content: center;
 }
 
 .more-info:hover {
-  background-color: #40a9ff;
+  background-color: $color-quaternary;
 }
 
 .comic-card__info-title {
@@ -56,10 +66,10 @@
 
 .comic-card__info-hero-list-item {
   cursor: pointer;
-  color: #1890ff;
+  color: $color-secondary;
   transition: color 0.3s ease;
 }
 
 .comic-card__info-hero-list-item:hover {
-  color: #40a9ff;
+  color: $color-quaternary;
 }
