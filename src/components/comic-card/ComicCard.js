@@ -4,6 +4,7 @@ import { handleError } from "../../helpers/handleError";
 import styles from './ComicCard.module.scss';
 import { DataContext } from '../../context/DataContext';
 import CustomModal from '../customModal/CustomModal';
+import StandardButton from "../buttons/standardButton/StandardButton";
 
 const ComicCard = ({ comic }) => {
     const { fetchMarvelData } = useContext(DataContext);
@@ -59,12 +60,12 @@ const ComicCard = ({ comic }) => {
                     src={`${comic.thumbnail.path}/portrait_incredible.${comic.thumbnail.extension}`}
                     alt={comic.title}
                 />
-                <SaveButton itemKey="savedComic" item={comic} />
-
-                <div className={styles['more-info']} onClick={handlePanelChange}>
-                    {isExpanded ? "Less" : "More"}
+                <div className={styles.buttonContainer}>
+                    <SaveButton itemKey="savedComic" item={comic} />
+                    <StandardButton className={styles['more-info']} onClick={handlePanelChange}>
+                        {isExpanded ? "Less" : "More"}
+                    </StandardButton>
                 </div>
-
                 {isExpanded && (
                     <>
                         <h2 className={styles['comic-card__info-title']}>{comic.title}</h2>

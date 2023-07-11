@@ -4,6 +4,7 @@ import styles from './EventCard.module.scss';
 import { DataContext } from '../../context/DataContext';
 import { handleError } from "../../helpers/handleError";
 import CustomModal from '../customModal/CustomModal';
+import StandardButton from "../buttons/standardButton/StandardButton";
 
 const EventCard = ({ event }) => {
     // Haal de fetchMarvelData functie uit de DataContext
@@ -77,12 +78,12 @@ const EventCard = ({ event }) => {
                     alt={event.title}
                     src={event && event.thumbnail ? `${event.thumbnail.path}/portrait_incredible.${event.thumbnail.extension}` : 'fallbackAfbeeldingURL'}
                 />
+                <div className={styles.buttonContainer}>
                 <SaveButton itemKey="savedEvent" item={event} />
-
-                <div className={styles['more-info']} onClick={handlePanelChange}>
+                <StandardButton className={styles['more-info']} onClick={handlePanelChange}>
                     {isExpanded ? "Less" : "More"}
+                </StandardButton>
                 </div>
-
                 {isExpanded && (
                     <>
                         <h2 className={styles['event-card__info-name']}>{event ? event.title : ''}</h2>
