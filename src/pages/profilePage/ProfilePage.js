@@ -47,14 +47,16 @@ function Profile() {
 
     return (
         <main className={styles["profile-page"]}>
-            <h1>Mijn profiel</h1>
-            <p>Welkom <span>{ email } </span></p>
-            <p>Je naam is: <span>{ username }</span></p>
-
+            <div className={styles["profile"]}>
+                <h1>My profile</h1>
+                <p>Name: <span>{ username }</span></p>
+                <p>Email : <span>{ email } </span></p>
+                {/*<button onClick={handleEditProfile}>✏️</button>*/}
+            </div>
             <div className={styles["row"]}>
                 <div className={styles["col"]}>
                     <section>
-                        <h2>Opgeslagen strips</h2>
+                        <h2>Saved Comics</h2>
                         <div className={styles["comics-list"]} >
                             {savedComic.map(comic => {
                                 return <ComicCard
@@ -67,7 +69,7 @@ function Profile() {
                 </div>
                 <div className={styles["col"]}>
                     <section>
-                        <h2>Opgeslagen helden</h2>
+                        <h2>Saved Heroes</h2>
                         <div className={styles["heroes-list"]} >
                             {savedHero.map(hero => {
                                 return <HeroCard
@@ -80,7 +82,7 @@ function Profile() {
                 </div>
                 <div className={styles["col"]}>
                     <section>
-                        <h2>Opgeslagen evenementen</h2>
+                        <h2>Saved Events</h2>
                         <div className={styles["events-list"]} >
                             {savedEvent.map(event => {
                                 return <EventCard

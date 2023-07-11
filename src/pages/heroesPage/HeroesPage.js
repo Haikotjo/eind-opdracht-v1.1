@@ -62,7 +62,7 @@ function HeroesPage() {
                 </div>
             ) :
             <div className={styles["heroes-page"]}>
-                <h1 className={styles["heroes-title"]}>ALL SUPER HEROES</h1>
+                <h1 className={styles["heroes-title"]}>HEROES</h1>
                 <input
                     className={styles["heroes-search"]}
                     type="text"

@@ -1,0 +1,26 @@
+
+@import '../../styles/_globals.scss';
+
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  > * {
+    flex: 0 0 auto;
+  }
+}
+
+.carouselContainer {
+  display: flex;
+  align-items: center;
+}
+
+.carousel {
+  flex-grow: 1;
+  margin: 0 10px;
+}

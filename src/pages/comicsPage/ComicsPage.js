@@ -64,7 +64,7 @@ function ComicsPage() {
             ) :
             isLoading ? <Loading /> :
                 <div className={styles["comics-page"]}>
-                <h1 className={styles["comic-title"]}>All Comics</h1>
+                <h1 className={styles["comic-title"]}>Comics</h1>
                 <input
                     className={styles["comics-search"]}
                     type="text"

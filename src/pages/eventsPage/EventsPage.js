@@ -67,7 +67,7 @@ function EventsPage() {
                     </div>
                 ) :
                 <div className={styles["events-page"]}>
-                    <h1 className={styles["events-title"]}>All Events</h1>
+                    <h1 className={styles["events-title"]}>Events</h1>
                     <input
                         className={styles["events-search"]}
                         type="text"

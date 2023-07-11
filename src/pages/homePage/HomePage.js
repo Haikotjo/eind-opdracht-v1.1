@@ -7,6 +7,7 @@ import { DataContext } from '../../context/DataContext';
 import { handleError } from '../../helpers/handleError';
 import styles from './HomePage.module.scss';
 import Loading from '../../components/loading/Loading';
+import Carousel from "../../components/carousel/Carousel";
 
 const HomePage = () => {
     const [events, setEvents] = useState([]);
@@ -62,30 +63,43 @@ const HomePage = () => {
             ) :
             <main className={styles["home"]}>
                 <section className={styles["home__section"]}>
-                    <h2 className={styles["home__title"]}><Link className={styles["home__link"]} to="/events">Events</Link></h2>
-                    <div className={styles["carousel"]}>
-                        {events.map(event =>
-                            <EventCard key={event.id} event={event} />
-                        )}
-                    </div>
+                    <h2 className={styles["home__title"]}>
+                        <Link className={styles["home__link"]} to="/events">
+                            Events
+                        </Link>
+                    </h2>
+                    <Carousel
+                        items={events}
+                        CardComponent={EventCard}
+                        mapItemToProps={(item) => ({ event: item })}
+                    />
                 </section>
                 <section className={styles["home__section"]}>
-                    <h2 className={styles["home__title"]}><Link className={styles["home__link"]} to="/heroes">Heroes</Link></h2>
-                    <div className={styles["carousel"]}>
-                        {heroes.map(hero =>
-                            <HeroCard key={hero.id} hero={hero} />
-                        )}
-                    </div>
+                    <h2 className={styles["home__title"]}>
+                        <Link className={styles["home__link"]} to="/heroes">
+                            Heroes
+                        </Link>
+                    </h2>
+                    <Carousel
+                        items={heroes}
+                        CardComponent={HeroCard}
+                        mapItemToProps={(item) => ({ hero: item })}
+                    />
                 </section>
                 <section className={styles["home__section"]}>
-                    <h2 className={styles["home__section-title"]}><Link className={styles["home__link"]} to="/comics">Comic</Link></h2>
-                    <div className={styles["carousel"]}>
-                        {comics.map(comic =>
-                            <ComicCard key={comic.id} comic={comic} />
-                        )}
-                    </div>
+                    <h2 className={styles["home__section-title"]}>
+                        <Link className={styles["home__link"]} to="/comics">
+                            Comics
+                        </Link>
+                    </h2>
+                    <Carousel
+                        items={comics}
+                        CardComponent={ComicCard}
+                        mapItemToProps={(item) => ({ comic: item })}
+                    />
                 </section>
             </main>
+
     );
 };
 
