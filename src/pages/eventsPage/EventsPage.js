@@ -5,6 +5,7 @@ import useDebounce from '../../hooks/useDebounce';
 import styles from './EventsPage.module.scss';
 import Loading from "../../components/loading/Loading";
 import { handleError } from "../../helpers/handleError";
+import CustomModal from "../../components/customModal/CustomModal";
 
 function EventsPage() {
     // Maak gebruik van de datacontext om data te fetchen
@@ -19,7 +20,10 @@ function EventsPage() {
     const [pageSize, setPageSize] = useState(20);
     const [error, setError] = useState(null);
 
-    // Debounce de zoekterm zodat er niet bij elke toetsaanslag een request wordt gedaan
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [itemType, setItemType] = useState('');
+
     const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
     useEffect(() => {
@@ -57,6 +61,33 @@ function EventsPage() {
         setSearchTerm(event.target.value);
     };
 
+    // Functie om de modal te openen en de data voor het geselecteerde item op te halen
+    const showModal = async (item, type) => {
+        const itemId = item.resourceURI.split('/').pop();
+        console.log("Fetching data for item ID: ", itemId); // Log het item ID
+        try {
+            const data = await fetchMarvelData(type, 1, 0, itemId);
+            console.log(data); // Log de data
+            const itemData = data.results[0];
+            console.log(itemData.thumbnail); // Log de thumbnail
+            setSelectedItem(itemData);
+            setItemType(type);
+            setIsModalVisible(true); // Open de modal
+        } catch (err) {
+            handleError(err); // Handle de error met de helper functie
+            setError(err);    // Zet de error state zodat deze kan worden weergegeven aan de gebruiker
+        }
+    };
+
+    // Handlers voor modal knoppen
+    const handleModalOk = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleModalCancel = () => {
+        setIsModalVisible(false);
+    };
+
     return (
         isLoading ? <Loading /> :
             error ? (
@@ -91,10 +122,23 @@ function EventsPage() {
                     <div className={styles["events-wrapper"]}>
                         {events.map(event => (
                             <div className={styles["event-card-wrapper"]}>
-                                <EventCard key={event.id} event={event} />
+                                <EventCard
+                                    key={event.id}
+                                    event={event}
+                                    onComicClick={(comic) => showModal(comic, 'comics')}
+                                    onCharacterClick={(character) => showModal(character, 'characters')}
+                                />
                             </div>
                         ))}
                     </div>
+                    <CustomModal
+                        isModalVisible={isModalVisible}
+                        handleOk={handleModalOk}
+                        handleCancel={handleModalCancel}
+                        selectedItem={selectedItem}
+                        itemKey={itemType === 'comics' ? "savedComic" : "savedHero"}
+                        title={itemType === 'comics' ? "Comic Details" : "Hero Details"}
+                    />
                 </div>
     );
 }

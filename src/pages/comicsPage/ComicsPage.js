@@ -1,3 +1,4 @@
+// ComicsPage.js
 import React, { useState, useEffect, useContext } from 'react';
 import ComicCard from '../../components/comic-card/ComicCard';
 import { DataContext } from "../../context/DataContext";
@@ -5,9 +6,12 @@ import { handleError } from "../../helpers/handleError";
 import useDebounce from '../../hooks/useDebounce';
 import styles from './ComicsPage.module.scss';
 import Loading from "../../components/loading/Loading";
+import CustomModal from "../../components/customModal/CustomModal";
+import Pagination from '../../components/pagination/Pagination'; // Import the Pagination component
 
 function ComicsPage() {
     const { fetchMarvelData } = useContext(DataContext);
+
     const [comics, setComics] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [total, setTotal] = useState(null);
@@ -15,9 +19,12 @@ function ComicsPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [pageSize, setPageSize] = useState(20);
     const [error, setError] = useState(null);
+
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [selectedCharacter, setSelectedCharacter] = useState(null);
+
     const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
-    // Fetch de comic data
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -30,40 +37,61 @@ function ComicsPage() {
                     setComics([]);
                 }
             } catch (error) {
-                handleError(error); // Handle de error met de helper functie
-                setError(error);    // Zet de error state zodat deze kan worden weergegeven aan de gebruiker
+                handleError(error);
+                setError(error);
             }
         };
         fetchData();
     }, [fetchMarvelData, offset, pageSize, debouncedSearchTerm]);
 
-    // Handlers voor paginawisseling en wijziging van paginagrootte
-    const handlePageChange = (event) => {
-        const page = Number(event.target.value);
-        setOffset((page - 1) * pageSize);
+    const handlePageChange = (page) => {
+        if (page > 0) {
+            setOffset((page - 1) * pageSize);
+        }
     }
 
-    const handleSizeChange = (event) => {
-        const size = Number(event.target.value);
-        setPageSize(size);
-        setOffset(0);
+    const handleSizeChange = (size) => {
+        if (size > 0) {
+            setPageSize(size);
+            setOffset(0);
+        }
     }
 
-    // Handler voor zoekterm input
     const onInputChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
+    const showModal = async (character) => {
+        setIsModalVisible(true);
+
+        const characterId = character.resourceURI.split('/').pop();
+        try {
+            const data = await fetchMarvelData('characters', 1, 0, characterId);
+            const characterData = data.results[0];
+            setSelectedCharacter(characterData);
+        } catch (error) {
+            handleError(error);
+            setError(error);
+        }
+    };
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
     return (
-        error ? (
+        isLoading ? <Loading /> : error ? (
                 <div className={styles["error"]}>
                     <h2 className={styles["error-title"]}>Er is iets misgegaan...</h2>
                     <p className={styles["error-message"]}>We konden de gevraagde data niet laden. Probeer het later opnieuw.</p>
                     <p className={styles["error-details"]}>Foutdetails: {error.message}</p>
                 </div>
             ) :
-            isLoading ? <Loading /> :
-                <div className={styles["comics-page"]}>
+            <div className={styles["comics-page"]}>
                 <h1 className={styles["comic-title"]}>Comics</h1>
                 <input
                     className={styles["comics-search"]}
@@ -72,26 +100,32 @@ function ComicsPage() {
                     value={searchTerm}
                     onChange={onInputChange}
                 />
-                <div className={styles["pagination"]}>
-                    <input
-                        type="number"
-                        value={(offset / pageSize) + 1}
-                        onChange={handlePageChange}
+                {total !== null && (
+                    <Pagination
+                        page={(offset / pageSize) + 1}
+                        total={total}
+                        pageSize={pageSize}
+                        onPageChange={handlePageChange}
+                        onSizeChange={handleSizeChange}
                     />
-                    <input
-                        type="number"
-                        value={pageSize}
-                        onChange={handleSizeChange}
-                    />
-                    <span>Total: {total}</span>
-                </div>
+                )}
                 <div className={styles["comics-wrapper"]}>
                     {comics.map(comic => (
                         <div className={styles["comic-card-wrapper"]}>
-                            <ComicCard key={comic.id} comic={comic} />
+                            <ComicCard key={comic.id} comic={comic} onSelectCharacter={showModal} />
                         </div>
                     ))}
                 </div>
+                {selectedCharacter && (
+                    <CustomModal
+                        isModalVisible={isModalVisible}
+                        handleOk={handleOk}
+                        handleCancel={handleCancel}
+                        selectedItem={selectedCharacter}
+                        itemKey="savedHero"
+                        title="Character Details"
+                    />
+                )}
             </div>
     );
 }
