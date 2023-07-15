@@ -1,5 +1,6 @@
 import styles from './Pagination.module.scss';
 import StandardButton from "../buttons/standardButton/StandardButton";
+import classNames from 'classnames';
 
 function Pagination({ page, total, pageSize, onPageChange }) {
     const maxPage = Math.ceil(total / pageSize);
@@ -24,14 +25,22 @@ function Pagination({ page, total, pageSize, onPageChange }) {
 
     return (
         <div className={styles.pagination}>
-            <StandardButton onClick={handlePrev} disabled={page === 1}>
-                Previous
+            <StandardButton
+                className={classNames(styles['scroll-button'], { [styles.disabled]: page === 1 })}
+                onClick={handlePrev}
+                disabled={page === 1}
+            >
+                &#x2190;
             </StandardButton>
-            <span>{page} of {maxPage}</span>
-            <StandardButton onClick={handleNext} disabled={page === maxPage}>
-                Next
+            <span className={styles['hide-on-small']}>{page} of {maxPage}</span>
+            <StandardButton
+                className={classNames(styles['scroll-button'], { [styles.disabled]: page === maxPage })}
+                onClick={handleNext}
+                disabled={page === maxPage}
+            >
+                &#x2192;
             </StandardButton>
-            <span> | Items per page: </span>
+            <span className={styles['hide-on-small']}> | Items per page: </span>
             <select value={pageSize} onChange={handlePageSizeChange}>
                 <option value={20}>20</option>
                 <option value={40}>40</option>

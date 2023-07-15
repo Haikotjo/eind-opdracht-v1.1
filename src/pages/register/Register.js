@@ -8,7 +8,7 @@ import {handleError} from "../../helpers/handleError";
 function RegisterPage() {
     const navigate = useNavigate();
 
-    // Initialiseren van state variabelen
+    // Initialize state variables
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -18,33 +18,33 @@ function RegisterPage() {
     });
 
     const handleSubmit = async (event) => {
-        event.preventDefault(); // Standaard form verzending voorkomen
+        event.preventDefault(); // Prevent default form submission
 
-        setError(null); // Reset de error state
-        setLoading(true); // Zet loading op true tijdens het verzenden van data
+        setError(null); // Reset the error state
+        setLoading(true); // Set loading to true while sending data
 
         try {
-            // Versturen van POST request naar het backend
+            // Send POST request to the backend
             const res = await axios.post('https://frontend-educational-backend.herokuapp.com/api/auth/signup', {
                 email: formData.email,
                 password: formData.password,
                 username: formData.username,
                 role: ["user"]
             });
-            console.log("Gebruiker succesvol geregistreerd met e-mail: " + formData.email + " Gebruikersnaam: " + formData.username);
-            navigate('/profile'); // Navigeer naar de profielpagina na succesvolle registratie
+            console.log("User successfully registered with email: " + formData.email + " Username: " + formData.username);
+            navigate('/profile'); // Navigate to the profile page after successful registration
         } catch (e) {{
             handleError(e);
             setError(e.response.data.message || e.message);
         }
-            console.error("Registratie mislukt!!! ⛔", e);
-            setError(e.response.data.message || e.message); // Toon de error bericht van de response, indien beschikbaar
+            console.error("Registration failed!!! ⛔", e);
+            setError(e.response.data.message || e.message); // Show the error message from the response, if available
         }
-        setLoading(false); // Zet loading op false na het verzenden van data
+        setLoading(false); // Set loading to false after sending data
     }
 
     const handleInputChange = (event) => {
-        setFormData({ ...formData, [event.target.name]: event.target.value }); // Update de form data state wanneer input verandert
+        setFormData({ ...formData, [event.target.name]: event.target.value }); // Update the form data state when input changes
     };
 
     return (
@@ -53,47 +53,57 @@ function RegisterPage() {
                 <h2 className={styles["register-page__title"]}>Register</h2>
                 <form onSubmit={handleSubmit}>
                     <div className={styles["input-group"]}>
-                    <label>
-                        Username
-                        <input
-                            className={styles["register-page__input"]}
-                            type="text"
-                            name="username"
-                            value={formData.username}
-                            onChange={handleInputChange}
-                        required
-                    />
-                </label>
-                <label>
-                    Email
-                    <input
-                        className={styles["register-page__input"]}
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </label>
-                <label>
-                    Password
-                    <input
-                        className={styles["register-page__input"]}
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleInputChange}
-                        required
-                        minLength="6"
-                    />
-                </label>
+                        <label>
+                            Username
+                            <input
+                                className={styles["register-page__input"]}
+                                type="text"
+                                name="username"
+                                value={formData.username}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </label>
+                        <label>
+                            Email
+                            <input
+                                className={styles["register-page__input"]}
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </label>
+                        <label>
+                            Password
+                            <input
+                                className={styles["register-page__input"]}
+                                type="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleInputChange}
+                                required
+                                minLength="6"
+                            />
+                        </label>
                     </div>
                     {error && <p className={styles["alert"]}>{error}</p>}
-                <StandardButton type="submit" disabled={loading}>
-                    {loading ? 'Loading...' : 'Register'}
-                </StandardButton>
-                <p>Heb je al een account? Je kunt <Link to="/login" className={styles["register-page__register-link"]}>hier inloggen</Link>.</p>
-            </form>
+                    <StandardButton
+                        type="submit"
+                        disabled={loading}
+                        className={styles["register-page__submit-button"]}
+                    >
+                        {loading ? 'Loading...' : 'Register'}
+                    </StandardButton>
+                    <p className={styles["register-page__login-text"]}>
+                        Already have an account? You can{" "}
+                        <Link to="/login" className={styles["register-page__register-link"]}>
+                            login here
+                        </Link>.
+                    </p>
+
+                </form>
             </div>
         </div>
     );

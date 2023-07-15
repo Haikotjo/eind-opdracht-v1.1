@@ -30,7 +30,7 @@ $color-quinary: #dee2e6; // Set quinary color
     // Retrieve the value of the breakpoint
     $breakpoint-value: map-get($breakpoints, $breakpoint);
 
-    @media (min-width: $breakpoint-value) {
+    @media (max-width: $breakpoint-value) {
       @content;
     }
   }

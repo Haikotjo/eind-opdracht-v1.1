@@ -10,23 +10,43 @@
     margin: 0 10px;
   }
 
-  input {
-    width: 50px;
+  .hide-on-small {
+    @include respond-to('small') {
+      display: none;
+    }
   }
-}
 
-select {
-  padding: 8px 16px;
-  border: 1px solid $color-primary;
-  border-radius: 4px;
-  font-size: 15px;
-  background-color: #fff;
-  color: $color-secondary;
-  cursor: pointer;
-  transition: border-color 0.3s ease;
+  select {
+    padding: 8px 16px;
+    border: 1px solid $color-primary;
+    border-radius: 4px;
+    font-size: 15px;
+    background-color: #fff;
+    color: $color-secondary;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
 
-  &:focus {
-    outline: none;
-    border-color: $color-secondary;
+    &:focus {
+      outline: none;
+      border-color: $color-secondary;
+    }
+  }
+
+  .scroll-button {
+    background-color: transparent;
+    color: $color-secondary;
+    border: none;
+    font-size: 2em;
+    cursor: pointer;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: lighten($color-primary, 10%);
+    }
+
+    &.disabled {
+      color: lighten($color-secondary, 30%);
+      cursor: not-allowed;
+    }
   }
 }
