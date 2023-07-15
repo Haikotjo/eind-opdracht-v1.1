@@ -7,6 +7,7 @@ import { SavedContext } from '../../context/SavedContext';
 import styles from './ProfilePage.module.scss';
 import { DataContext } from '../../context/DataContext';
 import CustomModal from "../../components/customModal/CustomModal";
+import {handleError} from "../../helpers/handleError";
 
 function Profile() {
     const { user: { email, username } } = useContext(AuthContext);
@@ -24,12 +25,16 @@ function Profile() {
 
     useEffect(() => {
         const loadSavedItems = () => {
-            const comic = JSON.parse(localStorage.getItem('savedComic')) || [];
-            const hero = JSON.parse(localStorage.getItem('savedHero')) || [];
-            const event = JSON.parse(localStorage.getItem('savedEvent')) || [];
-            setSavedComic(comic);
-            setSavedHero(hero);
-            setSavedEvent(event);
+            try {
+                const comic = JSON.parse(localStorage.getItem('savedComic')) || [];
+                const hero = JSON.parse(localStorage.getItem('savedHero')) || [];
+                const event = JSON.parse(localStorage.getItem('savedEvent')) || [];
+                setSavedComic(comic);
+                setSavedHero(hero);
+                setSavedEvent(event);
+            } catch (err) {
+                handleError(err);
+            }
         };
         loadSavedItems();
     }, []);
@@ -55,7 +60,7 @@ function Profile() {
             setItemType(type);
             setIsModalVisible(true);
         } catch (err) {
-            console.error(err);
+            handleError(err);
         }
     };
 

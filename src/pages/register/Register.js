@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from './Register.module.scss';
 import StandardButton from "../../components/buttons/standardButton/StandardButton";
+import {handleError} from "../../helpers/handleError";
 
 function RegisterPage() {
     const navigate = useNavigate();
@@ -32,7 +33,10 @@ function RegisterPage() {
             });
             console.log("Gebruiker succesvol geregistreerd met e-mail: " + formData.email + " Gebruikersnaam: " + formData.username);
             navigate('/profile'); // Navigeer naar de profielpagina na succesvolle registratie
-        } catch (e) {
+        } catch (e) {{
+            handleError(e);
+            setError(e.response.data.message || e.message);
+        }
             console.error("Registratie mislukt!!! ⛔", e);
             setError(e.response.data.message || e.message); // Toon de error bericht van de response, indien beschikbaar
         }

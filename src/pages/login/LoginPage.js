@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import styles from './LoginPage.module.scss';
 import StandardButton from "../../components/buttons/standardButton/StandardButton";
+import {handleError} from "../../helpers/handleError";
 
 function LoginPage() {
     const [username, setUsername] = useState(""); // State voor de gebruikersnaam
@@ -14,7 +15,6 @@ function LoginPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(false)
-
         try {
             // Probeer de gebruiker in te loggen
             const res = await axios.post('https://frontend-educational-backend.herokuapp.com/api/auth/signin', {
@@ -24,8 +24,8 @@ function LoginPage() {
             console.log(res.data)
             login(res.data.accessToken, '/profile'); // Bij succesvolle login, stuur de gebruiker naar de profielpagina
         } catch (e) {
-            console.log("Onjuiste email en wachtwoord combinatie", e)
-            setError(true) // Als er een fout optreedt, stel de fout state in op true
+            handleError(e);
+            setError(e.toString());
         }
     }
 
@@ -49,7 +49,7 @@ function LoginPage() {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-                    {error && <p className={styles["login-page__error"]}>Er is een fout opgetreden. Controleer of je gebruikersnaam en wachtwoord correct zijn.</p>}
+                    {error && <p className={styles["login-page__error"]}>{error}</p>}
                     <p >Heb je nog geen account? <Link  to="/register" className={styles["login-page__register-link"]}>Registreer</Link> je dan eerst.</p>
                     <StandardButton type="submit">Login</StandardButton>
                 </form>

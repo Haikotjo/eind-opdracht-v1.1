@@ -1,16 +1,19 @@
-
 @import './_globals.scss';
+
 *, *:before, *:after {
   box-sizing: border-box;
 }
 
-// Global styles
 body {
   font-family: $font-primary;
   color: $color-primary;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    zoom: 0.5;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
