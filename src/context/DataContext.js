@@ -1,6 +1,7 @@
 import axios from 'axios';
 import md5 from 'md5';
 import React, {createContext, useState} from "react";
+import {handleError} from "../helpers/handleError";
 
 // DataContext wordt gecreëerd en kan worden gebruikt om data te delen tussen componenten.
 export const DataContext = createContext(null)
@@ -55,9 +56,7 @@ const DataContextProvider = ({children}) => {
         // De daadwerkelijke API-aanvraag wordt gedaan met behulp van axios.
         return axios.get(url, {params})
             .then(response => wantResults ? response.data.data.results : response.data.data)
-            .catch(error => {
-                console.error("Er was een fout bij het ophalen van de data: ", error);
-            });
+            .catch(handleError);
     }
 
     // De context provider maakt de data en de fetchMarvelData-functie beschikbaar

@@ -4,6 +4,7 @@ import {checkTokenValidity} from "../helpers/checkTokenValidity";
 import axios from "axios";
 import useIdleTimer from "../hooks/UseIdleTimer";
 import {clearLocalStorage} from "../helpers/ClearLocalStorage";
+import {handleError} from "../helpers/handleError";
 
 // AuthContext wordt gecreëerd en kan worden gebruikt om authentificatiestatus te delen tussen componenten.
 export const AuthContext = createContext(null)
@@ -61,9 +62,8 @@ function AuthContextProvider({children}) {
             })
             console.log('De gebruiker is ingelogd 🔓')
             if(redirect) navigate(redirect);
-        }catch (e)
-        {
-
+        }catch (e) {
+            handleError(e);
         }
     }
 
