@@ -1,11 +1,11 @@
-// HeroesPage.js
 import React, { useState, useEffect, useContext } from 'react';
 import HeroCard from '../../components/hero-card/HeroCard';
+import Pagination from '../../components/pagination/Pagination';
 import { DataContext } from "../../context/DataContext";
-import { handleError } from "../../helpers/handleError";
 import useDebounce from '../../hooks/useDebounce';
 import styles from './HeroesPage.module.scss';
 import Loading from "../../components/loading/Loading";
+import { handleError } from "../../helpers/handleError";
 import CustomModal from "../../components/customModal/CustomModal";
 
 function HeroesPage() {
@@ -43,15 +43,9 @@ function HeroesPage() {
         fetchData();
     }, [fetchMarvelData, offset, pageSize, debouncedSearchTerm]);
 
-    const handlePageChange = (event) => {
-        const page = Number(event.target.value);
-        setOffset((page - 1) * pageSize);
-    }
-
-    const handleSizeChange = (event) => {
-        const size = Number(event.target.value);
-        setPageSize(size);
-        setOffset(0);
+    const handlePageChange = (newPage, newSize = pageSize) => {
+        setPageSize(newSize);
+        setOffset((newPage - 1) * newSize);
     }
 
     const onInputChange = (event) => {
@@ -97,19 +91,12 @@ function HeroesPage() {
                     value={searchTerm}
                     onChange={onInputChange}
                 />
-                <div className={styles["pagination"]}>
-                    <input
-                        type="number"
-                        value={(offset / pageSize) + 1}
-                        onChange={handlePageChange}
-                    />
-                    <input
-                        type="number"
-                        value={pageSize}
-                        onChange={handleSizeChange}
-                    />
-                    <span>Total: {total}</span>
-                </div>
+                <Pagination
+                    page={(offset / pageSize) + 1}
+                    total={total}
+                    pageSize={pageSize}
+                    onPageChange={handlePageChange}
+                />
                 <div className={styles["heroes-wrapper"]}>
                     {heroes.map(hero => (
                         <div className={styles["hero-card-wrapper"]}>

@@ -14,3 +14,19 @@
     width: 50px;
   }
 }
+
+select {
+  padding: 8px 16px;
+  border: 1px solid $color-primary;
+  border-radius: 4px;
+  font-size: 15px;
+  background-color: #fff;
+  color: $color-secondary;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $color-secondary;
+  }
+}

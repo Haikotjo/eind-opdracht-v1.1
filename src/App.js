@@ -5,6 +5,7 @@ import AuthContextProvider, {AuthContext} from "./context/AuthContext";
 import './styles/App.scss'
 import {SavedProvider} from "./context/SavedContext";
 
+
 Modal.setAppElement('#root');
 function App() {
     return (

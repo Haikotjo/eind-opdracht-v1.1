@@ -44,18 +44,11 @@ function ComicsPage() {
         fetchData();
     }, [fetchMarvelData, offset, pageSize, debouncedSearchTerm]);
 
-    const handlePageChange = (page) => {
-        if (page > 0) {
-            setOffset((page - 1) * pageSize);
-        }
+    const handlePageChange = (newPage, newSize = pageSize) => {
+        setPageSize(newSize);
+        setOffset((newPage - 1) * newSize);
     }
 
-    const handleSizeChange = (size) => {
-        if (size > 0) {
-            setPageSize(size);
-            setOffset(0);
-        }
-    }
 
     const onInputChange = (event) => {
         setSearchTerm(event.target.value);
@@ -106,7 +99,6 @@ function ComicsPage() {
                         total={total}
                         pageSize={pageSize}
                         onPageChange={handlePageChange}
-                        onSizeChange={handleSizeChange}
                     />
                 )}
                 <div className={styles["comics-wrapper"]}>

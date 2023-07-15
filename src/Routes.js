@@ -9,7 +9,7 @@ import LoginPage from './pages/login/LoginPage';
 import ProfilePage from "./pages/profilePage/ProfilePage";
 import {AuthContext} from "./context/AuthContext";
 import Register from "./pages/register/Register";
-import NavBarT from "./components/navbar/NavBar";
+import NavBar from "./components/navbar/NavBar";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 
 const AppRoutes = () => {
@@ -19,7 +19,7 @@ const AppRoutes = () => {
     return (
         <>
                 <DataContextProvider>
-                    <NavBarT />
+                    <NavBar />
                     <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/heroes" element={<HeroesPage />}>
