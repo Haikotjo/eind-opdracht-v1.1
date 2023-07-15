@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 
-// De useIdleTimer hook voert een actie uit na een bepaalde periode van inactiviteit.
+// The useIdleTimer hook performs an action after a certain period of inactivity.
 const useIdleTimer = (action, delay) => {
     let timerId = null;
 
-    // De resetTimer functie reset de timer elke keer als er een activiteit is.
+    // The resetTimer function resets the timer every time there is activity.
     const resetTimer = () => {
         if (timerId) {
             clearTimeout(timerId);
@@ -13,8 +13,8 @@ const useIdleTimer = (action, delay) => {
     }
 
     useEffect(() => {
-        // Voeg event listeners toe voor verschillende gebruikersactiviteiten.
-        // Wanneer een van deze activiteiten plaatsvindt, wordt de timer gereset.
+        // Add event listeners for various user activities.
+        // When any of these activities occur, the timer is reset.
         window.addEventListener('mousemove', resetTimer);
         window.addEventListener('mousedown', resetTimer);
         window.addEventListener('click', resetTimer);
@@ -23,7 +23,7 @@ const useIdleTimer = (action, delay) => {
         resetTimer();
 
         return () => {
-            // Als de component wordt ontkoppeld, ruim dan de timer en event listeners op.
+            // If the component is unmounted, clean up the timer and event listeners.
             if (timerId) {
                 clearTimeout(timerId);
             }

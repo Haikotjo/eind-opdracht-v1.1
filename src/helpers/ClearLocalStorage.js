@@ -1,11 +1,11 @@
-import {handleError} from "./handleError";
+import { handleError } from "./handleError";
 
 export function clearLocalStorage() {
     try {
-        // Verwijder user token
+        // Remove user token
         localStorage.removeItem('token');
 
-        // Verwijder alle andere gebruikers gerelateerde data
+        // Remove all other user-related data
         localStorage.removeItem('savedEvent');
         localStorage.removeItem('savedComic');
         localStorage.removeItem('savedHero');

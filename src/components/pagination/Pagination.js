@@ -25,11 +25,11 @@ function Pagination({ page, total, pageSize, onPageChange }) {
     return (
         <div className={styles.pagination}>
             <StandardButton onClick={handlePrev} disabled={page === 1}>
-                Vorige
+                Previous
             </StandardButton>
             <span>{page} of {maxPage}</span>
             <StandardButton onClick={handleNext} disabled={page === maxPage}>
-                Volgende
+                Next
             </StandardButton>
             <span> | Items per page: </span>
             <select value={pageSize} onChange={handlePageSizeChange}>

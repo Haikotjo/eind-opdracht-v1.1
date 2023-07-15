@@ -1,27 +1,46 @@
 @import './_globals.scss';
 
+/* Reset of default margins and padding for specific elements */
+html, body, h1, h2, h3, h4, h5, h6, p, ol, ul, li, pre, code, address, variable, form, fieldset, blockquote {
+  margin: 0;
+  padding: 0;
+}
+
+/* Set box-sizing to border-box for all elements */
 *, *:before, *:after {
   box-sizing: border-box;
 }
 
+/* Styles for the body of the page */
 body {
-  font-family: $font-primary;
-  color: $color-primary;
+  font-family: $font-primary; /* Set the primary font */
+  color: $color-primary; /* Set the primary text color */
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 
-  @media (max-width: 768px) {
-    zoom: 0.5;
+  /* Responsive settings for font size on different screen sizes */
+  @include respond-to('medium') {
+    font-size: 1.5rem;
+  }
+
+  @include respond-to('small') {
+    font-size: 1.2rem;
+  }
+
+  @include respond-to('extra-small') {
+    font-size: 1rem;
   }
 }
 
+/* Styles for headings (h1-h6) */
 h1, h2, h3, h4, h5, h6 {
-  font-family: $font-secondary;
-  color: $color-secondary;
+  font-family: $font-secondary; /* Set the secondary font */
+  color: $color-secondary; /* Set the secondary text color */
 }
 
+/* Styles for links (a elements) */
 a {
-  text-decoration: none;
-  color: inherit;
+  text-decoration: none; /* No underline for links */
+  color: inherit; /* Inherit the color from parent elements */
 }
