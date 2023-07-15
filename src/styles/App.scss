@@ -1,6 +1,8 @@
 
 @import './_globals.scss';
-
+*, *:before, *:after {
+  box-sizing: border-box;
+}
 
 // Global styles
 body {

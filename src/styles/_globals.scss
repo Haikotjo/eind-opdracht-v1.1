@@ -1,6 +1,7 @@
 
 // Breakpoints
 $breakpoints: (
+        'extra-small': 480px,
         'small': 576px,
         'medium': 768px,
         'large': 992px,
@@ -18,6 +19,10 @@ $color-secondary: #B12F56;
 $color-tertiary: #F7A072;
 $color-quaternary: #00f7ff;
 $color-quinary: #dee2e6;
+
+.hidden {
+  display: none;
+}
 
 // Mixin for media query
 @mixin respond-to($breakpoint) {
