@@ -103,14 +103,14 @@ function EventsPage() {
                 />
                 <div className={styles["events-wrapper"]}>
                     {events.map(event => (
-                        <div className={styles["event-card-wrapper"]}>
+                        <div key={event.id} className={styles["event-card-wrapper"]}>
                             <EventCard
-                                key={event.id}
                                 event={event}
                                 onComicClick={(comic) => showModal(comic, 'comics')}
                                 onCharacterClick={(character) => showModal(character, 'characters')}
                             />
                         </div>
+                    ))}
                     ))}
                 </div>
                 <CustomModal

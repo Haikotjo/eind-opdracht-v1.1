@@ -104,11 +104,12 @@ function ComicsPage() {
                 />
                 <div className={styles["comics-wrapper"]}>
                     {comics.map(comic => (
-                        <div className={styles["comic-card-wrapper"]}>
-                            <ComicCard key={comic.id} comic={comic} onSelectCharacter={showModal} />
+                        <div key={comic.id} className={styles["comic-card-wrapper"]}>
+                            <ComicCard comic={comic} onSelectCharacter={showModal} />
                         </div>
                     ))}
                 </div>
+
                 {selectedCharacter && (
                     <CustomModal
                         isModalVisible={isModalVisible}

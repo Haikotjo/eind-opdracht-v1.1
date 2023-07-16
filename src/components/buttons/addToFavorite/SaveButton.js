@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useReducer } from 'react';
+import { useContext, useState, useEffect, useReducer, useRef } from 'react';
 import { SavedContext } from '../../../context/SavedContext';
 import { Link } from "react-router-dom";
 import styles from "./SaveButton.module.scss";
@@ -8,12 +8,21 @@ const SaveButton = ({ itemKey, item }) => {
     const [isSaved, setIsSaved] = useState(false);
     const [message, setMessage] = useState("");
     const [, forceUpdate] = useReducer(x => x + 1, 0);
+    const messageTimeoutRef = useRef(null);
 
     // useEffect checks if the item is already saved when the component is loaded
     useEffect(() => {
         const alreadySaved = isItemSaved(itemKey, item.id);
         setIsSaved(alreadySaved);
     }, [item, itemKey, isItemSaved]);
+
+    useEffect(() => {
+        if (message && message.length > 0) {
+            messageTimeoutRef.current = setTimeout(() => setMessage(""), 2000);
+        }
+        return () => clearTimeout(messageTimeoutRef.current);
+    }, [message]);
+
 
     const handleSave = () => {
         const saved = saveItem(itemKey, item);
@@ -27,6 +36,7 @@ const SaveButton = ({ itemKey, item }) => {
         }
         // Force a re-render of the component to ensure the new saved status is displayed
         forceUpdate();
+        setTimeout(() => setMessage(""), 2000);
     };
 
     const handleRemove = () => {
@@ -37,6 +47,7 @@ const SaveButton = ({ itemKey, item }) => {
         setIsSaved(false);
         // Force a re-render of the component to ensure the new saved status is displayed
         forceUpdate();
+        setTimeout(() => setMessage(""), 2000);
     };
 
     // Choose the appropriate handler based on whether the item is currently saved

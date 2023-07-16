@@ -102,11 +102,12 @@ function HeroesPage() {
                 />
                 <div className={styles["heroes-wrapper"]}>
                     {heroes.map(hero => (
-                        <div className={styles["hero-card-wrapper"]}>
-                            <HeroCard key={hero.id} hero={hero} onSelectComic={showModal} />
+                        <div key={hero.id} className={styles["hero-card-wrapper"]}>
+                            <HeroCard hero={hero} onSelectComic={showModal} />
                         </div>
                     ))}
                 </div>
+
                 {selectedComic && (
                     <CustomModal
                         isModalVisible={isModalVisible}
