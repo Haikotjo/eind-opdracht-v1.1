@@ -1,49 +1,38 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import HeroCard from '../../components/hero-card/HeroCard';
+import ComicCard from '../../components/comic-card/ComicCard';
 import EventCard from '../../components/event-card/EventCard';
-import { Link } from 'react-router-dom';
-import Modal from "react-modal";
-import HeroCard from "../../components/hero-card/HeroCard";
-import ComicCard from "../../components/comic-card/ComicCard";
-import {DataContext} from "../../context/DataContext";
-import {handleError} from "../../helpers/handleError";
+import { DataContext } from '../../context/DataContext';
+import { handleError } from '../../helpers/handleError';
 import styles from './HomePage.module.scss';
-import Loading from "../../components/loading/Loading";
+import Loading from '../../components/loading/Loading';
+import Carousel from "../../components/carousel/Carousel";
+import CustomModal from "../../components/customModal/CustomModal";
 
 const HomePage = () => {
-    const [currentRandomEvent, setCurrentRandomEvent] = useState(null);
-    const [currentRandomHero, setCurrentRandomHero] = useState(null);
-    const [currentRandomComic, setCurrentRandomComic] = useState(null);
+    const { fetchMarvelData } = useContext(DataContext);
+    const navigate = useNavigate();
 
     const [events, setEvents] = useState([]);
     const [heroes, setHeroes] = useState([]);
     const [comics, setComics] = useState([]);
-
-    const [isEventModalOpen, setIsEventModalOpen] = useState(false);
-    const [isHeroModalOpen, setIsHeroModalOpen] = useState(false);
-    const [isComicModalOpen, setIsComicModalOpen] = useState(false);
-
-    const { fetchMarvelData } = useContext(DataContext);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [itemType, setItemType] = useState('');
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchRandomData = async (category) => {
-
             const data = await fetchMarvelData(category, 1, 0);
             const totalItems = data.total;
-
-            const itemsPerPage = 15;
+            const itemsPerPage = 25;
             const maxOffset = totalItems - itemsPerPage;
             const randomOffset = Math.floor(Math.random() * maxOffset);
-
             const randomData = await fetchMarvelData(category, itemsPerPage, randomOffset);
-
-            const validData = randomData.results.filter(item => {
-                return !item.thumbnail.path.endsWith('image_not_available');
-            });
-
-            return validData;
+            return randomData.results;
         };
 
         setError(null);
@@ -54,108 +43,105 @@ const HomePage = () => {
             fetchRandomData('comics'),
             fetchRandomData('events')
         ]).then(([heroesData, comicsData, eventsData]) => {
-
             setHeroes(heroesData);
             setComics(comicsData);
             setEvents(eventsData);
             setIsLoading(false);
         }).catch((error) => {
             handleError(error);
+            setError(error);
             setIsLoading(false);
         });
     }, [fetchMarvelData]);
 
-    // Moet ik nog even naar kijken of ik er nog wat mee wil
-    function makeCombinedlist () {
-        const combinedCards = [...heroes, ...comics, ...events];
-        console.log(combinedCards)
-    }
-    makeCombinedlist()
-    // Moet ik nog even naar kijken of ik er nog wat mee wil
-
-    const handleEventClick = (event) => {
-        setCurrentRandomEvent(event);
-        setIsEventModalOpen(true);
-    };
-    const handleHeroClick = (hero) => {
-        setCurrentRandomHero(hero);
-        setIsHeroModalOpen(true);
-    };
-    const handleComicClick = (comic) => {
-        setCurrentRandomComic(comic);
-        setIsComicModalOpen(true);
+    const showModal = async (item, type) => {
+        const itemId = item.resourceURI.split('/').pop();
+        try {
+            const data = await fetchMarvelData(type, 1, 0, itemId);
+            const itemData = data.results[0];
+            setSelectedItem(itemData);
+            setItemType(type);
+            setIsModalVisible(true);
+        } catch (err) {
+            handleError(err);
+            setError(err);
+        }
     };
 
-    const handleCloseModal = () => {
-        setIsEventModalOpen(false);
-        setIsHeroModalOpen(false);
-        setIsComicModalOpen(false);
-    }
+    const handleModalOk = () => {
+        setIsModalVisible(false);
+    };
 
+    const handleModalCancel = () => {
+        setIsModalVisible(false);
+    };
 
     return (
         isLoading ? <Loading /> : error ? (
                 <div className={styles["error"]}>
                     <h2 className={styles["error-title"]}>Something went wrong...</h2>
                     <p className={styles["error-message"]}>We couldn't load the data you requested. Please try again later.</p>
-                    <p className={styles["error-details"]}>Error details: {error}</p>
+                    <p className={styles["error-details"]}>Error details: {error.message}</p>
                 </div>
             ) :
             <main className={styles["home"]}>
                 <section className={styles["home__section"]}>
-                    <h2 className={styles["home__title"]}>Discover Events or <Link className={styles["home__link"]} to="/events">search for your favorite event!</Link></h2>
-                    <ul className={styles["event-list"]}>
-                        {events.map(event =>
-                            <li key={event.id} className={styles["event-list-item"]}>
-                                <EventCard event={event} onCardClick={handleEventClick}/>
-                            </li>
-                        )}
-                    </ul>
-                    <Modal
-                        isOpen={isEventModalOpen}
-                        onRequestClose={handleCloseModal}
-                        contentLabel="Event Details Modal"
-                    >
-                        {currentRandomEvent && <EventCard event={currentRandomEvent} isModal={true} />}
-                    </Modal>
+                    <h2 className={styles["home__title"]}>
+                        <Link className={styles["home__link"]} to="/events">
+                            Events
+                        </Link>
+                    </h2>
+                    <Carousel
+                        items={events}
+                        CardComponent={EventCard}
+                        mapItemToProps={(item) => ({
+                            event: item,
+                            onComicClick: (comic) => showModal(comic, 'comics'),
+                            onCharacterClick: (character) => showModal(character, 'characters')
+                        })}
+                    />
                 </section>
                 <section className={styles["home__section"]}>
-                    <h2 className={styles["home__title"]}>Discover Heroes or <Link className={styles["home__link"]} to="/heroes">search for your favorite hero!</Link></h2>
-                    <ul className={styles["hero-list"]}>
-                        {heroes.map(hero =>
-                            <li key={hero.id} className={styles["hero-list-item"]}>
-                                <HeroCard hero={hero} onCardClick={handleHeroClick}/>
-                            </li>
-                        )}
-                    </ul>
-                    <Modal
-                        isOpen={isHeroModalOpen}
-                        onRequestClose={handleCloseModal}
-                        contentLabel="Hero Details Modal"
-                    >
-                        {currentRandomHero && <HeroCard hero={currentRandomHero} isModal={true} />}
-                    </Modal>
+                    <h2 className={styles["home__title"]}>
+                        <Link className={styles["home__link"]} to="/heroes">
+                            Heroes
+                        </Link>
+                    </h2>
+                    <Carousel
+                        items={heroes}
+                        CardComponent={HeroCard}
+                        mapItemToProps={(item) => ({
+                            hero: item,
+                            onSelectComic: (comic) => showModal(comic, 'comics')
+                        })}
+                    />
                 </section>
+
                 <section className={styles["home__section"]}>
-                    <h2 className={styles["home__title"]}>Discover comics or <Link className={styles["home__link"]} to="/comics">search for your favorite comic!</Link></h2>
-                    <ul className={styles["comic-list"]}>
-                        {comics.map(comic =>
-                            <li key={comic.id} className={styles["comic-list-item"]}>
-                                <ComicCard comic={comic} onCardClick={handleComicClick}/>
-                            </li>
-                        )}
-                    </ul>
-                    <Modal
-                        isOpen={isComicModalOpen}
-                        onRequestClose={handleCloseModal}
-                        contentLabel="Comic Details Modal"
-                    >
-                        {currentRandomComic && <ComicCard comic={currentRandomComic} isModal={true} />}
-                    </Modal>
+                    <h2 className={styles["home__section-title"]}>
+                        <Link className={styles["home__link"]} to="/comics">
+                            Comics
+                        </Link>
+                    </h2>
+                    <Carousel
+                        items={comics}
+                        CardComponent={ComicCard}
+                        mapItemToProps={(item) => ({
+                            comic: item,
+                            onSelectCharacter: (character) => showModal(character, 'characters')
+                        })}
+                    />
                 </section>
+                <CustomModal
+                    isModalVisible={isModalVisible}
+                    handleOk={handleModalOk}
+                    handleCancel={handleModalCancel}
+                    selectedItem={selectedItem}
+                    itemKey={itemType === 'comics' ? "savedComic" : itemType === 'characters' ? "savedHero" : "savedEvent"}
+                    title={itemType === 'comics' ? "Comic Details" : itemType === 'characters' ? "Hero Details" : "Event Details"}
+                />
             </main>
     );
 };
 
 export default HomePage;
-

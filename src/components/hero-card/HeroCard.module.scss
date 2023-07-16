@@ -1,11 +1,93 @@
 @import '../../styles/_globals.scss';
 
-.hero-card__image-wrapper {
-  position: relative;
+.card {
+  width: 100%;
+  max-width: 250px;
+  border-radius: 8px;
+  margin: 0.5em;
+  overflow: hidden;
+  box-shadow: 4px 8px 8px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+  transition: all 0.5s ease;
+
+  &:hover {
+    filter: brightness(1.2);
+    box-shadow: 4px 8px 16px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+  }
 }
 
-.save-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+.title {
+  background-color: $color-primary;
+  color: $color-secondary;
+  padding: 10px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.content {
+  padding: 10px;
+}
+
+.hero-card__image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.more-info {
+  color: $color-secondary;
+  background-color: $color-primary;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  justify-content: center;
+}
+
+.more-info:hover {
+  background-color: $color-secondary;
+  color: $color-primary;
+}
+
+.hero-info__name {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 0.75em;
+}
+
+.hero-info__description {
+  margin-top: 0.5em;
+}
+
+.hero-card__info-comic-list {
+  list-style: none;
+  padding: 0;
+}
+
+.hero-card__info-comic-list-item {
+  cursor: pointer;
+  color: $color-secondary;
+  transition: color 0.3s ease;
+}
+
+.hero-card__info-comic-list-item:hover {
+  color: $color-primary;
+}
+
+@include respond-to('medium') {
+  .card {
+    padding: 15px 30px;
+  }
+
+  .title {
+    font-size: 1.2em;
+  }
 }

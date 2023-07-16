@@ -1,96 +1,54 @@
 @import '../../styles/_globals.scss';
 
-.event-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 0;
-    list-style: none;
-    //margin: 20px;
+.events-page {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+  color: $color-primary;
+  font-family: $font-primary;
 }
 
-.event-list-item {
-    flex-basis: calc((100% / 5) - 1rem);
-    margin-bottom: 1rem;
-    margin-inline: 0.5rem;
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.loading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+.events-title {
+  font-size: 2em;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1em;
 }
 
-.event-search {
-    width: 100%;
-    max-width: 500px;
-    padding: 10px;
-    margin: 20px auto;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    font-size: 16px;
+.events-search {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid $color-quinary;
+  border-radius: 4px;
+  margin-bottom: 1em;
+  color: $color-primary;
 }
 
-.event-search:focus {
-    border-color: #ff00b7;
-    color: #05335f;
-    outline: none;
-    box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1em;
 }
 
-.event-title {
-    font-family: $font-secondary;
-    font-size: 50px;
-    color: $color-secondary;
-    text-align: center;
-    text-transform: uppercase;
+.events-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
-/*loading screen*/
-
-.loading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    z-index: 9999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: white;
-}
-
-.image-container {
-    position: relative;
-    width: auto;
-    height: auto;
-}
-
-.loading-image {
-    width: 100%;
-    height: auto;
-}
-
-.loading-message {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
-    font-family: $font-secondary;
-    color: $color-secondary;
-    font-size: 2rem;
-    text-align: center;
-
-
-    @include respond-to('medium') {
-        font-size: 3rem;
-    }
-
-    @include respond-to('large') {
-        font-size: 4rem;
-    }
+.event-card-wrapper {
+  flex: 1 1 auto;
+  margin: 1em;
+  min-width: 250px;
+  max-width: 300px;
 }

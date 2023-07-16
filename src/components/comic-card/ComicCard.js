@@ -1,70 +1,58 @@
-import React, { useState, useContext } from 'react';
-import Modal from 'react-modal';
-import HeroCard from '../hero-card/HeroCard';
-import { DataContext } from '../../context/DataContext';
-import SaveButton from "../buttons/addToFavorite/AddToFavorite";
-import {Link} from "react-router-dom";
+// ComicCard.js
+import React, { useState } from 'react';
+import SaveButton from "../buttons/addToFavorite/SaveButton";
 import styles from './ComicCard.module.scss';
+import StandardButton from "../buttons/standardButton/StandardButton";
 
-const ComicCard = ({ comic, isModal, onCardClick }) => {
-    const { fetchMarvelData } = useContext(DataContext);
-    const [modalIsOpen, setIsOpen] = useState(false);
-    const [currentHero, setCurrentHero] = useState(null);
+const ComicCard = ({ comic, onSelectCharacter }) => {
+    const [isExpanded, setIsExpanded] = useState(false);
 
-    function openModal(character) {
-        const characterId = character.resourceURI.split('/').pop();
-
-        fetchMarvelData('characters', null, null, characterId, null, null, true)
-            .then(response => {
-                setCurrentHero(response[0]);
-                setIsOpen(true);
-            })
-            .catch(error => {
-                console.error("Er was een fout bij het ophalen van de comic: ", error);
-            });
-    }
-    function closeModal() {
-        setIsOpen(false);
-    }
+    // Function to handle panel change (expand/collapse)
+    const handlePanelChange = () => {
+        setIsExpanded(!isExpanded);
+    };
 
     return (
-        <div className={styles["comic-card"]}>
-            <img
-                className={styles["comic-card__image"]}
-                src={`${comic.thumbnail.path}/portrait_incredible.${comic.thumbnail.extension}`}
-                alt={comic.title}
-            />
-            {isModal && (<SaveButton itemKey="savedComic" item={comic} />)}
-            {!isModal && (<button className={styles["comic-card__info-btn"]} onClick={() => !isModal && onCardClick(comic)}>more</button>)}
-            <div className={styles["comic-card__info"]}>
-                {isModal && (
+        <div className={styles.card}>
+            {/* Display the comic title */}
+            <div className={styles.title}>{comic.title}</div>
+            <div className={styles.content}>
+                {/* Display the comic image */}
+                <img
+                    className={styles['comic-card__image']}
+                    src={`${comic.thumbnail.path}/portrait_incredible.${comic.thumbnail.extension}`}
+                    alt={comic.title}
+                />
+                <div className={styles.buttonContainer}>
+                    {/* Render the save button */}
+                    <SaveButton itemKey="savedComic" item={comic} />
+                    {/* Render the standard button */}
+                    <StandardButton className={styles['more-info']} onClick={handlePanelChange}>
+                        {/* Toggle the button label based on expanded state */}
+                        {isExpanded ? "Less" : "More"}
+                    </StandardButton>
+                </div>
+                {isExpanded && (
                     <>
-                        <h2 className={styles["comic-card__info-title"]}>{comic.title}</h2>
-                        <p className={styles["comic-card__info-description"]}>{comic.description}</p>
-                        <ul className={styles["comic-card__info-hero-list"]}>
+                        {/* Display additional comic information */}
+                        <h2 className={styles['comic-card__info-title']}>{comic.title}</h2>
+                        <p className={styles['comic-card__info-description']}>{comic.description}</p>
+                        <ul className={styles['comic-card__info-hero-list']}>
+                            {/* Render the list of characters */}
                             {comic.characters.items.map((character, index) => (
-                                <li key={index} className={styles["comic-card__info-hero-list-item"]}>
-                                    <Link to={`/heroes/${character.resourceURI.split('/').pop()}`}>
+                                <li key={index} className={styles['comic-card__info-hero-list-item']}>
+                                    {/* Handle character click */}
+                                    <a onClick={() => onSelectCharacter(character)}>
                                         {character.name}
-                                    </Link>
+                                    </a>
                                 </li>
                             ))}
                         </ul>
                     </>
                 )}
             </div>
-
-            <Modal
-                isOpen={modalIsOpen}
-                className={styles["modal-content"]}
-                onRequestClose={closeModal}
-                contentLabel="Hero Modal"
-            >
-                {currentHero && <HeroCard hero={currentHero} isModal={isModal} />}
-            </Modal>
         </div>
     );
-}
+};
 
 export default ComicCard;
-

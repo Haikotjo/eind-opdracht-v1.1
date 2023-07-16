@@ -1,82 +1,93 @@
 @import '../../styles/_globals.scss';
 
-.comic-card {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  padding: 1rem;
-  background-color: #fff;
+.card {
+  width: 100%;
+  max-width: 250px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 0.5em;
+  overflow: hidden;
+  box-shadow: 4px 8px 8px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+  transition: all 0.5s ease;
 
-  &__image {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 8px;
+  &:hover {
+    filter: brightness(1.2);
+    box-shadow: 4px 8px 16px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+  }
+}
+
+.title {
+  background-color: $color-primary;
+  color: $color-secondary;
+  padding: 10px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.content {
+  padding: 10px;
+}
+
+.comic-card__image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.more-info {
+  color: $color-secondary;
+  background-color: $color-primary;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  justify-content: center;
+}
+
+.more-info:hover {
+  background-color: $color-secondary;
+  color: $color-primary;
+}
+
+.comic-card__info-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 0.75em;
+}
+
+.comic-card__info-description {
+  margin-top: 0.5em;
+}
+
+.comic-card__info-hero-list {
+  list-style: none;
+  padding: 0;
+}
+
+.comic-card__info-hero-list-item {
+  cursor: pointer;
+  color: $color-secondary;
+  transition: color 0.3s ease;
+}
+
+.comic-card__info-hero-list-item:hover {
+  color: $color-primary;
+}
+
+@include respond-to('medium') {
+  .card {
+    padding: 15px 30px;
   }
 
-  &__info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-
-    &--btn {
-      margin-bottom: 1rem;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-      color: #fff;
-      background-color: #007BFF;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #0056b3;
-      }
-    }
-
-    &--title {
-      margin-bottom: 0.5rem;
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-
-    &--description {
-      font-size: 0.9rem;
-    }
-
-    &--hero-list {
-      list-style: none;
-      padding: 0;
-
-      &-item {
-        font-size: 0.8rem;
-        color: #007BFF;
-
-        &:not(:last-child) {
-          margin-bottom: 0.5rem;
-        }
-      }
-    }
-  }
-
-  .save-button{
-    background: none;
-  }
-
-  .modal-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 90vw;
-    max-width: 400px;
-    padding: 2rem;
-    background-color: #d537a7;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  .title {
+    font-size: 1.2em;
   }
 }

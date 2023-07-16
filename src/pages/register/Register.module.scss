@@ -1,0 +1,75 @@
+@import '../../styles/_globals.scss';
+
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  &__form {
+    max-width: 50%;
+    width: 600px;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  &__error {
+    color: red;
+    margin-top: 10px;
+  }
+
+  &__register-link {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #888;
+
+    a {
+      color: #888;
+      text-decoration: underline;
+    }
+  }
+
+  .alert {
+    color: red;
+    margin-top: 10px;
+  }
+}
+
+.register-page__register-link {
+  color: $color-secondary;
+  font-weight: bold;
+  &:hover {
+    color: $color-quaternary;
+  }
+}
+
+.register-page__submit-button {
+  margin-bottom: 20px;
+  background-color: $color-primary;
+  color: #fff;
+  padding: 5px;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: $color-secondary;
+    color: #fff;
+  }
+}
+
+.register-page__login-text {
+  font-size: 16px;
+}
+

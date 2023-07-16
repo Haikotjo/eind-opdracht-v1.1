@@ -1,24 +1,27 @@
-// _globals.scss
-
 // Breakpoints
 $breakpoints: (
-        'small': 576px,
-        'medium': 768px,
-        'large': 992px,
-        'xlarge': 1200px,
-        'xxlarge': 1400px,
+        'extra-small': 480px, // Extra small screen
+        'small': 576px, // Small screen
+        'medium': 768px, // Medium screen
+        'large': 992px, // Large screen
+        'xlarge': 1200px, // Extra large screen
+        'xxlarge': 1400px, // Double extra large screen
 );
 
 // Fonts
-$font-primary: 'Montserrat', sans-serif;
-$font-secondary: 'Shadows Into Light', cursive;
+$font-primary: 'Montserrat', sans-serif; // Set primary font
+$font-secondary: 'Shadows Into Light', cursive; // Set secondary font
 
 // Colors
-$color-primary: #181C25;
-$color-secondary: #B12F56;
-$color-tertiary: #F7A072;
-$color-quaternary: #44BBA4;
-$color-quinary: #dee2e6;
+$color-primary: #181C25; // Set primary color
+$color-secondary: #B12F56; // Set secondary color
+$color-tertiary: #F7A072; // Set tertiary color
+$color-quaternary: #00f7ff; // Set quaternary color
+$color-quinary: #dee2e6; // Set quinary color
+
+.hidden {
+  display: none; // Class to hide elements
+}
 
 // Mixin for media query
 @mixin respond-to($breakpoint) {
@@ -27,13 +30,12 @@ $color-quinary: #dee2e6;
     // Retrieve the value of the breakpoint
     $breakpoint-value: map-get($breakpoints, $breakpoint);
 
-    @media (min-width: $breakpoint-value) {
+    @media (max-width: $breakpoint-value) {
       @content;
     }
   }
-
     // Warn if the breakpoint doesn't exist
   @else {
-    @warn "Het breekpunt '#{$breakpoint}' kon niet worden gevonden. Controleer of het is gedefinieerd.";
+    @warn "The breakpoint '#{$breakpoint}' could not be found. Please check if it is defined.";
   }
 }

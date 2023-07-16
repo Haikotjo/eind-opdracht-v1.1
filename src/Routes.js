@@ -4,12 +4,13 @@ import HomePage from './pages/homePage/HomePage';
 import HeroesPage from './pages/heroesPage/HeroesPage';
 import ComicsPage from './pages/comicsPage/ComicsPage';
 import EventsPage from './pages/eventsPage/EventsPage';
-import NavBar from "./navbar/NavBar";
 import DataContextProvider from "./context/DataContext";
-import LoginPage from './pages/LoginPage';
-import ProfilePage from "./pages/ProfilePage";
+import LoginPage from './pages/login/LoginPage';
+import ProfilePage from "./pages/profilePage/ProfilePage";
 import {AuthContext} from "./context/AuthContext";
-import Register from "./pages/Register";
+import Register from "./pages/register/Register";
+import NavBar from "./components/navbar/NavBar";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 
 const AppRoutes = () => {
 
@@ -17,6 +18,7 @@ const AppRoutes = () => {
 
     return (
         <>
+             {/*DataContextProvider facilitates sharing of data within the application */}
                 <DataContextProvider>
                     <NavBar />
                     <Routes>
@@ -31,6 +33,7 @@ const AppRoutes = () => {
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/profile" element={isAuth ? <ProfilePage /> : <Navigate to="/login"/>} />
+                        <Route path="/*" element={<NotFoundPage />} />
                     </Routes>
                 </DataContextProvider>
         </>

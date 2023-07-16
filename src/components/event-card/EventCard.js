@@ -1,101 +1,71 @@
-import React, { useState, useContext } from 'react';
-import Modal from 'react-modal';
-import HeroCard from '../hero-card/HeroCard';
-import ComicCard from "../comic-card/ComicCard";
-import { DataContext } from '../../context/DataContext';
-import SaveButton from "../buttons/addToFavorite/AddToFavorite";
-import {Link} from "react-router-dom";
+import React, { useState } from 'react';
+import SaveButton from "../buttons/addToFavorite/SaveButton";
 import styles from './EventCard.module.scss';
+import StandardButton from "../buttons/standardButton/StandardButton";
 
-const EventCard = ({ event, isModal, onCardClick }) => {
-    const {fetchMarvelData} = useContext(DataContext);
-    const [heroModalIsOpen, setHeroModalIsOpen] = useState(false);
-    const [comicModalIsOpen, setComicModalIsOpen] = useState(false);
-    const [currentHero, setCurrentHero] = useState(null);
-    const [currentComic, setCurrentComic] = useState(null);
+const EventCard = ({ event, onComicClick, onCharacterClick }) => {
 
-    function openHeroModal(character) {
-        const characterId = character.resourceURI.split('/').pop();
+    const [isExpanded, setIsExpanded] = useState(false)
 
-        fetchMarvelData('characters', null, null, characterId, null, null, true)
-            .then(response => {
-                setCurrentHero(response[0]);
-                setHeroModalIsOpen(true);
-            })
-            .catch(error => {
-                console.error("Er was een fout bij het ophalen van de character: ", error);
-            });
-    }
-
-    function closeHeroModal() {
-        setHeroModalIsOpen(false);
-    }
-
-    function closeComicModal() {
-        setComicModalIsOpen(false);
-    }
-
+    // Function to handle panel change (expand/collapse)
+    const handlePanelChange = () => {
+        setIsExpanded(!isExpanded);
+    };
 
     return (
-        <div className={styles['event-card']}>
-            <img
-                className={styles['event-card__image']}
-                alt={event.title}
-                src={event && event.thumbnail ? `${event.thumbnail.path}/portrait_incredible.${event.thumbnail.extension}` : 'fallbackAfbeeldingURL'}
-            />
-            {isModal && (<SaveButton className ={styles['save-button']} itemKey="savedEvent" item={event}/>)}
-            <div className={styles['event-card__info']}>
-                {!isModal && (<button className={styles['event-card__info--btn']}
-                                      onClick={() => !isModal && onCardClick(event)}>more
-                </button>)}
-                {isModal && (
+        <div className={styles.card}>
+            {/* Display the event title */}
+            <div className={styles.title}>{event.title}</div>
+            <div className={styles.content}>
+                {/* Display the event image */}
+                <img
+                    className={styles['event-card__image']}
+                    alt={event.title}
+                    src={event && event.thumbnail ? `${event.thumbnail.path}/portrait_incredible.${event.thumbnail.extension}` : 'fallbackImageURL'}
+                />
+                <div className={styles.buttonContainer}>
+                    {/* Render the save button */}
+                    <SaveButton itemKey="savedEvent" item={event} />
+                    {/* Render the standard button */}
+                    <StandardButton className={styles['more-info']} onClick={handlePanelChange}>
+                        {/* Toggle the button label based on expanded state */}
+                        {isExpanded ? "Less" : "More"}
+                    </StandardButton>
+                </div>
+                {isExpanded && (
                     <>
-                        <h2 className={styles['event-card__info--title']}>{event ? event.title : ''}</h2>
-                        <p className={styles['event-card__info--description']}>{event.description}</p>
-                        <ul className={styles['event-card__info--hero-list']}> Heroes:
+                        {/* Display additional event information */}
+                        <h2 className={styles['event-card__info-name']}>{event ? event.title : ''}</h2>
+                        <p className={styles['event-card__info-description']}>{event.description}</p>
+                        <ul className={styles['event-card__info-hero-list']}>
+                            <h2>Heroes</h2>
+                            {/* Render the list of characters */}
                             {event.characters.items.map((character, index) => (
-                                <li key={index} className={styles['event-card__info--hero-list-item']}>
-                                    <Link to={`/heroes/${character.resourceURI.split('/').pop()}`}>
+                                <li key={index} className={styles['event-card__info-comic-list-item']}>
+                                    {/* Handle character click */}
+                                    <a onClick={() => onCharacterClick(character)}>
                                         {character.name}
-                                    </Link>
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                        <ul className={styles['event-card__info-comic-list']}>
+                            <h2>Comics</h2>
+                            {/* Render the list of comics */}
+                            {event.comics.items.map((comic, index) => (
+                                <li key={index} className={styles['event-card__info-hero-list-item']}>
+                                    {/* Handle comic click */}
+                                    <a onClick={() => onComicClick(comic)}>
+                                        {comic.name}
+                                    </a>
                                 </li>
                             ))}
                         </ul>
                     </>
                 )}
-                {isModal && (
-                    <ul className={styles['event-card__info--comic-list']}> Comics:
-                        {event.comics.items.map((comic, index) => (
-                            <li key={index} className={styles['event-card__info--comic-list-item']}>
-                                <Link to={`/comics/${comic.resourceURI.split('/').pop()}`}>
-                                    {comic.name}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </div>
-            <div>
-                <Modal
-                    isOpen={heroModalIsOpen}
-                    onRequestClose={closeHeroModal}
-                    className={styles['modal-content']}
-                    contentLabel="Hero Modal"
-                >
-                    {currentHero && <HeroCard hero={currentHero} isModal/>}
-                </Modal>
-            </div>
-            <div>
-                <Modal
-                    isOpen={comicModalIsOpen}
-                    onRequestClose={closeComicModal}
-                    className={styles['modal-content']}
-                    contentLabel="Comic Modal"
-                >
-                    {currentComic && <ComicCard comic={currentComic} isModal/>}
-                </Modal>
             </div>
         </div>
     );
 }
-    export default EventCard;
+
+export default EventCard;

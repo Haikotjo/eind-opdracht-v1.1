@@ -1,9 +1,15 @@
-export function clearLocalStorage() {
-    // Remove user token
-    localStorage.removeItem('token');
+import { handleError } from "./handleError";
 
-    // Remove other user related data
-    localStorage.removeItem('savedEvent');
-    localStorage.removeItem('savedComic');
-    localStorage.removeItem('savedHero');
+export function clearLocalStorage() {
+    try {
+        // Remove user token
+        localStorage.removeItem('token');
+
+        // Remove all other user-related data
+        localStorage.removeItem('savedEvent');
+        localStorage.removeItem('savedComic');
+        localStorage.removeItem('savedHero');
+    } catch (error) {
+        handleError(error);
+    }
 }

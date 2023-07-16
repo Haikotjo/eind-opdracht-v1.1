@@ -1,93 +1,46 @@
 @import './_globals.scss';
-/* CSS Reset */
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
+/* Reset of default margins and padding for specific elements */
+html, body, h1, h2, h3, h4, h5, h6, p, ol, ul, li, pre, code, address, variable, form, fieldset, blockquote {
+  margin: 0;
+  padding: 0;
 }
 
-/* HTML5 display-role reset for older browsers */
-
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-    display: block;
+/* Set box-sizing to border-box for all elements */
+*, *:before, *:after {
+  box-sizing: border-box;
 }
 
-ol, ul {
-    list-style: none;
-}
-
-blockquote, q {
-    quotes: none;
-}
-
-blockquote:before, blockquote:after,
-q:before, q:after {
-    content: '';
-    content: none;
-}
-
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-
-/* Fonts*/
-
+/* Styles for the body of the page */
 body {
-    font-family: $font-primary;
-    line-height: 1;
+  font-family: $font-primary; /* Set the primary font */
+  color: $color-primary; /* Set the primary text color */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  /* Responsive settings for font size on different screen sizes */
+  @include respond-to('medium') {
+    font-size: 1.5rem;
+  }
+
+  @include respond-to('small') {
+    font-size: 1.2rem;
+  }
+
+  @include respond-to('extra-small') {
+    font-size: 1rem;
+  }
 }
 
-/* Fonts*/
-body {
-    color: $color-primary;
-    line-height: 1;
+/* Styles for headings (h1-h6) */
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-secondary; /* Set the secondary font */
+  color: $color-secondary; /* Set the secondary text color */
 }
 
-/* Achtergrond */
-body {
-    background-image: url("../../public/images/achtergrondWit.png");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed;
-    background-size: cover;
-}
-/* Andere globale stijlen ... */
-/*Modals*/
-.modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    right: auto;
-    bottom: auto;
-    background-color: coral;
-    transform: translate(-50%, -50%);
-    width: 50%;  /* Aanpassen naar eigen voorkeur */
-    height: 50%; /* Aanpassen naar eigen voorkeur */
-    overflow: auto;
-    WebkitOverflowScrolling: touch;
-    borderRadius: 4px;
-    outline: none;
-    padding: 20px;
-}
-
-.active {
-    color: $color-quaternary;
+/* Styles for links (a elements) */
+a {
+  text-decoration: none; /* No underline for links */
+  color: inherit; /* Inherit the color from parent elements */
 }

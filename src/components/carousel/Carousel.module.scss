@@ -1,0 +1,47 @@
+@import '../../styles/_globals.scss';
+
+@mixin flex-settings($direction: row, $justify: flex-start, $align: stretch) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+.carouselContainer {
+  @include flex-settings(row, space-between, center);
+  padding: 10px;
+  background-color: $color-quinary;
+}
+
+.scroll-button {
+  background-color: transparent;
+  color: $color-secondary;
+  border: none;
+  font-size: 2em;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: lighten($color-primary, 10%);
+  }
+}
+
+.carousel {
+  @include flex-settings(row);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  flex-grow: 1;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  > * {
+    flex: 0 0 auto;
+  }
+}
+
+.carouselItem {
+  margin: 0 10px;
+  flex: 0 0 auto;
+}

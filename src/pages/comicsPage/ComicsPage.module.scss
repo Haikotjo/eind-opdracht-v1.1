@@ -1,48 +1,54 @@
 @import '../../styles/_globals.scss';
 
-.comics-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 0;
-    list-style: none;
-    //margin: 20px;
+.comics-page {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+  color: $color-primary;
+  font-family: $font-primary;
 }
 
-.comic-list-item {
-    flex-basis: calc((100% / 5) - 1rem);
-    margin-bottom: 1rem;
-    margin-inline: 0.5rem;
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.loading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+.comics-title {
+  font-size: 2em;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1em;
 }
 
 .comics-search {
-    width: 100%;
-    max-width: 500px;
-    padding: 10px;
-    margin: 20px auto;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    font-size: 16px;
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid $color-quinary;
+  border-radius: 4px;
+  margin-bottom: 1em;
+  color: $color-primary;
 }
 
-.comics-search:focus {
-    border-color: #ff00b7;
-    color: #05335f;
-    outline: none;
-    box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1em;
 }
 
-.comic-title {
-    font-family: $font-secondary;
-    font-size: 50px;
-    color: $color-secondary;
-    text-align: center;
-    text-transform: uppercase;
+.comics-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.comic-card-wrapper {
+  flex: 1 1 auto;
+  margin: 1em;
+  min-width: 250px;
+  max-width: 300px;
 }

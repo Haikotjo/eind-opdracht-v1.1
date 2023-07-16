@@ -1,158 +1,123 @@
 import React, { useState, useEffect, useContext } from 'react';
 import HeroCard from '../../components/hero-card/HeroCard';
-import Modal from "react-modal";
-import {DataContext} from "../../context/DataContext";
-import PrevNextButton from "../../components/buttons/prevNextButton/PrevNextButton";
-import {handleError} from "../../helpers/handleError";
-import {filterData} from "../../helpers/filterData";
+import Pagination from '../../components/pagination/Pagination';
+import { DataContext } from "../../context/DataContext";
 import useDebounce from '../../hooks/useDebounce';
-import { useParams } from 'react-router-dom';
 import styles from './HeroesPage.module.scss';
 import Loading from "../../components/loading/Loading";
+import { handleError } from "../../helpers/handleError";
+import CustomModal from "../../components/customModal/CustomModal";
 
 function HeroesPage() {
     const { fetchMarvelData } = useContext(DataContext);
-    const [nameStartsWith, setNameStartsWith] = useState("");
-    const [searchTerm, setSearchTerm] = useState("");
-    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
-    const [heroes, setHeroes] = useState(null);
-    const [currentHero, setCurrentHero] = useState(null);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [heroes, setHeroes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [total, setTotal] = useState(null);
+    const [offset, setOffset] = useState(0);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [pageSize, setPageSize] = useState(20);
     const [error, setError] = useState(null);
 
-    const [offset, setOffset] = useState(0);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [selectedComic, setSelectedComic] = useState(null);
 
-    const pageSize = 20;
-    const currentPage = offset / 20 + 1;
-
-    const { heroId } = useParams();
+    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
     useEffect(() => {
         const fetchData = async () => {
-            if (heroId) {
-                try {
-                    const response = await fetchMarvelData('characters', null, null, heroId, null, null, true);
-                    setCurrentHero(response[0]);
-                    setIsModalOpen(true);
-                } catch (error) {
-                    console.error("Er was een fout bij het ophalen van de hero: ", error);
-                }
-            }
-
             try {
-                const data = await fetchMarvelData('characters', pageSize, offset, null, nameStartsWith, null, false);
-                console.log(data.results);
-                setTotal(data.total);
+                const data = await fetchMarvelData('characters', pageSize, offset, null, debouncedSearchTerm, false);
                 if (Array.isArray(data.results)) {
-                    const validHeroes = data.results.filter(heroes => {
-                        return !heroes.thumbnail.path.endsWith('image_not_available');
-                    });
-                    setHeroes(validHeroes);
+                    setHeroes(data.results);
+                    setTotal(data.total);
+                    setIsLoading(false);
                 } else {
                     setHeroes([]);
                 }
-                setIsLoading(false);
             } catch (error) {
-                handleError(error, setError);
+                handleError(error);
+                setError(error);
             }
         };
         fetchData();
-    }, [heroId, offset, nameStartsWith, fetchMarvelData, total]);
+    }, [fetchMarvelData, offset, pageSize, debouncedSearchTerm]);
 
-    useEffect(() => {
-        if (debouncedSearchTerm) {
-            handleSearchChange(debouncedSearchTerm);
-        }
-    }, [debouncedSearchTerm]);
-
-    function goToNextPage() {
-        setOffset(offset + pageSize);
+    const handlePageChange = (newPage, newSize = pageSize) => {
+        setPageSize(newSize);
+        setOffset((newPage - 1) * newSize);
     }
-
-    function goToPreviousPage() {
-        setOffset(Math.max(0, offset - pageSize));
-    }
-
-    const handleHeroClick = (hero) => {
-        setCurrentHero(hero);
-        setIsModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-    }
-
-    const handleSearchChange = async (value) => {
-        setNameStartsWith(value);
-        try {
-            const data = await fetchMarvelData('characters', pageSize, 0, null, value, false);
-            setHeroes(data.results);
-            setTotal(data.total);
-            setIsLoading(false);
-        } catch (error) {
-            handleError(error, setError);
-            setIsLoading(false);
-        }
-    };
 
     const onInputChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
-    const filteredHeroes = heroes ? filterData(heroes, debouncedSearchTerm, 'name') : [];
+    const showModal = async (comic) => {
+        setIsModalVisible(true);
+
+        const comicId = comic.resourceURI.split('/').pop();
+        try {
+            const data = await fetchMarvelData('comics', 1, 0, comicId);
+            const comicData = data.results[0];
+            setSelectedComic(comicData);
+        } catch (error) {
+            handleError(error);
+            setError(error);
+        }
+    };
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
 
     return (
-        isLoading ? <Loading /> :
+        isLoading ? <Loading /> : error ? (
+                <div className={styles["error"]}>
+                    <h2 className={styles["error-title"]}>Er is iets misgegaan...</h2>
+                    <p className={styles["error-message"]}>We konden de gevraagde data niet laden. Probeer het later opnieuw.</p>
+                    <p className={styles["error-details"]}>Foutdetails: {error.message}</p>
+                </div>
+            ) :
             <div className={styles["heroes-page"]}>
-                <h1 className={styles["heroes-title"]}>ALL SUPER HEROES</h1>
-                <input
-                    className={styles["heroes-search"]}
-                    type="text"
-                    placeholder="Search for a hero..."
-                    value={searchTerm}
-                    onChange={onInputChange}
+                <div className={styles["header"]}>
+                    <h1 className={styles["heroes-title"]}>HEROES</h1>
+                    <input
+                        className={styles["heroes-search"]}
+                        type="text"
+                        placeholder="Search for a hero..."
+                        value={searchTerm}
+                        onChange={onInputChange}
+                    />
+                </div>
+                <Pagination
+                    className={styles["pagination"]}
+                    page={(offset / pageSize) + 1}
+                    total={total}
+                    pageSize={pageSize}
+                    onPageChange={handlePageChange}
                 />
-                <div className={styles["page-details"]}>Page {currentPage} of {Math.ceil(total / pageSize)} with a total of {total} results</div>
-                <PrevNextButton
-                    className={styles["page-nav-buttons"]}
-                    currentPage={currentPage}
-                    totalPages={Math.ceil(total / pageSize)}
-                    onPrevPage={goToPreviousPage}
-                    onNextPage={goToNextPage}
-                />
-                <ul className={styles["heroes-list"]}>
-                    {filteredHeroes.map(hero => (
-                        <li key={hero.id} className={styles["hero-list-item"]}>
-                            <HeroCard className={styles["hero-card-item"]} hero={hero} onCardClick={handleHeroClick}/>
-                        </li>
+                <div className={styles["heroes-wrapper"]}>
+                    {heroes.map(hero => (
+                        <div key={hero.id} className={styles["hero-card-wrapper"]}>
+                            <HeroCard hero={hero} onSelectComic={showModal} />
+                        </div>
                     ))}
-                </ul>
-                <div className={styles["page-details"]}>Page {currentPage} of {Math.ceil(total / pageSize)}</div>
-                <PrevNextButton
-                    className={styles["page-nav-buttons"]}
-                    currentPage={currentPage}
-                    totalPages={Math.ceil(total / pageSize)}
-                    onPrevPage={goToPreviousPage}
-                    onNextPage={goToNextPage}
-                />
-                <Modal
-                    className={styles["modal-content"]}
-                    isOpen={isModalOpen}
-                    onRequestClose={handleCloseModal}
-                    contentLabel="Hero Details Modal"
-                >
-                    {currentHero && <HeroCard className={styles["hero-card-modal-content"]} hero={currentHero} isModal={true} />}
-                </Modal>
-                {
-                    error && (
-                        <div className={styles["error-message"]}>Error: {error}</div>
-                    )
-                }
+                </div>
+
+                {selectedComic && (
+                    <CustomModal
+                        isModalVisible={isModalVisible}
+                        handleOk={handleOk}
+                        handleCancel={handleCancel}
+                        selectedItem={selectedComic}
+                        itemKey="savedComic"
+                        title="Comic Details"
+                    />
+                )}
             </div>
     );
 }
