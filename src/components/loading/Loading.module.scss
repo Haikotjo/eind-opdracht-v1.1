@@ -1,5 +1,5 @@
 @import '../../styles/_globals.scss';
-/*loading screen*/
+/* loading screen */
 
 .loading-container {
   display: flex;
@@ -36,7 +36,6 @@
   color: $color-secondary;
   font-size: 2rem;
   text-align: center;
-
 
   @include respond-to('medium') {
     font-size: 3rem;

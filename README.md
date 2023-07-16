@@ -9,7 +9,7 @@ Informatie bekijken over karakters, inclusief hun verschijningen in verschillend
 Ontdekken welke nieuwe comics er zijn uitgebracht.
 Een persoonlijke verzameling van favoriete karakters en comics aanmaken en beheren.
 Of je nu een doorgewinterde comic-liefhebber bent of net je reis in het Marvel-universum begint, Comic Collector biedt een leuke en interactieve manier om je kennis en liefde voor Marvel Comics te verdiepen.
-
+![Screenshot.png](..%2F..%2FDesktop%2FEindopdracht%20Superhelden%2FFinal%2FScreenshot.png)
 ## Benodigdheden
 
 ## __## Voor deze opdracht zet ik de keys erbij ze staan eigenlijk in de .env_

@@ -5,6 +5,7 @@ import StandardButton from "../buttons/standardButton/StandardButton";
 const Carousel = ({ items, CardComponent, mapItemToProps, ...props }) => {
     const carouselRef = useRef();
 
+    // Function to handle scrolling of the carousel
     const handleScroll = (direction) => {
         const distance = 800;
 
@@ -17,14 +18,23 @@ const Carousel = ({ items, CardComponent, mapItemToProps, ...props }) => {
 
     return (
         <div className={styles.carouselContainer}>
-            <StandardButton onClick={() => handleScroll('left')}>&larr;</StandardButton>
+            <StandardButton className={styles['scroll-button']} onClick={() => handleScroll('left')}>
+                &#x2190;
+            </StandardButton>
             <div className={styles.carousel} ref={carouselRef}>
                 {items.map((item) => {
+                    // Map each item to props for the CardComponent
                     const cardProps = mapItemToProps ? mapItemToProps(item) : { item };
-                    return <CardComponent key={item.id} {...cardProps} {...props} />;
+                    return (
+                        <div className={styles.carouselItem} key={item.id}>
+                            <CardComponent {...cardProps} {...props} />
+                        </div>
+                    );
                 })}
             </div>
-            <StandardButton onClick={() => handleScroll('right')}>&rarr;</StandardButton>
+            <StandardButton className={styles['scroll-button']} onClick={() => handleScroll('right')}>
+                &#x2192;
+            </StandardButton>
         </div>
     );
 };

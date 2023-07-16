@@ -1,16 +1,17 @@
-import {createContext, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {checkTokenValidity} from "../helpers/checkTokenValidity";
+import { createContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { checkTokenValidity } from "../helpers/checkTokenValidity";
 import axios from "axios";
 import useIdleTimer from "../hooks/UseIdleTimer";
-import {clearLocalStorage} from "../helpers/ClearLocalStorage";
+import { clearLocalStorage } from "../helpers/ClearLocalStorage";
+import { handleError } from "../helpers/handleError";
 
-// AuthContext wordt gecreëerd en kan worden gebruikt om authentificatiestatus te delen tussen componenten.
-export const AuthContext = createContext(null)
+// AuthContext is created and can be used to share authentication status between components.
+export const AuthContext = createContext(null);
 
-function AuthContextProvider({children}) {
+function AuthContextProvider({ children }) {
 
-    // Authentificatiestatus wordt beheerd door de useState hook.
+    // Authentication status is managed by the useState hook.
     const [auth, setAuth] = useState({
         isAuth: false,
         user: null,
@@ -18,37 +19,37 @@ function AuthContextProvider({children}) {
     });
     const navigate = useNavigate();
 
-    // Bij het laden van de component wordt gecontroleerd of er een token in de lokale opslag is,
-    // en of het token geldig is. Zo ja, dan wordt de gebruiker ingelogd.
-    useEffect(()=>{
-        const storedToken = localStorage.getItem('token')
+    // When the component is loaded, it checks if there is a token in the local storage
+    // and if the token is valid. If yes, the user is logged in.
+    useEffect(() => {
+        const storedToken = localStorage.getItem('token');
 
         if (storedToken && checkTokenValidity(storedToken)) {
-            login( storedToken )
-        }else {
+            login(storedToken);
+        } else {
             setAuth({
                 ...auth,
                 isAuth: false,
                 user: null,
                 status: "done"
-            })
+            });
         }
-    },[])
+    }, []);
 
-    // Als er een uur lang geen activiteit is geweest, wordt de gebruiker automatisch uitgelogd.
+    // If there has been no activity for an hour, the user is automatically logged out.
     useIdleTimer(logout, 3600000);
 
-    // Deze functie wordt gebruikt om de gebruiker in te loggen.
+    // This function is used to log in the user.
     async function login(jwt_token, redirect) {
         localStorage.setItem('token', jwt_token);
         try {
-            const { data: { email, username, id}} = await axios.get(`https://frontend-educational-backend.herokuapp.com/api/user/`,{
+            const { data: { email, username, id } } = await axios.get(`https://frontend-educational-backend.herokuapp.com/api/user/`, {
                 headers: {
-                    'Content-Type' : 'application/json',
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${jwt_token}`
                 }
-            })
-            console.log(username)
+            });
+            console.log(username);
             setAuth({
                 ...auth,
                 isAuth: true,
@@ -58,29 +59,28 @@ function AuthContextProvider({children}) {
                     username: username
                 },
                 status: "done"
-            })
-            console.log('De gebruiker is ingelogd 🔓')
-            if(redirect) navigate(redirect);
-        }catch (e)
-        {
-
+            });
+            console.log('User logged in 🔓');
+            if (redirect) navigate(redirect);
+        } catch (e) {
+            handleError(e);
         }
     }
 
-    // Deze functie wordt gebruikt om de gebruiker uit te loggen.
+    // This function is used to log out the user.
     function logout() {
         clearLocalStorage();
         setAuth({
             ...auth,
             isAuth: false,
             user: null
-        })
-        console.log('De gebruiker is uitgelogd 🔒')
-        navigate('/')
+        });
+        console.log('User logged out 🔒');
+        navigate('/');
     }
 
-    // De context provider maakt de authentificatiestatus en de login en logout functies beschikbaar
-    // voor alle kindcomponenten.
+    // The context provider makes the authentication status, login, and logout functions available
+    // to all child components.
     const data = {
         isAuth: auth.isAuth,
         user: auth.user,

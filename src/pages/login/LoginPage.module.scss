@@ -41,6 +41,11 @@
       text-decoration: underline;
     }
   }
+
+  .alert {
+    color: red;
+    margin-top: 10px;
+  }
 }
 
 .login-page__register-link {
@@ -51,4 +56,19 @@
   }
 }
 
+.login-page__submit-button {
+  margin-bottom: 20px;
+  background-color: $color-primary;
+  color: #fff;
+  padding: 5px;
+  border-radius: 8px;
 
+  &:hover {
+    background-color: $color-secondary;
+    color: #fff;
+  }
+}
+
+.login-page__login-text {
+  font-size: 16px;
+}

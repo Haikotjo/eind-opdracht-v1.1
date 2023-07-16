@@ -1,7 +1,8 @@
 @import '../../styles/_globals.scss';
 
 .card {
-  width: 250px;
+  width: 100%;
+  max-width: 250px;
   border-radius: 8px;
   margin: 0.5em;
   overflow: hidden;
@@ -11,7 +12,6 @@
   &:hover {
     filter: brightness(1.2);
     box-shadow: 4px 8px 16px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
-    width: 275px;
   }
 }
 
@@ -57,13 +57,13 @@
   color: $color-primary;
 }
 
-.event-info__name {
+.event-card__info-name {
   font-size: 1.5em;
   font-weight: bold;
   margin-top: 0.75em;
 }
 
-.event-info__description {
+.event-card__info-description {
   margin-top: 0.5em;
 }
 
@@ -97,4 +97,12 @@
   color: $color-primary;
 }
 
+@include respond-to('medium') {
+  .card {
+    padding: 15px 30px;
+  }
 
+  .title {
+    font-size: 1.2em;
+  }
+}

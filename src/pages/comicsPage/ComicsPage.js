@@ -85,29 +85,31 @@ function ComicsPage() {
                 </div>
             ) :
             <div className={styles["comics-page"]}>
-                <h1 className={styles["comic-title"]}>Comics</h1>
-                <input
-                    className={styles["comics-search"]}
-                    type="text"
-                    placeholder="Search for a comic..."
-                    value={searchTerm}
-                    onChange={onInputChange}
-                />
-                {total !== null && (
-                    <Pagination
-                        page={(offset / pageSize) + 1}
-                        total={total}
-                        pageSize={pageSize}
-                        onPageChange={handlePageChange}
+                <div className={styles["header"]}>
+                    <h1 className={styles["comics-title"]}>Comics</h1>
+                    <input
+                        className={styles["comics-search"]}
+                        type="text"
+                        placeholder="Search for a comic..."
+                        value={searchTerm}
+                        onChange={onInputChange}
                     />
-                )}
+                </div>
+                <Pagination
+                    className={styles["pagination"]}
+                    page={(offset / pageSize) + 1}
+                    total={total}
+                    pageSize={pageSize}
+                    onPageChange={handlePageChange}
+                />
                 <div className={styles["comics-wrapper"]}>
                     {comics.map(comic => (
-                        <div className={styles["comic-card-wrapper"]}>
-                            <ComicCard key={comic.id} comic={comic} onSelectCharacter={showModal} />
+                        <div key={comic.id} className={styles["comic-card-wrapper"]}>
+                            <ComicCard comic={comic} onSelectCharacter={showModal} />
                         </div>
                     ))}
                 </div>
+
                 {selectedCharacter && (
                     <CustomModal
                         isModalVisible={isModalVisible}
@@ -120,6 +122,7 @@ function ComicsPage() {
                 )}
             </div>
     );
+
 }
 
 export default ComicsPage;

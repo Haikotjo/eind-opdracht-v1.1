@@ -10,6 +10,7 @@ Modal.setAppElement('#root');
 function App() {
     return (
             <Router>
+                {/* AuthContextProvider facilitates sharing of authentication data within the application */}
                 <AuthContextProvider>
                     <SavedProvider>
                     <Routes />

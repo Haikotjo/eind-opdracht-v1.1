@@ -1,5 +1,5 @@
 // NavBar.js
-import React, {useContext, useState, useEffect, useRef} from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import styles from './NavBar.module.scss';
@@ -19,10 +19,10 @@ const NavBar = () => {
 
     const handleClickOutside = e => {
         if (node.current.contains(e.target)) {
-            // inside click
+            // Inside click, do nothing
             return;
         }
-        // outside click
+        // Outside click, close the mobile menu
         setIsMobileMenuOpen(false);
     };
 
@@ -31,7 +31,7 @@ const NavBar = () => {
     };
 
     useEffect(() => {
-        // Listen for clicks outside of the nav menu
+        // Listen for clicks outside of the nav menu to close the mobile menu
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             // Clean up event listener on component unmount
@@ -48,6 +48,7 @@ const NavBar = () => {
                     </div>
                     <div className={styles.navItems}>
                         <div className={styles.leftNav}>
+                            {/* Left menu items */}
                             {leftPages.map((page) => (
                                 <NavLink
                                     key={page}
@@ -60,6 +61,7 @@ const NavBar = () => {
                             ))}
                         </div>
                         <div className={styles.rightNav}>
+                            {/* Right menu items */}
                             {rightPages.map((page) => (
                                 page === "Logout" ?
                                     <button
@@ -81,12 +83,14 @@ const NavBar = () => {
                         </div>
                     </div>
                     <div className={styles.mobileMenuButton} onClick={toggleMobileMenu}>
+                        {/* Mobile menu toggle button */}
                         <div className={styles.line}></div>
                         <div className={styles.line}></div>
                         <div className={styles.line}></div>
                     </div>
                     {isMobileMenuOpen && (
                         <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ""}`}>
+                            {/* Mobile menu items */}
                             {leftPages.map((page) => (
                                 <NavLink
                                     key={page}

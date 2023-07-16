@@ -1,14 +1,15 @@
 import jwt_decode from "jwt-decode";
-// Dit is een helper functie om de geldigheid van een JWT te controleren.
+
+// This is a helper function to check the validity of a JWT.
 export function checkTokenValidity(token) {
-    // We decoderen het token met behulp van jwt-decode
+    // We decode the token using jwt-decode.
     const decodedToken = jwt_decode(token);
-    // Het 'exp' veld in een JWT bevat de vervaltijd van het token. Het is een tijdstempel in seconden.
-    // We vermenigvuldigen met 1000 om het om te zetten naar milliseconden, dat is de eenheid die JavaScript's Date gebruikt.
+    // The 'exp' field in a JWT contains the expiration time of the token. It is a timestamp in seconds.
+    // We multiply it by 1000 to convert it to milliseconds, which is the unit used by JavaScript's Date.
     const expirationTime = decodedToken.exp * 1000;
-    // We controleren of de huidige tijd voorbij de vervaltijd is. Als dat zo is, is het token verlopen.
+    // We check if the current time is past the expiration time. If so, the token has expired.
     const isExpired = Date.now() > expirationTime;
-    // We retourneren de negatie van 'isExpired'. Als het token is verlopen, geeft de functie false terug.
-    // Als het token niet is verlopen, geeft de functie true terug.
+    // We return the negation of 'isExpired'. If the token is expired, the function returns false.
+    // If the token is not expired, the function returns true.
     return !isExpired;
 }

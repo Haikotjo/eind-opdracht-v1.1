@@ -1,50 +1,50 @@
 // SavedContext.js
 import React, { createContext, useContext, useState } from 'react';
-import {AuthContext} from './AuthContext';
+import { AuthContext } from './AuthContext';
 
-// SavedContext wordt gecreëerd en kan worden gebruikt om opgeslagen items te delen tussen componenten.
+// SavedContext is created and can be used to share saved items between components.
 export const SavedContext = createContext();
 
 export const SavedProvider = ({ children }) => {
-    const { isAuth } = useContext(AuthContext); // Haal de authenticatiestatus op uit de AuthContext.
+    const { isAuth } = useContext(AuthContext); // Retrieve the authentication status from the AuthContext.
     const [savedItems, setSavedItems] = useState([]);
     const [savedItemsChangeCounter, setSavedItemsChangeCounter] = useState(0);
 
-    // Deze functie haalt opgeslagen items op uit de lokale opslag.
+    // This function retrieves saved items from local storage.
     const getSavedItems = (itemKey) => {
         return JSON.parse(localStorage.getItem(itemKey)) || [];
     };
 
-    // Deze functie controleert of een item al is opgeslagen.
+    // This function checks if an item is already saved.
     const isItemSaved = (itemKey, id) => {
         let items = getSavedItems(itemKey);
         return items.some(item => item.id === id);
     };
 
-    // Deze functie slaat een item op in de lokale opslag.
+    // This function saves an item to local storage.
     const saveItem = (itemKey, item) => {
-        if (!isAuth) { // Als de gebruiker niet is ingelogd, wordt de functie vroegtijdig afgebroken.
+        if (!isAuth) { // If the user is not logged in, the function is aborted early.
             return false;
         }
         let items = getSavedItems(itemKey);
         items.push(item);
         localStorage.setItem(itemKey, JSON.stringify(items));
         setSavedItems(items);
-        setSavedItemsChangeCounter(prevCount => prevCount + 1); // Verhoog de teller om wijzigingen bij te houden.
+        setSavedItemsChangeCounter(prevCount => prevCount + 1); // Increase the counter to track changes.
         return true;
     };
 
-    // Deze functie verwijdert een item uit de lokale opslag.
+    // This function removes an item from local storage.
     const removeItem = (itemKey, id) => {
         let items = getSavedItems(itemKey);
         items = items.filter(item => item.id !== id);
         localStorage.setItem(itemKey, JSON.stringify(items));
         setSavedItems(items);
-        setSavedItemsChangeCounter(prevCount => prevCount + 1); // Verlaag de teller om wijzigingen bij te houden.
+        setSavedItemsChangeCounter(prevCount => prevCount + 1); // Decrease the counter to track changes.
     };
 
-    // De context provider maakt de functies en de teller beschikbaar
-    // voor alle kindcomponenten.
+    // The context provider makes the functions and the counter available
+    // to all child components.
     return (
         <SavedContext.Provider value={{ isItemSaved, saveItem, removeItem, savedItemsChangeCounter }}>
             {children}

@@ -83,15 +83,18 @@ function HeroesPage() {
                 </div>
             ) :
             <div className={styles["heroes-page"]}>
-                <h1 className={styles["heroes-title"]}>HEROES</h1>
-                <input
-                    className={styles["heroes-search"]}
-                    type="text"
-                    placeholder="Search for a hero..."
-                    value={searchTerm}
-                    onChange={onInputChange}
-                />
+                <div className={styles["header"]}>
+                    <h1 className={styles["heroes-title"]}>HEROES</h1>
+                    <input
+                        className={styles["heroes-search"]}
+                        type="text"
+                        placeholder="Search for a hero..."
+                        value={searchTerm}
+                        onChange={onInputChange}
+                    />
+                </div>
                 <Pagination
+                    className={styles["pagination"]}
                     page={(offset / pageSize) + 1}
                     total={total}
                     pageSize={pageSize}
@@ -99,11 +102,12 @@ function HeroesPage() {
                 />
                 <div className={styles["heroes-wrapper"]}>
                     {heroes.map(hero => (
-                        <div className={styles["hero-card-wrapper"]}>
-                            <HeroCard key={hero.id} hero={hero} onSelectComic={showModal} />
+                        <div key={hero.id} className={styles["hero-card-wrapper"]}>
+                            <HeroCard hero={hero} onSelectComic={showModal} />
                         </div>
                     ))}
                 </div>
+
                 {selectedComic && (
                     <CustomModal
                         isModalVisible={isModalVisible}

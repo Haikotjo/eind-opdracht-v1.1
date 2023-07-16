@@ -1,25 +1,25 @@
 import { useState, useEffect } from 'react';
 
-// De useDebounce hook vertraagt veranderingen in waarde met de opgegeven vertraging.
+// The useDebounce hook delays changes in value by the specified delay.
 export default function useDebounce(value, delay) {
-    // Deze state wordt bijgewerkt nadat de vertraging is verstreken.
+    // This state is updated after the delay has passed.
     const [debouncedValue, setDebouncedValue] = useState(value);
 
-    // useEffect wordt gebruikt om een timer in te stellen voor de vertraging.
+    // useEffect is used to set up a timer for the delay.
     useEffect(
         () => {
-            // Zet de timer op.
+            // Set up the timer.
             const handler = setTimeout(() => {
-                // Werk de state bij na de vertraging.
+                // Update the state after the delay.
                 setDebouncedValue(value);
             }, delay);
 
-            // Ruim de timer op als de waarde of de vertraging verandert.
+            // Clean up the timer if the value or the delay changes.
             return () => {
                 clearTimeout(handler);
             };
         },
-        [value, delay] // Herhaal dit effect als de waarde of de vertraging verandert.
+        [value, delay] // Re-run this effect if the value or the delay changes.
     );
 
     return debouncedValue;

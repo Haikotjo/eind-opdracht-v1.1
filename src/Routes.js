@@ -18,6 +18,7 @@ const AppRoutes = () => {
 
     return (
         <>
+             {/*DataContextProvider facilitates sharing of data within the application */}
                 <DataContextProvider>
                     <NavBar />
                     <Routes>
