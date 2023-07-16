@@ -84,15 +84,18 @@ function EventsPage() {
                 </div>
             ) :
             <div className={styles["events-page"]}>
-                <h1 className={styles["events-title"]}>Events</h1>
-                <input
-                    className={styles["events-search"]}
-                    type="text"
-                    placeholder="Search for an event..."
-                    value={searchTerm}
-                    onChange={onInputChange}
-                />
+                <div className={styles["header"]}>
+                    <h1 className={styles["events-title"]}>Events</h1>
+                    <input
+                        className={styles["events-search"]}
+                        type="text"
+                        placeholder="Search for an event..."
+                        value={searchTerm}
+                        onChange={onInputChange}
+                    />
+                </div>
                 <Pagination
+                    className={styles["pagination"]}
                     page={(offset / pageSize) + 1}
                     total={total}
                     pageSize={pageSize}
@@ -120,6 +123,7 @@ function EventsPage() {
                 />
             </div>
     );
+
 }
 
 export default EventsPage;

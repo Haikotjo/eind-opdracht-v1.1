@@ -83,15 +83,18 @@ function HeroesPage() {
                 </div>
             ) :
             <div className={styles["heroes-page"]}>
-                <h1 className={styles["heroes-title"]}>HEROES</h1>
-                <input
-                    className={styles["heroes-search"]}
-                    type="text"
-                    placeholder="Search for a hero..."
-                    value={searchTerm}
-                    onChange={onInputChange}
-                />
+                <div className={styles["header"]}>
+                    <h1 className={styles["heroes-title"]}>HEROES</h1>
+                    <input
+                        className={styles["heroes-search"]}
+                        type="text"
+                        placeholder="Search for a hero..."
+                        value={searchTerm}
+                        onChange={onInputChange}
+                    />
+                </div>
                 <Pagination
+                    className={styles["pagination"]}
                     page={(offset / pageSize) + 1}
                     total={total}
                     pageSize={pageSize}

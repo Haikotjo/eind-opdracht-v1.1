@@ -1,9 +1,16 @@
 @import '../../styles/_globals.scss';
+
 .home {
   padding: 20px;
+  color: $color-primary;
+  font-family: $font-primary;
 
   &__section {
     margin-bottom: 2em;
+    border: 1px solid $color-quinary;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: $color-quinary;
 
     &:last-child {
       margin-bottom: 0;
@@ -13,11 +20,16 @@
   &__title {
     font-size: 2em;
     margin-bottom: 1em;
+    color: $color-primary;
   }
 
   &__link {
-    color: blue;
+    color: $color-secondary;
     text-decoration: underline;
+    font-size: 1.2em;
+    &:hover {
+      color: $color-quaternary;
+    }
   }
 
   .carousel {
@@ -42,6 +54,7 @@
 .error {
   color: red;
   text-align: center;
+  font-family: $font-primary;
 
   &__title {
     font-size: 2em;

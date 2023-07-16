@@ -3,48 +3,52 @@
 .events-page {
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  margin: auto;
+  padding: 2rem;
+  color: $color-primary;
+  font-family: $font-primary;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .events-title {
   font-size: 2em;
   font-weight: 600;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 1em;
 }
 
 .events-search {
   width: 100%;
   padding: 10px;
   font-size: 1em;
-  border: 1px solid #ccc;
+  border: 1px solid $color-quinary;
   border-radius: 4px;
-  margin-bottom: 20px;
+  margin-bottom: 1em;
+  color: $color-primary;
 }
 
 .pagination {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
-
-  input {
-    width: 50px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    text-align: center;
-  }
+  margin-bottom: 1em;
 }
 
 .events-wrapper {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
-.events-card-wrapper {
-  width: 250px;
-  margin-bottom: 20px;
+.event-card-wrapper {
+  flex: 1 1 auto;
+  margin: 1em;
+  min-width: 250px;
+  max-width: 300px;
 }
