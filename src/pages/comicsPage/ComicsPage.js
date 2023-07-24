@@ -88,7 +88,10 @@ function ComicsPage() {
             ) :
             <div className={styles["comics-page"]}>
                 <div className={styles["header"]}>
-                    <h1 className={styles["comics-title"]}>Comics</h1>
+                    <div className={styles["header-title"]}>
+                        <img src='/images/comic-icon.svg' alt="heart" />
+                    {/*<h1 className={styles["comics-title"]}>Comics</h1>*/}
+                    </div>
                     <input
                         className={styles["comics-search"]}
                         type="text"

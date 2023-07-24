@@ -64,14 +64,14 @@
 }
 
 .more-info {
-  color: #B12F56;
-  background-color: #181C25;
-  padding: 10px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  text-align: center;
-  transition: background-color 0.3s ease;
-  justify-content: center;
+  color: #B12F56 !important;
+  background-color: #181C25 !important;
+  padding: 10px 16px !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  text-align: center !important;
+  transition: background-color 0.3s ease !important;
+  justify-content: center !important;
 }
 
 .more-info:hover {

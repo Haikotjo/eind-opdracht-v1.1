@@ -23,7 +23,7 @@ const HeroCard = ({ hero, onSelectComic }) => {
                 />
                 <div className={styles.buttonContainer}>
                     {/* Render the save button */}
-                    <SaveButton itemKey="savedHero" item={hero} />
+                    <SaveButton  itemKey="savedHero" item={hero} />
                     {/* Render the standard button */}
                     <StandardButton className={styles['more-info']} onClick={handlePanelChange}>
                         {/* Toggle the button label based on expanded state */}

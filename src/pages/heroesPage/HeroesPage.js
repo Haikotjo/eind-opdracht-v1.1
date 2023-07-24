@@ -85,7 +85,10 @@ function HeroesPage() {
             ) :
             <div className={styles["heroes-page"]}>
                 <div className={styles["header"]}>
-                    <h1 className={styles["heroes-title"]}>HEROES</h1>
+                    <div className={styles["header-title"]}>
+                        <img src='/images/hero-icon.svg' alt="heart" />
+                    {/*<h1 className={styles["heroes-title"]}>HEROES</h1>*/}
+                    </div>
                     <input
                         className={styles["heroes-search"]}
                         type="text"
