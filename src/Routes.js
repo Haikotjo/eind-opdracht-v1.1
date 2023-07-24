@@ -11,6 +11,7 @@ import {AuthContext} from "./context/AuthContext";
 import Register from "./pages/register/Register";
 import NavBar from "./components/navbar/NavBar";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import Footer from "./components/footer/Footer";
 
 const AppRoutes = () => {
 
@@ -35,6 +36,7 @@ const AppRoutes = () => {
                         <Route path="/profile" element={isAuth ? <ProfilePage /> : <Navigate to="/login"/>} />
                         <Route path="/*" element={<NotFoundPage />} />
                     </Routes>
+                    <Footer />
                 </DataContextProvider>
         </>
     );

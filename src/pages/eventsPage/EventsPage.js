@@ -86,8 +86,10 @@ function EventsPage() {
             ) :
             <div className={styles["events-page"]}>
                 <div className={styles["header"]}>
-                    <h1 className={styles["events-title"]}>Events</h1>
-
+                    <div className={styles["header-title"]}>
+                        <img src='/images/events-icon.svg' alt="heart" />
+                        {/*<h1 className={styles["events-title"]}>Events</h1>*/}
+                    </div>
                     <input
                         className={styles["events-search"]}
                         type="text"
