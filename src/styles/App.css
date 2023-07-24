@@ -1,0 +1,74 @@
+.hidden {
+  display: none;
+}
+
+.totopbutton {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50px;
+  height: 50px;
+  z-index: 9999;
+  background-color: #B12F56;
+  opacity: 0.75;
+  transition: opacity 0.3s ease-in-out;
+  box-shadow: 0 15px 16px rgba(0, 0, 0, 0.7);
+}
+
+.totopbutton img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Reset of default margins and padding for specific elements */
+html, body, h1, h2, h3, h4, h5, h6, p, ol, ul, li, pre, code, address, variable, form, fieldset, blockquote {
+  margin: 0;
+  padding: 0;
+}
+
+/* Set box-sizing to border-box for all elements */
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+/* Styles for the body of the page */
+body {
+  font-family: "Montserrat", sans-serif; /* Set the primary font */
+  color: #181C25; /* Set the primary text color */
+  margin: 100px 0 0 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* Responsive settings for font size on different screen sizes */
+}
+@media (max-width: 768px) {
+  body {
+    font-size: 1.5rem;
+  }
+}
+@media (max-width: 576px) {
+  body {
+    font-size: 1.2rem;
+  }
+}
+@media (max-width: 480px) {
+  body {
+    font-size: 1rem;
+  }
+}
+
+/* Styles for headings (h1-h6) */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Shadows Into Light", cursive; /* Set the secondary font */
+  color: #B12F56; /* Set the secondary text color */
+}
+
+/* Styles for links (a elements) */
+a {
+  text-decoration: none; /* No underline for links */
+  color: inherit; /* Inherit the color from parent elements */
+}
+
+/*# sourceMappingURL=App.css.map */

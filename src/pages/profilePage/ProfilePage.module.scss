@@ -41,6 +41,11 @@
     }
 }
 
+.to-items {
+  display: flex;
+  justify-content: space-between; /* of space-around, space-evenly, etc. afhankelijk van hoe je de ruimte wilt verdelen */
+}
+
 .row {
     display: flex;
     flex-wrap: wrap;
@@ -68,3 +73,6 @@
     flex-wrap: wrap;
     justify-content: space-around;
 }
+
+
+

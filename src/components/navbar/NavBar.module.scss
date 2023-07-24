@@ -6,7 +6,11 @@
  padding: 20px 40px;
  background-color: $color-primary;
  color: white;
- position: relative;
+ z-index: 998;
+ position: fixed;
+ top: 0;
+ width: 100%;
+ box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
 }
 
 .container {

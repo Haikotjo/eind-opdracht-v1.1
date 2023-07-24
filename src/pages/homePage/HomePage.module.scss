@@ -18,9 +18,10 @@
   }
 
   &__title {
-    font-size: 2em;
-    margin-bottom: 1em;
+    font-size: 1em;
+    margin-bottom: 0.5em;
     color: $color-primary;
+    text-align: center;
   }
 
   &__link {

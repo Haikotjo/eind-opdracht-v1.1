@@ -15,9 +15,10 @@ html, body, h1, h2, h3, h4, h5, h6, p, ol, ul, li, pre, code, address, variable,
 body {
   font-family: $font-primary; /* Set the primary font */
   color: $color-primary; /* Set the primary text color */
-  margin: 0;
+  margin: 100px 0 0 0;
   padding: 0;
   box-sizing: border-box;
+  //background-color: $color-primary;
 
   /* Responsive settings for font size on different screen sizes */
   @include respond-to('medium') {

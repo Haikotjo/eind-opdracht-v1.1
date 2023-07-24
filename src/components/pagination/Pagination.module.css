@@ -1,0 +1,70 @@
+.hidden {
+  display: none;
+}
+
+.totopbutton {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50px;
+  height: 50px;
+  z-index: 9999;
+  background-color: #B12F56;
+  opacity: 0.75;
+  transition: opacity 0.3s ease-in-out;
+  box-shadow: 0 15px 16px rgba(0, 0, 0, 0.7);
+}
+
+.totopbutton img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.pagination span {
+  margin: 0 10px;
+}
+@media (max-width: 576px) {
+  .pagination .hide-on-small {
+    display: none;
+  }
+}
+.pagination select {
+  padding: 8px 16px;
+  border: 1px solid #181C25;
+  border-radius: 4px;
+  font-size: 15px;
+  background-color: #fff;
+  color: #B12F56;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+.pagination select:focus {
+  outline: none;
+  border-color: #B12F56;
+}
+.pagination .scroll-button {
+  background-color: transparent;
+  color: #B12F56;
+  border: none;
+  font-size: 2em;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.pagination .scroll-button:hover {
+  color: #2c3344;
+}
+.pagination .scroll-button.disabled {
+  color: #e396ad;
+  cursor: not-allowed;
+}
+
+/*# sourceMappingURL=Pagination.module.css.map */

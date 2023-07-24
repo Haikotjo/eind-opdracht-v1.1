@@ -8,6 +8,7 @@ import styles from './ProfilePage.module.scss';
 import { DataContext } from '../../context/DataContext';
 import CustomModal from "../../components/customModal/CustomModal";
 import {handleError} from "../../helpers/handleError";
+import StandardButton from "../../components/buttons/standardButton/StandardButton";
 
 function Profile() {
     const { user: { email, username } } = useContext(AuthContext);
@@ -79,9 +80,21 @@ function Profile() {
                 <p>Name: <span>{username}</span></p>
                 <p>Email : <span>{email} </span></p>
             </div>
+            <span className={styles["to-items"]}>
+                <a href="#saved-comics">
+                    <h1>Comics</h1>
+                </a>
+                <a href="#saved-heroes">
+                    <h1>Heroes</h1>
+                </a>
+                <a href="#saved-events">
+                    <h1>Events</h1>
+                </a>
+            </span>
             <div className={styles["row"]}>
                 <div className={styles["col"]}>
-                    <section>
+
+                    <section id="saved-comics">
                         <h2>Saved Comics</h2>
                         <div className={styles["comics-list"]}>
                             {savedComic.map(comic => (
@@ -95,7 +108,8 @@ function Profile() {
                     </section>
                 </div>
                 <div className={styles["col"]}>
-                    <section>
+
+                    <section id="saved-heroes">
                         <h2>Saved Heroes</h2>
                         <div className={styles["heroes-list"]}>
                             {savedHero.map(hero => (
@@ -109,7 +123,8 @@ function Profile() {
                     </section>
                 </div>
                 <div className={styles["col"]}>
-                    <section>
+
+                    <section id="saved-events">
                         <h2>Saved Events</h2>
                         <div className={styles["events-list"]}>
                             {savedEvent.map(event => (
@@ -132,6 +147,9 @@ function Profile() {
                 itemKey={itemType === 'comics' ? "savedComic" : itemType === 'characters' ? "savedHero" : "savedEvent"}
                 title={itemType === 'comics' ? "Comic Details" : itemType === 'characters' ? "Hero Details" : "Event Details"}
             />
+            <StandardButton className={styles.totopbutton} onClick={() => window.scrollTo(0, 0)}>
+                <img src='/images/up-arrow-svgrepo-com.svg' alt="Top" />
+            </StandardButton>
         </main>
     );
 }

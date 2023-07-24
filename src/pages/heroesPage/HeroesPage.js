@@ -7,6 +7,7 @@ import styles from './HeroesPage.module.scss';
 import Loading from "../../components/loading/Loading";
 import { handleError } from "../../helpers/handleError";
 import CustomModal from "../../components/customModal/CustomModal";
+import StandardButton from "../../components/buttons/standardButton/StandardButton";
 
 function HeroesPage() {
     const { fetchMarvelData } = useContext(DataContext);
@@ -118,6 +119,9 @@ function HeroesPage() {
                         title="Comic Details"
                     />
                 )}
+                <StandardButton className={styles.totopbutton} onClick={() => window.scrollTo(0, 0)}>
+                    <img src='/images/up-arrow-svgrepo-com.svg' alt="Top" />
+                </StandardButton>
             </div>
     );
 }

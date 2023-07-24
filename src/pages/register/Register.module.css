@@ -1,0 +1,91 @@
+.hidden {
+  display: none;
+}
+
+.totopbutton {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50px;
+  height: 50px;
+  z-index: 9999;
+  background-color: #B12F56;
+  opacity: 0.75;
+  transition: opacity 0.3s ease-in-out;
+  box-shadow: 0 15px 16px rgba(0, 0, 0, 0.7);
+}
+
+.totopbutton img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.register-page__form {
+  max-width: 50%;
+  width: 600px;
+}
+.register-page__title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.register-page__input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+.register-page__error {
+  color: red;
+  margin-top: 10px;
+}
+.register-page__register-link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #888;
+}
+.register-page__register-link a {
+  color: #888;
+  text-decoration: underline;
+}
+.register-page .alert {
+  color: red;
+  margin-top: 10px;
+}
+
+.register-page__register-link {
+  color: #B12F56;
+  font-weight: bold;
+}
+.register-page__register-link:hover {
+  color: #00f7ff;
+}
+
+.register-page__submit-button {
+  margin-bottom: 20px;
+  background-color: #181C25;
+  color: #fff;
+  padding: 5px;
+  border-radius: 8px;
+}
+.register-page__submit-button:hover {
+  background-color: #B12F56;
+  color: #fff;
+}
+
+.register-page__login-text {
+  font-size: 16px;
+}
+
+/*# sourceMappingURL=Register.module.css.map */

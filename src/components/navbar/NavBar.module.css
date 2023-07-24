@@ -1,0 +1,161 @@
+.hidden {
+  display: none;
+}
+
+.totopbutton {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50px;
+  height: 50px;
+  z-index: 9999;
+  background-color: #B12F56;
+  opacity: 0.75;
+  transition: opacity 0.3s ease-in-out;
+  box-shadow: 0 15px 16px rgba(0, 0, 0, 0.7);
+}
+
+.totopbutton img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.navBar {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background-color: #181C25;
+  color: white;
+  z-index: 998;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logoLink {
+  font-size: 1.5em;
+  text-decoration: none;
+  color: #B12F56;
+  font-weight: 700;
+  letter-spacing: 0.3rem;
+}
+
+.navItems {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.leftNav {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.rightNav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.navLink, .navButton {
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 1.1em;
+}
+
+.navLink:hover, .navButton:hover {
+  color: #B12F56;
+}
+
+.activeLink {
+  color: #B12F56;
+}
+
+.navButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.mobileMenuButton {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+}
+.mobileMenuButton .line {
+  width: 2rem;
+  height: 0.25rem;
+  background: #fff;
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 80px;
+  right: 0;
+  background-color: #181C25;
+  z-index: 9;
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+.mobileMenu a {
+  display: block;
+  color: #B12F56;
+  text-decoration: none;
+  padding: 10px 0;
+  font-size: 1.5em;
+}
+
+@media (max-width: 768px) {
+  .navItems {
+    display: none;
+  }
+  .mobileMenuButton {
+    display: flex;
+  }
+}
+@media (min-width: 769px) {
+  .navItems {
+    display: flex;
+  }
+  .mobileMenuButton {
+    display: none;
+  }
+  .mobileMenu {
+    display: none;
+  }
+}
+.mobileMenu.open {
+  transform: translateX(0);
+}
+
+/*# sourceMappingURL=NavBar.module.css.map */

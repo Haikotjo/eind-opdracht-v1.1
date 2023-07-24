@@ -7,7 +7,9 @@ import useDebounce from '../../hooks/useDebounce';
 import styles from './ComicsPage.module.scss';
 import Loading from "../../components/loading/Loading";
 import CustomModal from "../../components/customModal/CustomModal";
-import Pagination from '../../components/pagination/Pagination'; // Import the Pagination component
+import Pagination from '../../components/pagination/Pagination';
+import StandardButton from "../../components/buttons/standardButton/StandardButton";
+
 
 function ComicsPage() {
     const { fetchMarvelData } = useContext(DataContext);
@@ -120,6 +122,9 @@ function ComicsPage() {
                         title="Character Details"
                     />
                 )}
+                <StandardButton className={styles.totopbutton} onClick={() => window.scrollTo(0, 0)}>
+                    <img src='/images/up-arrow-svgrepo-com.svg' alt="Top" />
+                </StandardButton>
             </div>
     );
 

@@ -1,0 +1,56 @@
+.hidden {
+  display: none;
+}
+
+.totopbutton {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50px;
+  height: 50px;
+  z-index: 9999;
+  background-color: #B12F56;
+  opacity: 0.75;
+  transition: opacity 0.3s ease-in-out;
+  box-shadow: 0 15px 16px rgba(0, 0, 0, 0.7);
+}
+
+.totopbutton img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.notfound {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #f5f5f5;
+}
+
+.title {
+  font-size: 3em;
+  font-weight: bold;
+  color: #B12F56;
+}
+
+.subtitle {
+  font-size: 1.5em;
+  color: #181C25;
+  margin-bottom: 20px;
+}
+
+.link {
+  color: #B12F56;
+  text-decoration: none;
+}
+.link:hover {
+  color: #181C25;
+}
+
+/*# sourceMappingURL=NotFoundPage.module.css.map */

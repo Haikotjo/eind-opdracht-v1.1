@@ -12,7 +12,6 @@ import CustomModal from "../../components/customModal/CustomModal";
 
 const HomePage = () => {
     const { fetchMarvelData } = useContext(DataContext);
-    const navigate = useNavigate();
 
     const [events, setEvents] = useState([]);
     const [heroes, setHeroes] = useState([]);
@@ -25,34 +24,41 @@ const HomePage = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchRandomData = async (category) => {
-            const data = await fetchMarvelData(category, 1, 0);
-            const totalItems = data.total;
-            const itemsPerPage = 25;
-            const maxOffset = totalItems - itemsPerPage;
-            const randomOffset = Math.floor(Math.random() * maxOffset);
-            const randomData = await fetchMarvelData(category, itemsPerPage, randomOffset);
-            return randomData.results;
+        const fetchData = async () => {
+            setError(null);
+            setIsLoading(true);
+
+            const fetchRandomData = async (category) => {
+                const data = await fetchMarvelData(category, 1, 0);
+                const totalItems = data.total;
+                const itemsPerPage = 25;
+                const maxOffset = totalItems - itemsPerPage;
+                const randomOffset = Math.floor(Math.random() * maxOffset);
+                const randomData = await fetchMarvelData(category, itemsPerPage, randomOffset);
+                return randomData.results;
+            };
+
+            try {
+                const [heroesData, comicsData, eventsData] = await Promise.all([
+                    fetchRandomData('characters'),
+                    fetchRandomData('comics'),
+                    fetchRandomData('events')
+                ]);
+
+                setHeroes(heroesData);
+                setComics(comicsData);
+                setEvents(eventsData);
+                setIsLoading(false);
+            } catch (error) {
+                handleError(error);
+                setError(error);
+                setIsLoading(false);
+            }
         };
 
-        setError(null);
-        setIsLoading(true);
-
-        Promise.all([
-            fetchRandomData('characters'),
-            fetchRandomData('comics'),
-            fetchRandomData('events')
-        ]).then(([heroesData, comicsData, eventsData]) => {
-            setHeroes(heroesData);
-            setComics(comicsData);
-            setEvents(eventsData);
-            setIsLoading(false);
-        }).catch((error) => {
-            handleError(error);
-            setError(error);
-            setIsLoading(false);
-        });
+        fetchData();
     }, [fetchMarvelData]);
+
 
     const showModal = async (item, type) => {
         const itemId = item.resourceURI.split('/').pop();
@@ -118,7 +124,7 @@ const HomePage = () => {
                 </section>
 
                 <section className={styles["home__section"]}>
-                    <h2 className={styles["home__section-title"]}>
+                    <h2 className={styles["home__title"]}>
                         <Link className={styles["home__link"]} to="/comics">
                             Comics
                         </Link>

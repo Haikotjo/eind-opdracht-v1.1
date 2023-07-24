@@ -7,6 +7,7 @@ import styles from './EventsPage.module.scss';
 import Loading from "../../components/loading/Loading";
 import { handleError } from "../../helpers/handleError";
 import CustomModal from "../../components/customModal/CustomModal";
+import StandardButton from "../../components/buttons/standardButton/StandardButton";
 
 function EventsPage() {
     const { fetchMarvelData } = useContext(DataContext);
@@ -86,6 +87,7 @@ function EventsPage() {
             <div className={styles["events-page"]}>
                 <div className={styles["header"]}>
                     <h1 className={styles["events-title"]}>Events</h1>
+
                     <input
                         className={styles["events-search"]}
                         type="text"
@@ -121,6 +123,9 @@ function EventsPage() {
                     itemKey={itemType === 'comics' ? "savedComic" : "savedHero"}
                     title={itemType === 'comics' ? "Comic Details" : "Hero Details"}
                 />
+                <StandardButton className={styles.totopbutton} onClick={() => window.scrollTo(0, 0)}>
+                    <img src='/images/up-arrow-svgrepo-com.svg' alt="Top" />
+                </StandardButton>
             </div>
     );
 

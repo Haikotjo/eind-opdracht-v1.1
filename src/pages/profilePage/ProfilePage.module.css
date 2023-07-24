@@ -1,0 +1,97 @@
+.hidden {
+  display: none;
+}
+
+.totopbutton {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50px;
+  height: 50px;
+  z-index: 9999;
+  background-color: #B12F56;
+  opacity: 0.75;
+  transition: opacity 0.3s ease-in-out;
+  box-shadow: 0 15px 16px rgba(0, 0, 0, 0.7);
+}
+
+.totopbutton img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.profile-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+  color: #181C25;
+  font-family: "Montserrat", sans-serif;
+}
+
+.profile {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #dee2e6;
+  color: #181C25;
+  width: 100%;
+  margin-bottom: 2em;
+}
+.profile h1 {
+  color: #181C25;
+  width: 100%;
+  text-align: center;
+  padding: 0.5em 0;
+  margin: 0;
+  border-radius: 8px;
+}
+.profile p {
+  font-size: 1.2em;
+  margin: 0.5em 0;
+}
+.profile p span {
+  font-weight: bold;
+  color: #B12F56;
+}
+
+.to-items {
+  display: flex;
+  justify-content: space-between; /* of space-around, space-evenly, etc. afhankelijk van hoe je de ruimte wilt verdelen */
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.col {
+  flex: 1 1 30%;
+  min-width: 300px;
+  margin: 1em;
+  padding: 1em;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  background-color: #dee2e6;
+}
+.col h2 {
+  font-size: 1.5em;
+  text-align: center;
+  color: #181C25;
+}
+
+.comics-list, .heroes-list, .events-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+/*# sourceMappingURL=ProfilePage.module.css.map */
