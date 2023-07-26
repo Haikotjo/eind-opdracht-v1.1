@@ -16,8 +16,8 @@
 }
 
 .title {
-  background-color: $color-primary;
-  color: $color-secondary;
+  background-color: $color-secondary;
+  color: $color-primary;
   padding: 10px;
   text-align: center;
   white-space: nowrap;
@@ -27,6 +27,7 @@
 
 .content {
   padding: 10px;
+  background-color: $color-primary;
 }
 
 .comic-card__image {
@@ -42,8 +43,8 @@
 }
 
 .more-info {
-  color: $color-secondary;
-  background-color: $color-primary;
+  color: $color-primary;
+  background-color: $color-secondary;
   padding: 10px 16px;
   border-radius: 4px;
   cursor: pointer;

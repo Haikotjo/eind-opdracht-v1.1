@@ -38,8 +38,8 @@
 }
 
 .title {
-  background-color: #181C25;
-  color: #B12F56;
+  background-color: #B12F56;
+  color: #181C25;
   padding: 10px;
   text-align: center;
   white-space: nowrap;
@@ -49,6 +49,7 @@
 
 .content {
   padding: 10px;
+  background-color: #181C25;
 }
 
 .comic-card__image {
@@ -64,8 +65,8 @@
 }
 
 .more-info {
-  color: #B12F56;
-  background-color: #181C25;
+  color: #181C25;
+  background-color: #B12F56;
   padding: 10px 16px;
   border-radius: 4px;
   cursor: pointer;
