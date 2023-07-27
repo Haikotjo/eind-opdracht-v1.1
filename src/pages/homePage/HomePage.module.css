@@ -28,28 +28,13 @@
   font-family: "Montserrat", sans-serif;
 }
 .home__section {
-  margin-bottom: 2em;
-  border: 1px solid #181C25;
-  border-radius: 10px;
   padding: 20px;
-  background-color: #181C25;
-}
-.home__section:last-child {
-  margin-bottom: 0;
 }
 .home__title {
   font-size: 1em;
   margin-bottom: 0.5em;
   color: #181C25;
   text-align: center;
-}
-.home__link {
-  color: #B12F56;
-  text-decoration: underline;
-  font-size: 1.2em;
-}
-.home__link:hover {
-  color: #00f7ff;
 }
 .home .carousel {
   display: flex;
@@ -71,12 +56,12 @@
 .youTube-container {
   width: 100%;
   max-width: 100%;
-  margin: 20px auto; /* Toegevoegde padding en centered margin */
+  margin: 20px auto 0;
   position: relative;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio (breedte:hoogte) voor het embedden van een YouTube-video */
-  overflow: hidden; /* Om ervoor te zorgen dat de video binnen de container blijft en niet uitsteekt */
-  border-radius: 20px; /* Toegevoegde mooie rondingen */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Toegevoegde schaduw voor een zwevend effect */
+  padding-bottom: 56.25%;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Plaats de iframe binnen de container */
@@ -85,7 +70,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 75%;
   border-radius: 20px; /* Herhaal de mooie rondingen om ervoor te zorgen dat de video ook afgeronde hoeken heeft */
 }
 

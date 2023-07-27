@@ -9,16 +9,11 @@
 
 .carouselContainer {
   @include flex-settings(row, space-between, center);
-  padding: 10px;
-  background-color: $color-primary;
 }
 
 .scroll-button {
-  background-color: transparent;
   color: $color-secondary;
   border: none;
-  font-size: 2em;
-  cursor: pointer;
   transition: color 0.3s ease;
 
   &:hover {
@@ -44,4 +39,18 @@
 .carouselItem {
   margin: 0 10px;
   flex: 0 0 auto;
+}
+
+.left {
+  width: 20px;
+  transform: rotate(-90deg);
+  fill: red !important;
+  margin-right: 5px;
+}
+
+.right {
+  width: 20px;
+  transform: rotate(90deg);
+  fill: $color-secondary !important;
+  margin-left: 5px;
 }

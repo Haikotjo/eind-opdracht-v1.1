@@ -19,7 +19,7 @@ const Carousel = ({ items, CardComponent, mapItemToProps, ...props }) => {
     return (
         <div className={styles.carouselContainer}>
             <StandardButton className={styles['scroll-button']} onClick={() => handleScroll('left')}>
-                &#x2190;
+                <img className={styles['left']} src='/images/up-arrow-svgrepo-com.svg' alt="Top" />
             </StandardButton>
             <div className={styles.carousel} ref={carouselRef}>
                 {items.map((item) => {
@@ -33,7 +33,7 @@ const Carousel = ({ items, CardComponent, mapItemToProps, ...props }) => {
                 })}
             </div>
             <StandardButton className={styles['scroll-button']} onClick={() => handleScroll('right')}>
-                &#x2192;
+                <img className={styles['right']} src='/images/up-arrow-svgrepo-com.svg' alt="Top" />
             </StandardButton>
         </div>
     );
