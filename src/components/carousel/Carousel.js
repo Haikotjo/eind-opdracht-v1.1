@@ -7,7 +7,7 @@ const Carousel = ({ items, CardComponent, mapItemToProps, ...props }) => {
 
     // Function to handle scrolling of the carousel
     const handleScroll = (direction) => {
-        const distance = 800;
+        const distance = 275;
 
         if (direction === 'left') {
             carouselRef.current.scrollLeft -= distance;
