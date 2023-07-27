@@ -89,7 +89,7 @@ function ComicsPage() {
             <div className={styles["comics-page"]}>
                 <div className={styles["header"]}>
                     <div className={styles["header-title"]}>
-                        <img src='/images/comic-icon.svg' alt="heart" />
+                        <img src='/images/comic-icon.svg' alt="comics" />
                     {/*<h1 className={styles["comics-title"]}>Comics</h1>*/}
                     </div>
                     <input

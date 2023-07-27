@@ -30,7 +30,7 @@ function Pagination({ page, total, pageSize, onPageChange }) {
                 onClick={handlePrev}
                 disabled={page === 1}
             >
-                &#x2190;
+                <img className={styles['left']} src='/images/up-arrow-svgrepo-com.svg' alt="Top" />
             </StandardButton>
             <span className={styles['hide-on-small']}>{page} of {maxPage}</span>
             <StandardButton
@@ -38,7 +38,7 @@ function Pagination({ page, total, pageSize, onPageChange }) {
                 onClick={handleNext}
                 disabled={page === maxPage}
             >
-                &#x2192;
+                <img className={styles['right']} src='/images/up-arrow-svgrepo-com.svg' alt="Top" />
             </StandardButton>
             <span className={styles['hide-on-small']}> | Items per page: </span>
             <select value={pageSize} onChange={handlePageSizeChange}>

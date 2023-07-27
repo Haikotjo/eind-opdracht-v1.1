@@ -87,7 +87,7 @@ function EventsPage() {
             <div className={styles["events-page"]}>
                 <div className={styles["header"]}>
                     <div className={styles["header-title"]}>
-                        <img src='/images/events-icon.svg' alt="heart" />
+                        <img src='/images/events-icon.svg' alt="eventss" />
                         {/*<h1 className={styles["events-title"]}>Events</h1>*/}
                     </div>
                     <input
