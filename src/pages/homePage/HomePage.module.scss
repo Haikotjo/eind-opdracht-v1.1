@@ -7,10 +7,10 @@
 
   &__section {
     margin-bottom: 2em;
-    border: 1px solid $color-quinary;
+    border: 1px solid $color-primary;
     border-radius: 10px;
     padding: 20px;
-    background-color: $color-quinary;
+    background-color: $color-primary;
 
     &:last-child {
       margin-bottom: 0;
@@ -51,6 +51,29 @@
     }
   }
 }
+
+/* Aanpassing voor de youTube-container */
+.youTube-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 20px auto; /* Toegevoegde padding en centered margin */
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio (breedte:hoogte) voor het embedden van een YouTube-video */
+  overflow: hidden; /* Om ervoor te zorgen dat de video binnen de container blijft en niet uitsteekt */
+  border-radius: 20px; /* Toegevoegde mooie rondingen */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Toegevoegde schaduw voor een zwevend effect */
+}
+
+/* Plaats de iframe binnen de container */
+.youTube-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px; /* Herhaal de mooie rondingen om ervoor te zorgen dat de video ook afgeronde hoeken heeft */
+}
+
 
 .error {
   color: red;

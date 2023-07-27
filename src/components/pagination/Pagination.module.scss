@@ -5,13 +5,16 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
 
   span {
     margin: 0 10px;
   }
 
   .hide-on-small {
-    @include respond-to('small') {
+    @include respond-to('medium') {
       display: none;
     }
   }
@@ -33,12 +36,11 @@
   }
 
   .scroll-button {
-    background-color: transparent;
-    color: $color-secondary;
     border: none;
     font-size: 2em;
     cursor: pointer;
     transition: color 0.3s ease;
+    background-color: transparent;
 
     &:hover {
       color: lighten($color-primary, 10%);
@@ -49,4 +51,16 @@
       cursor: not-allowed;
     }
   }
+}
+
+.right {
+  width: 20px;
+  transform: rotate(90deg);
+  fill: $color-secondary !important;
+}
+
+.left {
+  width: 20px;
+  transform: rotate(-90deg);
+  fill: red !important;
 }

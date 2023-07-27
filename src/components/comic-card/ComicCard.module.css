@@ -13,7 +13,6 @@
   height: 50px;
   z-index: 9999;
   background-color: #B12F56;
-  opacity: 0.75;
   transition: opacity 0.3s ease-in-out;
   box-shadow: 0 15px 16px rgba(0, 0, 0, 0.7);
 }
@@ -49,6 +48,7 @@
 
 .content {
   padding: 10px;
+  background-color: #181C25;
 }
 
 .comic-card__image {
@@ -64,8 +64,8 @@
 }
 
 .more-info {
-  color: #B12F56;
-  background-color: #181C25;
+  color: #181C25;
+  background-color: #B12F56;
   padding: 10px 16px;
   border-radius: 4px;
   cursor: pointer;
@@ -75,23 +75,24 @@
 }
 
 .more-info:hover {
-  background-color: #B12F56;
-  color: #181C25;
+  background-color: white;
+  color: #B12F56;
 }
 
 .comic-card__info-title {
   font-size: 1.5em;
-  font-weight: bold;
   margin-top: 0.75em;
 }
 
 .comic-card__info-description {
-  margin-top: 0.5em;
+  margin: 0.5em;
+  color: #ffffff;
 }
 
 .comic-card__info-hero-list {
   list-style: none;
-  padding: 0;
+  margin: 0.5em;
+  color: white;
 }
 
 .comic-card__info-hero-list-item {
@@ -101,7 +102,7 @@
 }
 
 .comic-card__info-hero-list-item:hover {
-  color: #181C25;
+  color: #ffffff;
 }
 
 @media (max-width: 768px) {
@@ -109,7 +110,7 @@
     padding: 15px 30px;
   }
   .title {
-    font-size: 1.2em;
+    font-size: 0.8em;
   }
 }
 

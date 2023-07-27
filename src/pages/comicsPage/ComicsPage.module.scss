@@ -7,6 +7,7 @@
   padding: 2rem;
   color: $color-primary;
   font-family: $font-primary;
+
 }
 
 .header {
@@ -17,9 +18,10 @@
 }
 
 .header-title img {
-  width: 200px;
+  width: 300px;
   height: auto;
   margin-bottom: 1rem;
+  filter: drop-shadow(6px 6px 8px rgba(255, 255, 255, 0.9));
 }
 
 .comics-search {
@@ -50,4 +52,14 @@
   margin: 1em;
   min-width: 250px;
   max-width: 300px;
+}
+
+.totopbutton {
+  background-color: $color-primary;
+}
+
+@include respond-to('medium') {
+  .header-title img {
+    width: 200px;
+  }
 }

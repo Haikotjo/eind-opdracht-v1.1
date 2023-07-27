@@ -13,7 +13,6 @@
   height: 50px;
   z-index: 9999;
   background-color: #B12F56;
-  opacity: 0.75;
   transition: opacity 0.3s ease-in-out;
   box-shadow: 0 15px 16px rgba(0, 0, 0, 0.7);
 }
@@ -28,11 +27,14 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
 }
 .pagination span {
   margin: 0 10px;
 }
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   .pagination .hide-on-small {
     display: none;
   }
@@ -52,12 +54,11 @@
   border-color: #B12F56;
 }
 .pagination .scroll-button {
-  background-color: transparent;
-  color: #B12F56;
   border: none;
   font-size: 2em;
   cursor: pointer;
   transition: color 0.3s ease;
+  background-color: transparent;
 }
 .pagination .scroll-button:hover {
   color: #2c3344;
@@ -65,6 +66,18 @@
 .pagination .scroll-button.disabled {
   color: #e396ad;
   cursor: not-allowed;
+}
+
+.right {
+  width: 20px;
+  transform: rotate(90deg);
+  fill: #B12F56 !important;
+}
+
+.left {
+  width: 20px;
+  transform: rotate(-90deg);
+  fill: red !important;
 }
 
 /*# sourceMappingURL=Pagination.module.css.map */

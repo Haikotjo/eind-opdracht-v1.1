@@ -10,7 +10,7 @@
 .carouselContainer {
   @include flex-settings(row, space-between, center);
   padding: 10px;
-  background-color: $color-quinary;
+  background-color: $color-primary;
 }
 
 .scroll-button {

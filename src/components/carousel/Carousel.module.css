@@ -13,7 +13,6 @@
   height: 50px;
   z-index: 9999;
   background-color: #B12F56;
-  opacity: 0.75;
   transition: opacity 0.3s ease-in-out;
   box-shadow: 0 15px 16px rgba(0, 0, 0, 0.7);
 }
@@ -29,7 +28,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background-color: #dee2e6;
+  background-color: #181C25;
 }
 
 .scroll-button {
