@@ -22,6 +22,7 @@ const AppRoutes = () => {
              {/*DataContextProvider facilitates sharing of data within the application */}
                 <DataContextProvider>
                     <NavBar />
+                    <div style={{ marginTop: '90px' }}>
                     <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/heroes" element={<HeroesPage />}>
@@ -36,6 +37,7 @@ const AppRoutes = () => {
                         <Route path="/profile" element={isAuth ? <ProfilePage /> : <Navigate to="/login"/>} />
                         <Route path="/*" element={<NotFoundPage />} />
                     </Routes>
+                    </div>
                     <Footer />
                 </DataContextProvider>
         </>

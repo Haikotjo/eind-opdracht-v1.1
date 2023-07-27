@@ -18,15 +18,15 @@
 }
 
 .login-link {
-  color: $color-primary;
+  color: $color-secondary;
   text-decoration: none;
-  border-bottom: 1px solid $color-primary;
+  border-bottom: 1px solid $color-secondary;
   padding: 5px;
   transition: color 0.3s ease, border-color 0.3s ease;
 
   &:hover {
-    color: $color-secondary;
-    border-color: $color-secondary;
+    color: #ffffff;
+    border-color: #ffffff;
   }
 }
 

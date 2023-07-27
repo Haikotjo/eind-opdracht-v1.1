@@ -9,6 +9,7 @@ import styles from './HomePage.module.scss';
 import Loading from '../../components/loading/Loading';
 import Carousel from "../../components/carousel/Carousel";
 import CustomModal from "../../components/customModal/CustomModal";
+import YouTube from "react-youtube";
 
 const HomePage = () => {
     const { fetchMarvelData } = useContext(DataContext);
@@ -22,6 +23,23 @@ const HomePage = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const videoId = 'UhVjp48U2Oc';
+    const startSeconds = 2;
+    const youtubeOptions = {
+        playerVars: {
+            autoplay: 1,
+            start: startSeconds,
+            mute: 1,
+        },
+    };
+
+    // State to keep track of the video visibility and timer
+    const [isVideoVisible, setIsVideoVisible] = useState(true);
+
+    const handleVideoEnd = () => {
+        setIsModalVisible(false);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -59,7 +77,6 @@ const HomePage = () => {
         fetchData();
     }, [fetchMarvelData]);
 
-
     const showModal = async (item, type) => {
         const itemId = item.resourceURI.split('/').pop();
         try {
@@ -82,15 +99,33 @@ const HomePage = () => {
         setIsModalVisible(false);
     };
 
+    // Timer to hide the video after 40 seconds
+    useEffect(() => {
+        const videoTimer = setTimeout(() => {
+            setIsVideoVisible(false);
+        }, 40000);
+
+        return () => {
+            clearTimeout(videoTimer);
+        };
+    }, []);
+
     return (
         isLoading ? <Loading /> : error ? (
-                <div className={styles["error"]}>
-                    <h2 className={styles["error-title"]}>Something went wrong...</h2>
-                    <p className={styles["error-message"]}>We couldn't load the data you requested. Please try again later.</p>
-                    <p className={styles["error-details"]}>Error details: {error.message}</p>
-                </div>
-            ) :
+            <div className={styles["error"]}>
+                <h2 className={styles["error-title"]}>Something went wrong...</h2>
+                <p className={styles["error-message"]}>We couldn't load the data you requested. Please try again later.</p>
+                <p className={styles["error-details"]}>Error details: {error.message}</p>
+            </div>
+        ) : (
             <main className={styles["home"]}>
+                {/* Conditionally render the YouTube video */}
+                {isVideoVisible && (
+                    <div className={styles["youTube-container"]}>
+                        <YouTube videoId={videoId} opts={{ ...youtubeOptions, onEnd: handleVideoEnd }} className="youTube" />
+                    </div>
+                )}
+
                 <section className={styles["home__section"]}>
                     <h2 className={styles["home__title"]}>
                         <Link className={styles["home__link"]} to="/events">
@@ -107,6 +142,7 @@ const HomePage = () => {
                         })}
                     />
                 </section>
+
                 <section className={styles["home__section"]}>
                     <h2 className={styles["home__title"]}>
                         <Link className={styles["home__link"]} to="/heroes">
@@ -138,6 +174,7 @@ const HomePage = () => {
                         })}
                     />
                 </section>
+
                 <CustomModal
                     isModalVisible={isModalVisible}
                     handleOk={handleModalOk}
@@ -147,6 +184,7 @@ const HomePage = () => {
                     title={itemType === 'comics' ? "Comic Details" : itemType === 'characters' ? "Hero Details" : "Event Details"}
                 />
             </main>
+        )
     );
 };
 
