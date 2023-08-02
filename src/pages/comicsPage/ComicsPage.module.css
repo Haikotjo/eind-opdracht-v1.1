@@ -42,7 +42,10 @@
   width: 300px;
   height: auto;
   margin-bottom: 1rem;
-  filter: drop-shadow(6px 6px 8px rgba(255, 255, 255, 0.9));
+  padding: 10px;
+  background-color: rgba(222, 226, 230, 0.5);
+  border: solid 2px #B12F56;
+  border-radius: 8px;
 }
 
 .comics-search {
@@ -70,6 +73,12 @@
 
 .totopbutton {
   background-color: #181C25;
+}
+
+@media (max-width: 768px) {
+  .header-title img {
+    width: 200px;
+  }
 }
 
 /*# sourceMappingURL=ComicsPage.module.css.map */

@@ -68,7 +68,6 @@
 }
 
 @include respond-to('medium') {
-  .header-title img {
-    width: 200px;
+  .header-title {
   }
 }

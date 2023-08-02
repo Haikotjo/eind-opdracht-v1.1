@@ -81,10 +81,4 @@
   fill: red !important;
 }
 
-@media (max-width: 768px) {
-  .header-title img {
-    width: 200px;
-  }
-}
-
 /*# sourceMappingURL=Pagination.module.css.map */
