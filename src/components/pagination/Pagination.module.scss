@@ -1,13 +1,15 @@
 @import '../../styles/_globals.scss';
 
+
 .pagination {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
   padding: 10px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: $color-primary-transparent;
   border-radius: 16px;
+  color: $color-quinary;
 
   span {
     margin: 0 10px;
@@ -21,7 +23,7 @@
 
   select {
     padding: 8px 16px;
-    border: 1px solid $color-primary;
+    border: px solid $color-secondary;
     border-radius: 4px;
     font-size: 15px;
     background-color: #fff;
@@ -63,4 +65,10 @@
   width: 20px;
   transform: rotate(-90deg);
   fill: red !important;
+}
+
+@include respond-to('medium') {
+  .header-title img {
+    width: 200px;
+  }
 }

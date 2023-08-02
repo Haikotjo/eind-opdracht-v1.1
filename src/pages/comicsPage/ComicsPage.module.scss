@@ -34,13 +34,6 @@
   color: $color-primary;
 }
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1em;
-}
-
 .comics-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -56,10 +49,4 @@
 
 .totopbutton {
   background-color: $color-primary;
-}
-
-@include respond-to('medium') {
-  .header-title img {
-    width: 200px;
-  }
 }

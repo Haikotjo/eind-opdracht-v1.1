@@ -28,8 +28,9 @@
   justify-content: center;
   margin-bottom: 20px;
   padding: 10px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(24, 28, 37, 0.8);
   border-radius: 16px;
+  color: #dee2e6;
 }
 .pagination span {
   margin: 0 10px;
@@ -41,7 +42,7 @@
 }
 .pagination select {
   padding: 8px 16px;
-  border: 1px solid #181C25;
+  border: px solid #B12F56;
   border-radius: 4px;
   font-size: 15px;
   background-color: #fff;
@@ -78,6 +79,12 @@
   width: 20px;
   transform: rotate(-90deg);
   fill: red !important;
+}
+
+@media (max-width: 768px) {
+  .header-title img {
+    width: 200px;
+  }
 }
 
 /*# sourceMappingURL=Pagination.module.css.map */

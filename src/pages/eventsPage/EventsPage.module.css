@@ -55,13 +55,6 @@
   color: #181C25;
 }
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1em;
-}
-
 .events-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -77,12 +70,6 @@
 
 .totopbutton {
   background-color: #181C25;
-}
-
-@media (max-width: 768px) {
-  .header-title img {
-    width: 200px;
-  }
 }
 
 /*# sourceMappingURL=EventsPage.module.css.map */

@@ -49,17 +49,10 @@
   width: 100%;
   padding: 10px;
   font-size: 1em;
-  border: 1px solid #dee2e6;
+  border: 2px solid #B12F56;
   border-radius: 4px;
   margin-bottom: 1em;
   color: #181C25;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1em;
 }
 
 .heroes-wrapper {
@@ -77,12 +70,6 @@
 
 .totopbutton {
   background-color: #181C25;
-}
-
-@media (max-width: 768px) {
-  .header-title img {
-    width: 200px;
-  }
 }
 
 /*# sourceMappingURL=HeroesPage.module.css.map */
