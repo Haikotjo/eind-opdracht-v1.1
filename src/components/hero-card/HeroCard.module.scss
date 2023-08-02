@@ -6,8 +6,9 @@
   border-radius: 8px;
   margin: 0.5em;
   overflow: hidden;
-  box-shadow: 4px 8px 8px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
   transition: all 0.5s ease;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
 
   &:hover {
     filter: brightness(1.2);
@@ -16,9 +17,8 @@
 }
 
 .title {
-  background-color: $color-primary;
-  color: $color-secondary;
-  padding: 10px;
+  color: $color-primary;
+  margin: 10px;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
@@ -26,14 +26,14 @@
 }
 
 .content {
-  padding: 10px;
-  background-color: $color-primary;
+  margin: 10px;
 }
 
 .hero-card__image {
   width: 100%;
   height: auto;
   border-radius: 8px;
+  margin-bottom: 10px;
 }
 
 .buttonContainer {
@@ -87,10 +87,10 @@
 
 @include respond-to('medium') {
   .card {
-    padding: 15px 30px;
+    padding: 5px;
   }
 
   .title {
-    font-size: 0.8em;
+    font-size: 1.2em;
   }
 }
