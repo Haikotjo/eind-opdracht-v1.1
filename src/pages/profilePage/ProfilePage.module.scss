@@ -9,21 +9,19 @@
 }
 
 .profile {
-    border: 1px solid $color-quinary;
+    border: 2px solid $color-secondary;
     border-radius: 8px;
-    box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
     padding: 1em;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    background-color: $color-quinary;
-    color: $color-primary;
-    //width: 100%;
+    background-color: $color-primary-transparent;
+    color: $color-quinary;
     margin-bottom: 2em;
 
     h1 {
-        color: $color-primary;
+        color: $color-quinary;
         width: 100%;
         text-align: center;
         padding: 0.5em 0;
@@ -41,25 +39,24 @@
     }
 }
 
-.to-items {
-  display: flex;
-  justify-content: space-between;
-}
-
 .row {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    background-color: $color-primary-transparent;
+    border-radius: 8px;
+    border: 2px solid $color-secondary;
 }
 
 .col {
     flex: 1 1 30%;
     margin: 1em;
 
-    h2 {
-        font-size: 1.5em;
+    h1 {
+        font-size: 2rem;
         text-align: center;
-        color: $color-primary;
+        color: $color-quinary;
+        margin-bottom: 1rem;
     }
 }
 
@@ -69,5 +66,37 @@
     justify-content: space-around;
 }
 
+.to-items {
+    display: none;
+}
 
 
+
+@include respond-to('large') {
+    .to-items {
+        display: flex;
+        justify-content: space-around;
+        background-color: $color-primary-transparent;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        border: 2px solid $color-secondary;
+
+        h1{
+            font-size: 1.5rem;
+            color: $color-quinary;
+            margin: 5px;
+        }
+    }
+
+    .profile {
+        width: 75%;
+
+        h1{
+            font-size: 1.5rem;
+        }
+
+        p {
+            font-size: 1rem;
+        }
+    }
+}
