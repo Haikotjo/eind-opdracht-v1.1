@@ -9,7 +9,7 @@
   overflow: hidden;
   transition: all 0.5s ease;
   padding: 10px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.8);
 
   &:hover {
     filter: brightness(1.2);
@@ -25,6 +25,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 1.2rem;
+  padding: 10px;
+  background-color: $color-primary;
+  border-radius: 8px;
 }
 
 .content {
@@ -67,7 +70,7 @@
 
 .event-card__info-description {
   margin: 0.5em;
-  color: #ffffff;
+  color: $color-primary;
 }
 
 .event-card__info-comic-list {
@@ -89,7 +92,8 @@
 }
 
 .event-card__info-comic-list-item:hover {
-  color: #ffffff;
+  color: $color-primary;
+  font-size: 1.2rem;
 }
 
 .event-card__info-hero-list-item {
@@ -99,7 +103,8 @@
 }
 
 .event-card__info-hero-list-item:hover {
-  color: #ffffff;
+  font-size: 1.2rem;
+  color: $color-primary;
 }
 
 @include respond-to('medium') {

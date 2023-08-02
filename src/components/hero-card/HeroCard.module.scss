@@ -9,7 +9,7 @@
   overflow: hidden;
   transition: all 0.5s ease;
   padding: 10px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.8);
 
   &:hover {
     filter: brightness(1.2);
@@ -25,6 +25,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 1.2rem;
+  padding: 10px;
+  background-color: $color-primary;
+  border-radius: 8px;
 }
 
 .content {
@@ -56,8 +59,8 @@
 }
 
 .more-info:hover {
-  background-color: $color-secondary !important;
-  color: white !important;
+  background-color: $color-secondary;
+  color: white;
 }
 
 .hero-info__name {
@@ -68,7 +71,7 @@
 
 .hero-info__description {
   margin-top: 0.5em;
-  color: #ffffff !important;
+  color: $color-primary;
 }
 
 .hero-card__info-comic-list {
@@ -84,7 +87,8 @@
 }
 
 .hero-card__info-comic-list-item:hover {
-  color: #ffffff;
+  color: $color-primary;
+  font-size: 1.2rem;
 }
 
 @include respond-to('medium') {

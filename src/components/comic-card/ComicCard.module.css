@@ -31,7 +31,7 @@
   overflow: hidden;
   transition: all 0.5s ease;
   padding: 10px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.8);
 }
 .card:hover {
   filter: brightness(1.2);
@@ -46,6 +46,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 1.2rem;
+  padding: 10px;
+  background-color: #181C25;
+  border-radius: 8px;
 }
 
 .content {
@@ -104,7 +107,8 @@
 }
 
 .comic-card__info-hero-list-item:hover {
-  color: #ffffff;
+  color: #181C25;
+  font-size: 1.2rem;
 }
 
 @media (max-width: 768px) {

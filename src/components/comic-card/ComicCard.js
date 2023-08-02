@@ -37,7 +37,7 @@ const ComicCard = ({ comic, onSelectCharacter }) => {
                         <h2 className={styles['comic-card__info-title']}>{comic.title}</h2>
                         <p className={styles['comic-card__info-description']}>{comic.description}</p>
                         <ul className={styles['comic-card__info-hero-list']}>
-                            Heroes:
+                            <h2>Heroes:</h2>
                             {/* Render the list of characters */}
                             {comic.characters.items.map((character, index) => (
                                 <li key={index} className={styles['comic-card__info-hero-list-item']}>

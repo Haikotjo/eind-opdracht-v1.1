@@ -10,10 +10,13 @@
   }
 
   &__title {
-    font-size: 1em;
+    font-size: 2rem;
     margin-bottom: 0.5em;
-    color: $color-primary;
+    color: $color-secondary;
+    background-color: $color-primary-transparent;
     text-align: center;
+    padding: 10px;
+    border-radius: 12px;
   }
 
   .carousel {
@@ -33,6 +36,9 @@
       flex: 0 0 auto;
     }
   }
+}
+
+.home__link{
 }
 
 /* Aanpassing voor de youTube-container */
@@ -74,11 +80,6 @@
   &__details {
     font-size: 0.8em;
   }
-}
-
-.home__link{
-  color: $color-secondary !important;
-  font-family: $font-primary;
 }
 
 .home__section {

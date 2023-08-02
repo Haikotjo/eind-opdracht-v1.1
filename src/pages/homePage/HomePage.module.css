@@ -31,10 +31,13 @@
   padding: 20px;
 }
 .home__title {
-  font-size: 1em;
+  font-size: 2rem;
   margin-bottom: 0.5em;
-  color: #181C25;
+  color: #B12F56;
+  background-color: rgba(24, 28, 37, 0.8);
   text-align: center;
+  padding: 10px;
+  border-radius: 12px;
 }
 .home .carousel {
   display: flex;
@@ -87,11 +90,6 @@
 }
 .error__details {
   font-size: 0.8em;
-}
-
-.home__link {
-  color: #B12F56 !important;
-  font-family: "Montserrat", sans-serif;
 }
 
 .home__section {

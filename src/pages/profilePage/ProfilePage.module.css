@@ -41,7 +41,6 @@
   justify-content: space-between;
   background-color: #dee2e6;
   color: #181C25;
-  width: 100%;
   margin-bottom: 2em;
 }
 .profile h1 {
@@ -63,7 +62,7 @@
 
 .to-items {
   display: flex;
-  justify-content: space-between; /* of space-around, space-evenly, etc. afhankelijk van hoe je de ruimte wilt verdelen */
+  justify-content: space-between;
 }
 
 .row {
@@ -74,12 +73,7 @@
 
 .col {
   flex: 1 1 30%;
-  min-width: 300px;
   margin: 1em;
-  padding: 1em;
-  border-radius: 8px;
-  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-  background-color: #dee2e6;
 }
 .col h2 {
   font-size: 1.5em;
