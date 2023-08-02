@@ -9,6 +9,9 @@
   &__form {
     max-width: 50%;
     width: 600px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 15px;
+    padding: 20px;
   }
 
   &__title {
@@ -52,19 +55,19 @@
   color: $color-secondary;
   font-weight: bold;
   &:hover {
-    color: $color-quaternary;
+    color: $color-primary;
   }
 }
 
 .register-page__submit-button {
   margin-bottom: 20px;
-  background-color: $color-primary;
+  background-color: $color-secondary;
   color: #fff;
-  padding: 5px;
+  padding: 12px;
   border-radius: 8px;
 
   &:hover {
-    background-color: $color-secondary;
+    background-color: $color-primary;
     color: #fff;
   }
 }
@@ -72,4 +75,29 @@
 .register-page__login-text {
   font-size: 16px;
 }
+
+@include respond-to('medium') {
+.register-page {
+    &__title {
+      font-size: 20px;
+    }
+
+    &__input,
+    label {
+      font-size: 14px;
+    }
+
+    &__register-link,
+    .register-page__login-text {
+      font-size: 12px;
+    }
+
+    &__submit-button {
+      font-size: 14px;
+      padding: 8px;
+    }
+  }
+}
+
+
 

@@ -31,6 +31,9 @@
 .login-page__form {
   max-width: 50%;
   width: 600px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 15px;
+  padding: 20px;
 }
 .login-page__title {
   font-size: 24px;
@@ -68,23 +71,43 @@
   font-weight: bold;
 }
 .login-page__register-link:hover {
-  color: #00f7ff;
+  color: #181C25;
 }
 
 .login-page__submit-button {
   margin-bottom: 20px;
-  background-color: #181C25;
+  background-color: #B12F56;
   color: #fff;
-  padding: 5px;
+  padding: 12px;
   border-radius: 8px;
 }
 .login-page__submit-button:hover {
-  background-color: #B12F56;
+  background-color: #181C25;
   color: #fff;
 }
 
 .login-page__login-text {
   font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .login-page__title, .register-page__title {
+    font-size: 20px;
+  }
+  .login-page__input,
+  .login-page label, .register-page__input,
+  .register-page label {
+    font-size: 14px;
+  }
+  .login-page__register-link,
+  .login-page .login-page__login-text, .register-page__register-link,
+  .register-page .login-page__login-text {
+    font-size: 12px;
+  }
+  .login-page__submit-button, .register-page__submit-button {
+    font-size: 14px;
+    padding: 8px;
+  }
 }
 
 /*# sourceMappingURL=LoginPage.module.css.map */
