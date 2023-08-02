@@ -11,7 +11,6 @@ const HeroCard = ({ hero, onSelectComic }) => {
     };
 
     return (
-
         <div className={styles['card']}>
             {/* Display the hero name */}
             <div className={styles['title']}>{hero.name}</div>
@@ -34,13 +33,13 @@ const HeroCard = ({ hero, onSelectComic }) => {
                 {isExpanded && (
                     <>
                         {/* Display additional hero information */}
-                        <h2 style={{ fontSize: '1.5em', fontWeight: 'bold', marginTop: '0.75em' }}>
+                        <h2 className={styles['hero-card__info-title']}>
                             {hero.name}
                         </h2>
-                        <p style={{ marginTop: '0.5em', color: '#ffffff' }}>{hero.description}</p>
+                        <p className={styles['hero-card__info-description']}>{hero.description}</p>
                         {/*Ik weet dat het Hardcoden van de css niet hoort maar ik kreeg het echt niet voor elkaar*/}
                         <ul className={styles['hero-card__info-comic-list']}>
-                            Comics:
+                            <h2> Comics:</h2>
                             {/* Render the list of comics */}
                             {hero.comics.items.map((comic, index) => (
                                 <li key={index} className={styles['hero-card__info-comic-list-item']}>

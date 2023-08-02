@@ -4,10 +4,12 @@
   width: 100%;
   max-width: 250px;
   border-radius: 8px;
+  border: 1px solid $color-secondary;
   margin: 0.5em;
   overflow: hidden;
-  box-shadow: 4px 8px 8px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
   transition: all 0.5s ease;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
 
   &:hover {
     filter: brightness(1.2);
@@ -16,24 +18,27 @@
 }
 
 .title {
-  background-color: $color-primary;
   color: $color-secondary;
-  padding: 10px;
+  margin: 10px;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 1.2rem;
+  padding: 10px;
+  background-color: $color-primary;
+  border-radius: 8px;
 }
 
 .content {
-  padding: 10px;
-  background-color: $color-primary;
+  margin: 10px;
 }
 
 .comic-card__image {
   width: 100%;
   height: auto;
   border-radius: 8px;
+  margin-bottom: 10px;
 }
 
 .buttonContainer {
@@ -43,8 +48,8 @@
 }
 
 .more-info {
-  color: $color-primary;
-  background-color: $color-secondary;
+  color: $color-secondary;
+  background-color: $color-primary;
   padding: 10px 16px;
   border-radius: 4px;
   cursor: pointer;
@@ -54,8 +59,8 @@
 }
 
 .more-info:hover {
-  background-color: white;
-  color: $color-secondary;
+  background-color: $color-secondary;
+  color: white;
 }
 
 .comic-card__info-title {
@@ -65,7 +70,7 @@
 
 .comic-card__info-description {
   margin: 0.5em;
-  color: #ffffff;
+  color: $color-primary;
 }
 
 .comic-card__info-hero-list {
@@ -81,15 +86,16 @@
 }
 
 .comic-card__info-hero-list-item:hover {
-  color: #ffffff;;
+  color: $color-primary;
+  font-size: 1.2rem;
 }
 
 @include respond-to('medium') {
   .card {
-    padding: 15px 30px;
+    padding: 5px;
   }
 
   .title {
-    font-size: 0.8em;
+    font-size: 1rem;
   }
 }

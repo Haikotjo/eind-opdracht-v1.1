@@ -26,10 +26,12 @@
   width: 100%;
   max-width: 250px;
   border-radius: 8px;
+  border: 1px solid #B12F56;
   margin: 0.5em;
   overflow: hidden;
-  box-shadow: 4px 8px 8px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
   transition: all 0.5s ease;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 .card:hover {
   filter: brightness(1.2);
@@ -37,24 +39,27 @@
 }
 
 .title {
-  background-color: #181C25;
   color: #B12F56;
-  padding: 10px;
+  margin: 10px;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 1.2rem;
+  padding: 10px;
+  background-color: #181C25;
+  border-radius: 8px;
 }
 
 .content {
-  padding: 10px;
-  background-color: #181C25;
+  margin: 10px;
 }
 
 .hero-card__image {
   width: 100%;
   height: auto;
   border-radius: 8px;
+  margin-bottom: 10px;
 }
 
 .buttonContainer {
@@ -64,8 +69,8 @@
 }
 
 .more-info {
-  color: #181C25 !important;
-  background-color: #B12F56 !important;
+  color: #B12F56 !important;
+  background-color: #181C25 !important;
   padding: 10px 16px !important;
   border-radius: 4px !important;
   cursor: pointer !important;
@@ -75,8 +80,8 @@
 }
 
 .more-info:hover {
-  background-color: white !important;
-  color: #B12F56 !important;
+  background-color: #B12F56;
+  color: white;
 }
 
 .hero-info__name {
@@ -87,7 +92,7 @@
 
 .hero-info__description {
   margin-top: 0.5em;
-  color: #ffffff !important;
+  color: #181C25;
 }
 
 .hero-card__info-comic-list {
@@ -103,15 +108,16 @@
 }
 
 .hero-card__info-comic-list-item:hover {
-  color: #ffffff;
+  color: #181C25;
+  font-size: 1.2rem;
 }
 
 @media (max-width: 768px) {
   .card {
-    padding: 15px 30px;
+    padding: 5px;
   }
   .title {
-    font-size: 0.8em;
+    font-size: 1rem;
   }
 }
 

@@ -10,10 +10,13 @@
   }
 
   &__title {
-    font-size: 1em;
+    font-size: 2rem;
     margin-bottom: 0.5em;
-    color: $color-primary;
+    color: $color-secondary;
+    background-color: $color-primary-transparent;
     text-align: center;
+    padding: 10px;
+    border-radius: 12px;
   }
 
   .carousel {
@@ -35,6 +38,9 @@
   }
 }
 
+.home__link{
+}
+
 /* Aanpassing voor de youTube-container */
 .youTube-container {
   width: 100%;
@@ -44,7 +50,6 @@
   padding-bottom: 56.25%;
   overflow: hidden;
   border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Plaats de iframe binnen de container */
@@ -54,7 +59,7 @@
   left: 0;
   width: 100%;
   height: 75%;
-  border-radius: 20px; /* Herhaal de mooie rondingen om ervoor te zorgen dat de video ook afgeronde hoeken heeft */
+  border-radius: 20px;
 }
 
 
@@ -75,11 +80,6 @@
   &__details {
     font-size: 0.8em;
   }
-}
-
-.home__link{
-  color: $color-secondary !important;
-  font-family: $font-primary;
 }
 
 .home__section {

@@ -54,3 +54,9 @@
   fill: $color-secondary !important;
   margin-left: 5px;
 }
+
+@include respond-to('medium') {
+  .scroll-button {
+    display: none;
+  }
+}
