@@ -31,6 +31,9 @@
 .register-page__form {
   max-width: 50%;
   width: 600px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 15px;
+  padding: 20px;
 }
 .register-page__title {
   font-size: 24px;
@@ -68,23 +71,41 @@
   font-weight: bold;
 }
 .register-page__register-link:hover {
-  color: #00f7ff;
+  color: #181C25;
 }
 
 .register-page__submit-button {
   margin-bottom: 20px;
-  background-color: #181C25;
+  background-color: #B12F56;
   color: #fff;
-  padding: 5px;
+  padding: 12px;
   border-radius: 8px;
 }
 .register-page__submit-button:hover {
-  background-color: #B12F56;
+  background-color: #181C25;
   color: #fff;
 }
 
 .register-page__login-text {
   font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .register-page__title {
+    font-size: 20px;
+  }
+  .register-page__input,
+  .register-page label {
+    font-size: 14px;
+  }
+  .register-page__register-link,
+  .register-page .register-page__login-text {
+    font-size: 12px;
+  }
+  .register-page__submit-button {
+    font-size: 14px;
+    padding: 8px;
+  }
 }
 
 /*# sourceMappingURL=Register.module.css.map */

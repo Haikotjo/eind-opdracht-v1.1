@@ -59,7 +59,7 @@ function LoginPage() {
                     <StandardButton type="submit"
                                     className={styles["login-page__submit-button"]}
                     >Login</StandardButton>
-                    <p >Don't have an account? <Link  to="/register" className={styles["login-page__register-link"]}>Register</Link> first.</p>
+                    <p className={styles["login-page__login-text"]}>Don't have an account? <Link  to="/register" className={styles["login-page__register-link"]}>Register</Link> first.</p>
                 </form>
             </div>
         </div>

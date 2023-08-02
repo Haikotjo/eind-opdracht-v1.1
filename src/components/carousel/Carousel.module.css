@@ -27,16 +27,11 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  background-color: #181C25;
 }
 
 .scroll-button {
-  background-color: transparent;
   color: #B12F56;
   border: none;
-  font-size: 2em;
-  cursor: pointer;
   transition: color 0.3s ease;
 }
 .scroll-button:hover {
@@ -62,6 +57,20 @@
 .carouselItem {
   margin: 0 10px;
   flex: 0 0 auto;
+}
+
+.left {
+  width: 20px;
+  transform: rotate(-90deg);
+  fill: red !important;
+  margin-right: 5px;
+}
+
+.right {
+  width: 20px;
+  transform: rotate(90deg);
+  fill: #B12F56 !important;
+  margin-left: 5px;
 }
 
 /*# sourceMappingURL=Carousel.module.css.map */
