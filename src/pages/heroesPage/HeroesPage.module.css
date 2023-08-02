@@ -74,6 +74,10 @@
 .totopbutton {
   background-color: #181C25;
 }
+.totopbutton:hover {
+  background-color: rgba(24, 28, 37, 0.8);
+  width: 5%;
+}
 
 @media (max-width: 768px) {
   .header-title img {

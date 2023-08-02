@@ -3,8 +3,8 @@
 .navBar {
  display: flex;
  justify-content: space-between;
- padding: 20px 40px;
- background-color: $color-primary;
+ padding: 10px 40px;
+ background-color: $color-secondary;
  color: white;
  z-index: 998;
  position: fixed;
@@ -20,18 +20,12 @@
  width: 100%;
 }
 
-.logo {
- display: flex;
- align-items: center;
+.logoImage {
+ width: 30px;
+ height: auto;
+ margin-right: 1rem;
 }
 
-.logoLink {
- font-size: 1.5em;
- text-decoration: none;
- color: $color-secondary;
- font-weight: 700;
- letter-spacing: .3rem;
-}
 
 .navItems {
  display: flex;
@@ -60,11 +54,11 @@
 }
 
 .navLink:hover, .navButton:hover {
- color: $color-secondary;
+ color: $color-primary;
 }
 
 .activeLink {
- color: $color-secondary;
+ color: $color-primary;
 }
 
 .navButton {

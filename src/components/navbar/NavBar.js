@@ -44,7 +44,18 @@ const NavBar = () => {
             <nav className={styles.navBar} ref={node}>
                 <div className={styles.container}>
                     <div className={styles.logo}>
-                        <a href="/" className={styles.logoLink}>Comic Collector</a>
+                        <NavLink
+                            to="/"
+                            className={styles.logoLink}
+                            activeClassName={styles.activeLogoLink}
+                            exact
+                        >
+                            <img
+                                src={window.location.pathname === '/' ? "/images/Home_Icon.svg" : "/images/Home_Icon_wit.svg"}
+                                alt="Comic Collector"
+                                className={styles.logoImage}
+                            />
+                        </NavLink>
                     </div>
                     <div className={styles.navItems}>
                         <div className={styles.leftNav}>
