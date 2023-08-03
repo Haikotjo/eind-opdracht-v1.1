@@ -10,9 +10,11 @@ import Loading from '../../components/loading/Loading';
 import Carousel from "../../components/carousel/Carousel";
 import CustomModal from "../../components/customModal/CustomModal";
 import YouTube from "react-youtube";
+import { DarkModeContext } from '../../context/DarkModeContext';
 
 const HomePage = () => {
     const { fetchMarvelData } = useContext(DataContext);
+    const { isDarkMode } = useContext(DarkModeContext);
 
     const [events, setEvents] = useState([]);
     const [heroes, setHeroes] = useState([]);
@@ -119,15 +121,15 @@ const HomePage = () => {
             </div>
         ) : (
             <main className={styles["home"]}>
-                {/* Conditionally render the YouTube video */}
                 {isVideoVisible && (
                     <div className={styles["youTube-container"]}>
+                        <button className={styles["youTube-close"]} onClick={() => setIsVideoVisible(false)}>X</button>
                         <YouTube videoId={videoId} opts={{ ...youtubeOptions, onEnd: handleVideoEnd }} className="youTube" />
                     </div>
                 )}
 
                 <section className={styles["home__section"]}>
-                    <h2 className={styles["home__title"]}>
+                    <h2 className={`${styles["home__title"]} ${isDarkMode ? styles["dark-mode"] : ''}`}>
                         <Link className={styles["home__link"]} to="/events">
                             Events
                         </Link>
@@ -144,7 +146,7 @@ const HomePage = () => {
                 </section>
 
                 <section className={styles["home__section"]}>
-                    <h2 className={styles["home__title"]}>
+                    <h2 className={`${styles["home__title"]} ${isDarkMode ? styles["dark-mode"] : ''}`}>
                         <Link className={styles["home__link"]} to="/heroes">
                             Heroes
                         </Link>
@@ -160,7 +162,7 @@ const HomePage = () => {
                 </section>
 
                 <section className={styles["home__section"]}>
-                    <h2 className={styles["home__title"]}>
+                    <h2 className={`${styles["home__title"]} ${isDarkMode ? styles["dark-mode"] : ''}`}>
                         <Link className={styles["home__link"]} to="/comics">
                             Comics
                         </Link>

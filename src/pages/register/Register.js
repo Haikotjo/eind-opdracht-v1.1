@@ -43,6 +43,12 @@ function RegisterPage() {
         setLoading(false); // Set loading to false after sending data
     }
 
+    function validateEmail(email) {
+        const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+
     const handleInputChange = (event) => {
         setFormData({ ...formData, [event.target.name]: event.target.value }); // Update the form data state when input changes
     };
@@ -55,6 +61,7 @@ function RegisterPage() {
                     <div className={styles["input-group"]}>
                         <label>
                             Username
+                            {formData.username.length >= 6 ? <span className={styles["check-icon"]}>✓</span> : formData.username.length > 0 ? <span className={styles["cross-icon"]}>×</span> : null}
                             <input
                                 className={styles["register-page__input"]}
                                 type="text"
@@ -62,10 +69,12 @@ function RegisterPage() {
                                 value={formData.username}
                                 onChange={handleInputChange}
                                 required
+                                placeholder="Min 6 characters"
                             />
                         </label>
                         <label>
                             Email
+                            {validateEmail(formData.email) ? <span className={styles["check-icon"]}>✓</span> : formData.email.length > 0 ? <span className={styles["cross-icon"]}>×</span> : null}
                             <input
                                 className={styles["register-page__input"]}
                                 type="email"
@@ -73,10 +82,12 @@ function RegisterPage() {
                                 value={formData.email}
                                 onChange={handleInputChange}
                                 required
+                                placeholder="johndoe@example.com"
                             />
                         </label>
                         <label>
                             Password
+                            {formData.password.length >= 6 ? <span className={styles["check-icon"]}>✓</span> : formData.password.length > 0 ? <span className={styles["cross-icon"]}>×</span> : null}
                             <input
                                 className={styles["register-page__input"]}
                                 type="password"
@@ -85,6 +96,7 @@ function RegisterPage() {
                                 onChange={handleInputChange}
                                 required
                                 minLength="6"
+                                placeholder="Min 6 characters"
                             />
                         </label>
                     </div>

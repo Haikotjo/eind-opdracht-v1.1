@@ -37,7 +37,6 @@ html, body, h1, h2, h3, h4, h5, h6, p, ol, ul, li, pre, code, address, variable,
 body {
   font-family: "Montserrat", sans-serif; /* Set the primary font */
   color: #181C25; /* Set the primary text color */
-  margin: 100px 0 0 0;
   padding: 0;
   box-sizing: border-box;
   /* Responsive settings for font size on different screen sizes */
@@ -70,6 +69,7 @@ a {
   color: inherit; /* Inherit the color from parent elements */
 }
 
+/* With background*/
 body {
   background-image: url("../../public/images/bg.jpg");
   background-position: center center;
@@ -80,6 +80,10 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
+}
+body.dark-mode {
+  background-color: #181C25;
+  background-image: none;
 }
 
 /*# sourceMappingURL=App.css.map */

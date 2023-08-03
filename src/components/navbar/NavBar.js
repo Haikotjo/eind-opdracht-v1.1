@@ -3,8 +3,10 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import styles from './NavBar.module.scss';
+import {DarkModeContext} from "../../context/DarkModeContext";
 
 const NavBar = () => {
+    const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
     const { isAuth, logout } = useContext(AuthContext);
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -44,7 +46,17 @@ const NavBar = () => {
             <nav className={styles.navBar} ref={node}>
                 <div className={styles.container}>
                     <div className={styles.logo}>
-                        <a href="/" className={styles.logoLink}>Comic Collector</a>
+                        <NavLink
+                            to="/"
+                            className={styles.logoLink}
+                            className={styles.activeLogoLink}
+                        >
+                            <img
+                                src={window.location.pathname === '/' ? "/images/Home_Icon.svg" : "/images/Home_Icon_wit.svg"}
+                                alt="Comic Collector"
+                                className={styles.logoImage}
+                            />
+                        </NavLink>
                     </div>
                     <div className={styles.navItems}>
                         <div className={styles.leftNav}>
@@ -81,6 +93,13 @@ const NavBar = () => {
                                     </NavLink>
                             ))}
                         </div>
+                        <button onClick={() => setIsDarkMode(!isDarkMode)} className={styles.navButton}>
+                            {isDarkMode ? (
+                                <img className={styles.darklight} src="/images/light.png" alt="Light Mode" />
+                            ) : (
+                                <img className={styles.darklight} src="/images/dark.png" alt="Dark Mode" />
+                            )}
+                        </button>
                     </div>
                     <div className={styles.mobileMenuButton} onClick={toggleMobileMenu}>
                         {/* Mobile menu toggle button */}
@@ -96,7 +115,7 @@ const NavBar = () => {
                                     key={page}
                                     to={`/${page.toLowerCase()}`}
                                     className={styles.navLink}
-                                    activeClassName={styles.active}
+                                    className={styles.active}
                                     onClick={closeMobileMenu}
                                 >
                                     {page}
@@ -115,12 +134,19 @@ const NavBar = () => {
                                         key={page}
                                         to={`/${page.toLowerCase()}`}
                                         className={styles.navLink}
-                                        activeClassName={styles.active}
+                                        className={styles.active}
                                         onClick={closeMobileMenu}
                                     >
                                         {page}
                                     </NavLink>
                             ))}
+                            <button onClick={() => setIsDarkMode(!isDarkMode)} className={styles.navButton}>
+                                {isDarkMode ? (
+                                    <img className={styles.darklight} src="/images/light.png" alt="Light Mode" />
+                                ) : (
+                                    <img className={styles.darklight} src="/images/dark.png" alt="Dark Mode" />
+                                )}
+                            </button>
                         </div>
                     )}
                 </div>

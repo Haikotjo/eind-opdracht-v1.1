@@ -30,7 +30,7 @@
   }
 
   &__error {
-    color: red;
+    color: $color-secondary;
     margin-top: 10px;
   }
 
@@ -98,6 +98,17 @@
     }
   }
 }
+
+.cross-icon {
+  color: red;
+  margin-left: 3px;
+}
+
+.check-icon {
+  color: green;
+  margin-left: 3px;
+}
+
 
 
 

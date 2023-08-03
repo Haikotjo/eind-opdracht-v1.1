@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import AuthContextProvider, {AuthContext} from "./context/AuthContext";
 import './styles/App.scss'
 import {SavedProvider} from "./context/SavedContext";
+import {DarkModeProvider} from "./context/DarkModeContext";
 
 
 Modal.setAppElement('#root');
@@ -13,7 +14,9 @@ function App() {
                 {/* AuthContextProvider facilitates sharing of authentication data within the application */}
                 <AuthContextProvider>
                     <SavedProvider>
+                    <DarkModeProvider>
                     <Routes />
+                    </DarkModeProvider>
                     </SavedProvider>
                 </AuthContextProvider>
             </Router>
@@ -21,7 +24,3 @@ function App() {
 }
 
 export default App;
-
-
-
-

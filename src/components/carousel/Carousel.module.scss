@@ -27,8 +27,23 @@
   -webkit-overflow-scrolling: touch;
   flex-grow: 1;
 
+  // Standaard stijl voor de scrollbar
   &::-webkit-scrollbar {
-    display: none;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $color-quinary-transparent; // Aanpassen aan de gewenste kleur
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color-primary; // Aanpassen aan de gewenste kleur
+    border-radius: 3px;
+  }
+
+  // Hover-effect voor de scrollbar
+  &:hover::-webkit-scrollbar-thumb {
+    background: $color-secondary; // Aanpassen aan de gewenste kleur
   }
 
   > * {

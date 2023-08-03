@@ -95,7 +95,7 @@ function Profile() {
                 <div className={styles["col"]}>
 
                     <section id="saved-comics">
-                        <h2>Saved Comics</h2>
+                        <h1>Saved Comics</h1>
                         <div className={styles["comics-list"]}>
                             {savedComic.map(comic => (
                                 <ComicCard
@@ -108,9 +108,8 @@ function Profile() {
                     </section>
                 </div>
                 <div className={styles["col"]}>
-
                     <section id="saved-heroes">
-                        <h2>Saved Heroes</h2>
+                        <h1>Saved Heroes</h1>
                         <div className={styles["heroes-list"]}>
                             {savedHero.map(hero => (
                                 <HeroCard
@@ -123,9 +122,8 @@ function Profile() {
                     </section>
                 </div>
                 <div className={styles["col"]}>
-
                     <section id="saved-events">
-                        <h2>Saved Events</h2>
+                        <h1>Saved Events</h1>
                         <div className={styles["events-list"]}>
                             {savedEvent.map(event => (
                                 <EventCard

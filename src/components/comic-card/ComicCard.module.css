@@ -31,10 +31,10 @@
   overflow: hidden;
   transition: all 0.5s ease;
   padding: 10px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: #181C25;
 }
 .card:hover {
-  filter: brightness(1.2);
+  background-color: #dee2e6;
   box-shadow: 4px 8px 16px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
 }
 

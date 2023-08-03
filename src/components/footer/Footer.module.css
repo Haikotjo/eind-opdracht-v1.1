@@ -23,14 +23,26 @@
 }
 
 .footer {
+  display: flex;
+  justify-content: space-between;
   position: fixed;
   bottom: 0;
   width: 100%;
-  text-align: right;
-  padding: 5px;
+  padding: 10px;
   font-size: 10px;
-  background-color: #B12F56;
+  background-color: #181C25;
   color: white;
+}
+.footer.dark-mode {
+  background-color: #B12F56;
+}
+
+.footer-left {
+  text-align: left;
+}
+
+.footer-right {
+  text-align: right;
 }
 
 /*# sourceMappingURL=Footer.module.css.map */

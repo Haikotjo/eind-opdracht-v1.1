@@ -49,8 +49,8 @@
   font-size: 16px;
 }
 .login-page__error {
-  color: red;
-  margin-top: 10px;
+  color: #B12F56;
+  margin: 10px;
 }
 .login-page__register-link {
   margin-top: 20px;
@@ -62,7 +62,7 @@
   text-decoration: underline;
 }
 .login-page .alert {
-  color: red;
+  color: #B12F56;
   margin-top: 10px;
 }
 

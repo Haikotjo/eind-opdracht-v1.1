@@ -48,7 +48,17 @@
   flex-grow: 1;
 }
 .carousel::-webkit-scrollbar {
-  display: none;
+  height: 8px;
+}
+.carousel::-webkit-scrollbar-track {
+  background: rgba(222, 226, 230, 0.5);
+}
+.carousel::-webkit-scrollbar-thumb {
+  background: #181C25;
+  border-radius: 3px;
+}
+.carousel:hover::-webkit-scrollbar-thumb {
+  background: #B12F56;
 }
 .carousel > * {
   flex: 0 0 auto;

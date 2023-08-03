@@ -15,7 +15,6 @@ html, body, h1, h2, h3, h4, h5, h6, p, ol, ul, li, pre, code, address, variable,
 body {
   font-family: $font-primary; /* Set the primary font */
   color: $color-primary; /* Set the primary text color */
-  margin: 100px 0 0 0;
   padding: 0;
   box-sizing: border-box;
   //background-color: $color-primary;
@@ -46,7 +45,9 @@ a {
   color: inherit; /* Inherit the color from parent elements */
 }
 
+/* With background*/
 body {
+  //background-color: $color-quinary;
   background-image: url('../../public/images/bg.jpg');
   background-position: center center;
   background-repeat: no-repeat;
@@ -56,4 +57,8 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
+  &.dark-mode {
+    background-color: $color-primary;
+    background-image: none;
+  }
 }
