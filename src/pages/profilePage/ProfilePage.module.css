@@ -113,5 +113,12 @@
     font-size: 1rem;
   }
 }
+.totopbutton {
+  background-color: #181C25;
+}
+.totopbutton:hover {
+  background-color: rgba(24, 28, 37, 0.8);
+  width: 5%;
+}
 
 /*# sourceMappingURL=ProfilePage.module.css.map */

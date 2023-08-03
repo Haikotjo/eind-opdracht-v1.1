@@ -100,3 +100,11 @@
         }
     }
 }
+
+.totopbutton {
+    background-color: $color-primary;
+    &:hover{
+        background-color: $color-primary-transparent;
+        width: (+ 5%);
+    }
+}
