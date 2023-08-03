@@ -71,10 +71,19 @@ a {
 
 /* With background*/
 body {
-  background-color: #dee2e6;
+  background-image: url("../../public/images/bg.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 body.dark-mode {
   background-color: #181C25;
+  background-image: none;
 }
 
 /*# sourceMappingURL=App.css.map */

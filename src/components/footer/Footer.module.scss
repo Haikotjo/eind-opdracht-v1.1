@@ -10,6 +10,9 @@
   font-size: 10px;
   background-color: $color-primary;
   color: white;
+  &.dark-mode {
+    background-color: $color-secondary;
+  }
 }
 
 .footer-left {

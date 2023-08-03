@@ -5,7 +5,7 @@ function Footer() {
     return (
         <footer className={styles["footer"]}>
             <div className={styles["footer-left"]}>
-                Made possible by Hogeschool Novi, with thanks to teacher Elwyn de Neve and SME'er Sam Barnhoorn. Thanks guys!
+                With special thanks to Elwyn de Neve, Sam Barnhoorn and Hogeschool Novi.
             </div>
             <div className={styles["footer-right"]}>
                 © 2023 Haiko Wierda

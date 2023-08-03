@@ -6,7 +6,7 @@ import styles from './NavBar.module.scss';
 import {DarkModeContext} from "../../context/DarkModeContext";
 
 const NavBar = () => {
-    const { isDarkMode, toggleDarkMode } = useContext(DarkModeContext);
+    const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
     const { isAuth, logout } = useContext(AuthContext);
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -93,7 +93,7 @@ const NavBar = () => {
                                     </NavLink>
                             ))}
                         </div>
-                        <button onClick={toggleDarkMode} className={styles.navButton}>
+                        <button onClick={() => setIsDarkMode(!isDarkMode)} className={styles.navButton}>
                             {isDarkMode ? (
                                 <img className={styles.darklight} src="/images/light.png" alt="Light Mode" />
                             ) : (
@@ -140,7 +140,7 @@ const NavBar = () => {
                                         {page}
                                     </NavLink>
                             ))}
-                            <button onClick={toggleDarkMode} className={styles.navButton}>
+                            <button onClick={() => setIsDarkMode(!isDarkMode)} className={styles.navButton}>
                                 {isDarkMode ? (
                                     <img className={styles.darklight} src="/images/light.png" alt="Light Mode" />
                                 ) : (

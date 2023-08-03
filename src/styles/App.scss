@@ -47,18 +47,18 @@ a {
 
 /* With background*/
 body {
-  background-color: $color-quinary;
-  //background-image: url('../../public/images/bg.jpg');
-  //background-position: center center;
-  //background-repeat: no-repeat;
-  //background-attachment: fixed;
-  //background-size: cover;
-  //height: 100%;
-  //width: 100%;
-  //margin: 0;
-  //padding: 0;
+  //background-color: $color-quinary;
+  background-image: url('../../public/images/bg.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
   &.dark-mode {
     background-color: $color-primary;
+    background-image: none;
   }
 }
-

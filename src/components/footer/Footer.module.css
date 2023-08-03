@@ -33,6 +33,9 @@
   background-color: #181C25;
   color: white;
 }
+.footer.dark-mode {
+  background-color: #B12F56;
+}
 
 .footer-left {
   text-align: left;

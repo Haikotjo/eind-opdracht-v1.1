@@ -39,6 +39,10 @@
   padding: 10px;
   border-radius: 12px;
 }
+.home__title.dark-mode {
+  background-color: #B12F56;
+  color: #181C25;
+}
 
 /* Aanpassing voor de youTube-container */
 .youTube-container {
