@@ -47,6 +47,7 @@ a {
 
 /* With background*/
 body {
+  background-color: $color-quinary;
   //background-image: url('../../public/images/bg.jpg');
   //background-position: center center;
   //background-repeat: no-repeat;
@@ -56,9 +57,8 @@ body {
   //width: 100%;
   //margin: 0;
   //padding: 0;
-}
-/* Dark*/
-body{
-  //background-color: $color-primary;
+  &.dark-mode {
+    background-color: $color-primary;
+  }
 }
 

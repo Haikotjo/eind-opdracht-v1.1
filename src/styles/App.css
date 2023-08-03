@@ -70,6 +70,11 @@ a {
 }
 
 /* With background*/
-/* Dark*/
+body {
+  background-color: #dee2e6;
+}
+body.dark-mode {
+  background-color: #181C25;
+}
 
 /*# sourceMappingURL=App.css.map */

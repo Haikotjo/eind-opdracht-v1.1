@@ -3,8 +3,10 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import styles from './NavBar.module.scss';
+import {DarkModeContext} from "../../context/DarkModeContext";
 
 const NavBar = () => {
+    const { isDarkMode, toggleDarkMode } = useContext(DarkModeContext);
     const { isAuth, logout } = useContext(AuthContext);
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -91,6 +93,13 @@ const NavBar = () => {
                                     </NavLink>
                             ))}
                         </div>
+                        <button onClick={toggleDarkMode} className={styles.navButton}>
+                            {isDarkMode ? (
+                                <img className={styles.darklight} src="/images/light.png" alt="Light Mode" />
+                            ) : (
+                                <img className={styles.darklight} src="/images/dark.png" alt="Dark Mode" />
+                            )}
+                        </button>
                     </div>
                     <div className={styles.mobileMenuButton} onClick={toggleMobileMenu}>
                         {/* Mobile menu toggle button */}
@@ -131,6 +140,13 @@ const NavBar = () => {
                                         {page}
                                     </NavLink>
                             ))}
+                            <button onClick={toggleDarkMode} className={styles.navButton}>
+                                {isDarkMode ? (
+                                    <img className={styles.darklight} src="/images/light.png" alt="Light Mode" />
+                                ) : (
+                                    <img className={styles.darklight} src="/images/dark.png" alt="Dark Mode" />
+                                )}
+                            </button>
                         </div>
                     )}
                 </div>

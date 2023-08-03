@@ -127,6 +127,10 @@
   font-size: 1.5em;
 }
 
+.darklight {
+  width: 50px;
+}
+
 @media (max-width: 768px) {
   .navItems {
     display: none;
