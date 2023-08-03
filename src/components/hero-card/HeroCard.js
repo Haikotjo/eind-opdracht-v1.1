@@ -37,7 +37,6 @@ const HeroCard = ({ hero, onSelectComic }) => {
                             {hero.name}
                         </h2>
                         <p className={styles['hero-card__info-description']}>{hero.description}</p>
-                        {/*Ik weet dat het Hardcoden van de css niet hoort maar ik kreeg het echt niet voor elkaar*/}
                         <ul className={styles['hero-card__info-comic-list']}>
                             <h2> Comics:</h2>
                             {/* Render the list of comics */}
