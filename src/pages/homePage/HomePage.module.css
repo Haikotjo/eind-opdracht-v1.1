@@ -39,21 +39,6 @@
   padding: 10px;
   border-radius: 12px;
 }
-.home .carousel {
-  display: flex;
-  overflow-x: auto;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-  gap: 20px;
-}
-.home .carousel::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  background: transparent;
-}
-.home .carousel > * {
-  flex: 0 0 auto;
-}
 
 /* Aanpassing voor de youTube-container */
 .youTube-container {
@@ -76,6 +61,20 @@
   border-radius: 20px;
 }
 
+.youTube-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #B12F56;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 20px;
+  cursor: pointer;
+  z-index: 1;
+}
+
 .error {
   color: red;
   text-align: center;
@@ -94,6 +93,13 @@
 
 .home__section {
   margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .youTube-close {
+    padding: 10px;
+    font-size: 0.7rem;
+  }
 }
 
 /*# sourceMappingURL=HomePage.module.css.map */

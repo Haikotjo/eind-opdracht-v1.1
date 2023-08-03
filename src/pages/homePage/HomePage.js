@@ -119,9 +119,9 @@ const HomePage = () => {
             </div>
         ) : (
             <main className={styles["home"]}>
-                {/* Conditionally render the YouTube video */}
                 {isVideoVisible && (
                     <div className={styles["youTube-container"]}>
+                        <button className={styles["youTube-close"]} onClick={() => setIsVideoVisible(false)}>X</button>
                         <YouTube videoId={videoId} opts={{ ...youtubeOptions, onEnd: handleVideoEnd }} className="youTube" />
                     </div>
                 )}
