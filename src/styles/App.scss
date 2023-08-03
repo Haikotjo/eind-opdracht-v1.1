@@ -45,16 +45,20 @@ a {
   color: inherit; /* Inherit the color from parent elements */
 }
 
+/* With background*/
 body {
-  background-image: url('../../public/images/bg.jpg');
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
+  //background-image: url('../../public/images/bg.jpg');
+  //background-position: center center;
+  //background-repeat: no-repeat;
+  //background-attachment: fixed;
+  //background-size: cover;
+  //height: 100%;
+  //width: 100%;
+  //margin: 0;
+  //padding: 0;
 }
-
+/* Dark*/
+body{
+  //background-color: $color-primary;
+}
 

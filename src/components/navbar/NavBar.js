@@ -47,8 +47,7 @@ const NavBar = () => {
                         <NavLink
                             to="/"
                             className={styles.logoLink}
-                            activeClassName={styles.activeLogoLink}
-                            exact
+                            className={styles.activeLogoLink}
                         >
                             <img
                                 src={window.location.pathname === '/' ? "/images/Home_Icon.svg" : "/images/Home_Icon_wit.svg"}
@@ -107,7 +106,7 @@ const NavBar = () => {
                                     key={page}
                                     to={`/${page.toLowerCase()}`}
                                     className={styles.navLink}
-                                    activeClassName={styles.active}
+                                    className={styles.active}
                                     onClick={closeMobileMenu}
                                 >
                                     {page}
@@ -126,7 +125,7 @@ const NavBar = () => {
                                         key={page}
                                         to={`/${page.toLowerCase()}`}
                                         className={styles.navLink}
-                                        activeClassName={styles.active}
+                                        className={styles.active}
                                         onClick={closeMobileMenu}
                                     >
                                         {page}
