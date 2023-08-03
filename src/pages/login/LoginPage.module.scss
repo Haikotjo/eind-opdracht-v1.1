@@ -30,8 +30,8 @@
   }
 
   &__error {
-    color: red;
-    margin-top: 10px;
+    color: $color-secondary;
+    margin: 10px;
   }
 
   &__register-link {
@@ -46,7 +46,7 @@
   }
 
   .alert {
-    color: red;
+    color: $color-secondary;
     margin-top: 10px;
   }
 }
