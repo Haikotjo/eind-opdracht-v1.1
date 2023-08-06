@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import HeroCard from '../../components/hero-card/HeroCard';
 import ComicCard from '../../components/comic-card/ComicCard';
 import EventCard from '../../components/event-card/EventCard';

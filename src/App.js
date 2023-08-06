@@ -1,7 +1,7 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import Routes from './Routes';
 import Modal from 'react-modal';
-import AuthContextProvider, {AuthContext} from "./context/AuthContext";
+import AuthContextProvider from "./context/AuthContext";
 import './styles/App.scss'
 import {SavedProvider} from "./context/SavedContext";
 import {DarkModeProvider} from "./context/DarkModeContext";

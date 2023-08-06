@@ -7,6 +7,7 @@ export const SavedContext = createContext();
 
 export const SavedProvider = ({ children }) => {
     const { isAuth } = useContext(AuthContext); // Retrieve the authentication status from the AuthContext.
+// eslint-disable-next-line no-unused-vars
     const [savedItems, setSavedItems] = useState([]);
     const [savedItemsChangeCounter, setSavedItemsChangeCounter] = useState(0);
 
