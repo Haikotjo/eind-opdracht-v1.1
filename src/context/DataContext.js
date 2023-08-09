@@ -8,7 +8,7 @@ export const DataContext = createContext(null);
 
 const publicKey = process.env.REACT_APP_MARVEL_PUBLIC_KEY;
 const privateKey = process.env.REACT_APP_MARVEL_PRIVATE_KEY;
-const BASE_URL = 'http://gateway.marvel.com/v1/public';
+const BASE_URL = 'https://gateway.marvel.com/v1/public';
 
 const DataContextProvider = ({ children }) => {
 
