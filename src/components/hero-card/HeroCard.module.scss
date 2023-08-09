@@ -77,13 +77,35 @@
 .hero-card__info-comic-list {
   list-style: none;
   margin: 0.5em;
-  color: white;
 }
 
 .hero-card__info-comic-list-item {
   cursor: pointer;
   color: $color-secondary;
   transition: color 0.3s ease;
+
+  button {
+    background: none;
+    color: $color-secondary;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    outline: inherit;
+    transition: color 0.3s ease;
+    text-align: left !important;
+
+    &:hover {
+      color: $color-primary;
+      font-size: 1.2rem;
+    }
+
+    &:focus {
+      outline: none;
+      text-decoration: underline;
+    }
+  }
 }
 
 .hero-card__info-comic-list-item:hover {

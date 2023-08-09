@@ -1,43 +1,21 @@
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { checkTokenValidity } from "../helpers/checkTokenValidity";
 import axios from "axios";
-import useIdleTimer from "../hooks/UseIdleTimer";
+import { checkTokenValidity } from "../helpers/checkTokenValidity";
 import { clearLocalStorage } from "../helpers/ClearLocalStorage";
 import { handleError } from "../helpers/handleError";
+import useIdleTimer from "../hooks/UseIdleTimer";
 
 // AuthContext is created and can be used to share authentication status between components.
 export const AuthContext = createContext(null);
 
 function AuthContextProvider({ children }) {
-
-    // Authentication status is managed by the useState hook.
     const [auth, setAuth] = useState({
         isAuth: false,
         user: null,
         status: "pending"
     });
     const navigate = useNavigate();
-
-    // When the component is loaded, it checks if there is a token in the local storage
-    // and if the token is valid. If yes, the user is logged in.
-    useEffect(() => {
-        const storedToken = localStorage.getItem('token');
-
-        if (storedToken && checkTokenValidity(storedToken)) {
-            login(storedToken);
-        } else {
-            setAuth({
-                ...auth,
-                isAuth: false,
-                user: null,
-                status: "done"
-            });
-        }
-    }, []);
-
-    // If there has been no activity for an hour, the user is automatically logged out.
-    useIdleTimer(logout, 3600000);
 
     // This function is used to log in the user.
     async function login(jwt_token, redirect) {
@@ -49,7 +27,6 @@ function AuthContextProvider({ children }) {
                     Authorization: `Bearer ${jwt_token}`
                 }
             });
-            console.log(username);
             setAuth({
                 ...auth,
                 isAuth: true,
@@ -78,6 +55,27 @@ function AuthContextProvider({ children }) {
         console.log('User logged out 🔒');
         navigate('/');
     }
+
+    // When the component is loaded, it checks if there is a token in the local storage
+    // and if the token is valid. If yes, the user is logged in.
+    useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+
+        if (storedToken && checkTokenValidity(storedToken)) {
+            login(storedToken);
+        } else {
+            setAuth({
+                ...auth,
+                isAuth: false,
+                user: null,
+                status: "done"
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // If there has been no activity for an hour, the user is automatically logged out.
+    useIdleTimer(logout, 3600000);
 
     // The context provider makes the authentication status, login, and logout functions available
     // to all child components.

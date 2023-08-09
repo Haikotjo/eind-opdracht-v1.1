@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from 'react';
-import styles from "../components/navbar/NavBar.module.scss";
 
 export const DarkModeContext = createContext();
 

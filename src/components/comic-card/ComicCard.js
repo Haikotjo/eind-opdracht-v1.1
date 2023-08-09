@@ -42,10 +42,11 @@ const ComicCard = ({ comic, onSelectCharacter }) => {
                             {comic.characters.items.map((character, index) => (
                                 <li key={index} className={styles['comic-card__info-hero-list-item']}>
                                     {/* Handle character click */}
-                                    <a onClick={() => onSelectCharacter(character)}>
+                                    <button className={styles['comic-card__info-hero-button']} onClick={() => onSelectCharacter(character)}>
                                         {character.name}
-                                    </a>
+                                    </button>
                                 </li>
+
                             ))}
                         </ul>
                     </>

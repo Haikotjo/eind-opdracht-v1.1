@@ -43,9 +43,9 @@ const EventCard = ({ event, onComicClick, onCharacterClick }) => {
                             {event.characters.items.map((character, index) => (
                                 <li key={index} className={styles['event-card__info-comic-list-item']}>
                                     {/* Handle character click */}
-                                    <a onClick={() => onCharacterClick(character)}>
+                                    <button onClick={() => onCharacterClick(character)}>
                                         {character.name}
-                                    </a>
+                                    </button>
                                 </li>
                             ))}
                         </ul>
@@ -55,9 +55,9 @@ const EventCard = ({ event, onComicClick, onCharacterClick }) => {
                             {event.comics.items.map((comic, index) => (
                                 <li key={index} className={styles['event-card__info-hero-list-item']}>
                                     {/* Handle comic click */}
-                                    <a onClick={() => onComicClick(comic)}>
+                                    <button onClick={() => onComicClick(comic)}>
                                         {comic.name}
-                                    </a>
+                                    </button>
                                 </li>
                             ))}
                         </ul>

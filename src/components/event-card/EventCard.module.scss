@@ -73,38 +73,47 @@
   color: $color-primary;
 }
 
-.event-card__info-comic-list {
-  list-style: none;
-  margin: 0.5em;
-  color: white;
-}
-
+.event-card__info-comic-list,
 .event-card__info-hero-list {
   list-style: none;
   margin: 0.5em;
   color: white;
 }
 
-.event-card__info-comic-list-item {
-  cursor: pointer;
-  color: $color-secondary;
-  transition: color 0.3s ease;
-}
-
-.event-card__info-comic-list-item:hover {
-  color: $color-primary;
-  font-size: 1.2rem;
-}
-
+.event-card__info-comic-list-item,
 .event-card__info-hero-list-item {
   cursor: pointer;
   color: $color-secondary;
   transition: color 0.3s ease;
+
+  button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    text-align: left;
+    outline: inherit;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: $color-primary;
+      font-size: 1.2rem;
+    }
+
+    &:focus {
+      outline: none;
+      text-decoration: underline;
+    }
+  }
 }
 
+.event-card__info-comic-list-item:hover,
 .event-card__info-hero-list-item:hover {
-  font-size: 1.2rem;
   color: $color-primary;
+  font-size: 1.2rem;
 }
 
 @include respond-to('medium') {
