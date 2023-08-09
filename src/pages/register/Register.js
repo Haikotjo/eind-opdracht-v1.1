@@ -25,7 +25,7 @@ function RegisterPage() {
 
         try {
             // Send POST request to the backend
-            const res = await axios.post('https://frontend-educational-backend.herokuapp.com/api/auth/signup', {
+           await axios.post('https://frontend-educational-backend.herokuapp.com/api/auth/signup', {
                 email: formData.email,
                 password: formData.password,
                 username: formData.username,
@@ -33,10 +33,8 @@ function RegisterPage() {
             });
             console.log("User successfully registered with email: " + formData.email + " Username: " + formData.username);
             navigate('/profile'); // Navigate to the profile page after successful registration
-        } catch (e) {{
+        } catch (e) {
             handleError(e);
-            setError(e.response.data.message || e.message);
-        }
             console.error("Registration failed!!! ⛔", e);
             setError(e.response.data.message || e.message); // Show the error message from the response, if available
         }
